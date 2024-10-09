@@ -9,13 +9,20 @@
 <body>
     <header>
         <h1>Welcome to Our School Admission System</h1>
+        <nav>
+            <ul>
+                <li><a href="#admission-panel">Admission Panel</a></li>
+                <li><a href="#fee-submission-panel">Fee Submission Panel</a></li>
+                <li><a href="#fee-checking-panel">Fee Checking Panel</a></li>
+            </ul>
+        </nav>
     </header>
 
     <main>
         <!-- Admission Panel -->
         <section id="admission-panel">
             <h2>Admission Panel</h2>
-            <form action="https://formspree.io/f/xgvewqje" method="POST">
+            <form id="admission-form">
                 <label for="registration-number">Registration Number:</label>
                 <input type="text" id="registration-number" name="registration-number" required>
 
@@ -53,7 +60,7 @@
         <!-- Fee Submission Panel -->
         <section id="fee-submission-panel">
             <h2>Fee Submission Panel</h2>
-            <form action="https://formspree.io/f/xgvewqje" method="POST">
+            <form id="fee-submission-form">
                 <label for="fee-student-name">Student Name:</label>
                 <input type="text" id="fee-student-name" name="fee-student-name" required>
 
@@ -79,6 +86,9 @@
                     <option value="10th">10th</option>
                 </select>
 
+                <label for="fee-amount">Fee Amount:</label>
+                <input type="number" id="fee-amount" name="fee-amount" required>
+
                 <input type="submit" value="Submit Fee">
             </form>
         </section>
@@ -86,7 +96,7 @@
         <!-- Fee Checking Panel -->
         <section id="fee-checking-panel">
             <h2>Fee Checking Panel</h2>
-            <form action="https://formspree.io/f/xgvewqje" method="POST">
+            <form id="fee-checking-form">
                 <label for="check-student-name">Student Name:</label>
                 <input type="text" id="check-student-name" name="check-student-name" required>
 
@@ -100,5 +110,84 @@
             </form>
         </section>
     </main>
+
+    <script>
+        // Handle admission form submission
+        document.getElementById('admission-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const registrationNumber = document.getElementById('registration-number').value;
+            const studentName = document.getElementById('student-name').value;
+            const dob = document.getElementById('date-of-birth').value;
+            const studentCnic = document.getElementById('student-cnic').value;
+            const fathersName = document.getElementById('fathers-name').value;
+            const fathersCnic = document.getElementById('fathers-cnic').value;
+            const cast = document.getElementById('cast').value;
+            const fathersOccupation = document.getElementById('fathers-occupation').value;
+            const classAdmitted = document.getElementById('class-admitted').value;
+            const address = document.getElementById('address').value;
+
+            // Store data in local storage (simulating a database)
+            localStorage.setItem(registrationNumber, JSON.stringify({
+                studentName,
+                dob,
+                studentCnic,
+                fathersName,
+                fathersCnic,
+                cast,
+                fathersOccupation,
+                classAdmitted,
+                address
+            }));
+
+            alert('Admission details saved successfully!');
+            document.getElementById('admission-form').reset(); // Reset the form
+        });
+
+        // Handle fee submission form submission
+        document.getElementById('fee-submission-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const feeStudentName = document.getElementById('fee-student-name').value;
+            const feeFathersName = document.getElementById('fee-fathers-name').value;
+            const grade = document.getElementById('grade-select').value;
+            const feeAmount = document.getElementById('fee-amount').value;
+
+            // Generate a unique key based on the student name and grade
+            const feeKey = `${feeStudentName}-${grade}`;
+
+            // Store fee details in local storage
+            localStorage.setItem(feeKey, JSON.stringify({
+                feeStudentName,
+                feeFathersName,
+                grade,
+                feeAmount
+            }));
+
+            alert('Fee submission details saved successfully!');
+            document.getElementById('fee-submission-form').reset(); // Reset the form
+        });
+
+        // Handle fee checking form submission
+        document.getElementById('fee-checking-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const checkStudentName = document.getElementById('check-student-name').value;
+            const checkFathersName = document.getElementById('check-fathers-name').value;
+            const checkRegistrationNumber = document.getElementById('check-registration-number').value;
+
+            // Generate the fee key
+            const checkKey = `${checkStudentName}-${checkRegistrationNumber}`;
+
+            // Retrieve fee details from local storage
+            const feeDetails = localStorage.getItem(checkKey);
+            if (feeDetails) {
+                const { feeAmount } = JSON.parse(feeDetails);
+                alert(`The fee amount for ${checkStudentName} is: ${feeAmount}`);
+            } else {
+                alert('No fee details found for this student.');
+            }
+        });
+    </script>
 </body>
 </html>
