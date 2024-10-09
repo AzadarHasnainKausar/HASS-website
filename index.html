@@ -5,15 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>School Admission System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        main {
+            padding: 20px;
+        }
+        section {
+            display: none; /* Hide all sections initially */
+            background: #fff;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin: 10px 0 5px;
+        }
+        input, select {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+    </style>
 </head>
 <body>
     <header>
         <h1>Welcome to Our School Admission System</h1>
         <nav>
             <ul>
-                <li><a href="#admission-panel">Admission Panel</a></li>
-                <li><a href="#fee-submission-panel">Fee Submission Panel</a></li>
-                <li><a href="#fee-checking-panel">Fee Checking Panel</a></li>
+                <li><a href="#" onclick="showSection('admission-panel')">Admission Panel</a></li>
+                <li><a href="#" onclick="showSection('fee-submission-panel')">Fee Submission</a></li>
+                <li><a href="#" onclick="showSection('fee-checking-panel')">Fee Checking</a></li>
             </ul>
         </nav>
     </header>
@@ -47,13 +108,25 @@
                 <label for="fathers-occupation">Father's Occupation:</label>
                 <input type="text" id="fathers-occupation" name="fathers-occupation" required>
 
-                <label for="class-admitted">Admitted in Class:</label>
-                <input type="text" id="class-admitted" name="class-admitted" required>
+                <label for="admitted-class">Admitted in Class:</label>
+                <select id="admitted-class" name="admitted-class" required>
+                    <option value="">Select Class</option>
+                    <option value="1st">1st</option>
+                    <option value="2nd">2nd</option>
+                    <option value="3rd">3rd</option>
+                    <option value="4th">4th</option>
+                    <option value="5th">5th</option>
+                    <option value="6th">6th</option>
+                    <option value="7th">7th</option>
+                    <option value="8th">8th</option>
+                    <option value="9th">9th</option>
+                    <option value="10th">10th</option>
+                </select>
 
                 <label for="address">Address:</label>
-                <textarea id="address" name="address" required></textarea>
+                <input type="text" id="address" name="address" required>
 
-                <input type="submit" value="Submit Admission">
+                <button type="button" onclick="saveAdmissionData()">Submit Admission</button>
             </form>
         </section>
 
@@ -67,21 +140,17 @@
                 <label for="fee-fathers-name">Father's Name:</label>
                 <input type="text" id="fee-fathers-name" name="fee-fathers-name" required>
 
-                <label for="grade-select">Select Grade:</label>
-                <select id="grade-select" name="grade" required>
-                    <option value="">--Please choose an option--</option>
-                    <option value="Play">Play</option>
-                    <option value="Nursery">Nursery</option>
-                    <option value="Prep">Prep</option>
-                    <option value="One">One</option>
-                    <option value="Two">Two</option>
-                    <option value="Three">Three</option>
+                <label for="fee-grade">Select Grade:</label>
+                <select id="fee-grade" name="fee-grade" required>
+                    <option value="">Select Grade</option>
+                    <option value="1st">1st</option>
+                    <option value="2nd">2nd</option>
+                    <option value="3rd">3rd</option>
                     <option value="4th">4th</option>
                     <option value="5th">5th</option>
                     <option value="6th">6th</option>
                     <option value="7th">7th</option>
                     <option value="8th">8th</option>
-                    <option value="Pre 9th">Pre 9th</option>
                     <option value="9th">9th</option>
                     <option value="10th">10th</option>
                 </select>
@@ -89,7 +158,7 @@
                 <label for="fee-amount">Fee Amount:</label>
                 <input type="number" id="fee-amount" name="fee-amount" required>
 
-                <input type="submit" value="Submit Fee">
+                <button type="button" onclick="saveFeeData()">Submit Fee</button>
             </form>
         </section>
 
@@ -103,91 +172,91 @@
                 <label for="check-fathers-name">Father's Name:</label>
                 <input type="text" id="check-fathers-name" name="check-fathers-name" required>
 
-                <label for="check-registration-number">Registration Number:</label>
-                <input type="text" id="check-registration-number" name="check-registration-number" required>
+                <label for="check-grade">Select Grade:</label>
+                <select id="check-grade" name="check-grade" required>
+                    <option value="">Select Grade</option>
+                    <option value="1st">1st</option>
+                    <option value="2nd">2nd</option>
+                    <option value="3rd">3rd</option>
+                    <option value="4th">4th</option>
+                    <option value="5th">5th</option>
+                    <option value="6th">6th</option>
+                    <option value="7th">7th</option>
+                    <option value="8th">8th</option>
+                    <option value="9th">9th</option>
+                    <option value="10th">10th</option>
+                </select>
 
-                <input type="submit" value="Check Fee">
+                <button type="button" onclick="checkFee()">Check Fee</button>
             </form>
+            <div id="fee-check-result"></div>
         </section>
     </main>
 
     <script>
-        // Handle admission form submission
-        document.getElementById('admission-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
+        function showSection(sectionId) {
+            document.querySelectorAll('section').forEach(section => {
+                section.style.display = 'none'; // Hide all sections
+            });
+            document.getElementById(sectionId).style.display = 'block'; // Show selected section
+        }
 
-            const registrationNumber = document.getElementById('registration-number').value;
-            const studentName = document.getElementById('student-name').value;
-            const dob = document.getElementById('date-of-birth').value;
-            const studentCnic = document.getElementById('student-cnic').value;
-            const fathersName = document.getElementById('fathers-name').value;
-            const fathersCnic = document.getElementById('fathers-cnic').value;
-            const cast = document.getElementById('cast').value;
-            const fathersOccupation = document.getElementById('fathers-occupation').value;
-            const classAdmitted = document.getElementById('class-admitted').value;
-            const address = document.getElementById('address').value;
+        function saveAdmissionData() {
+            const admissionData = {
+                registrationNumber: document.getElementById('registration-number').value,
+                studentName: document.getElementById('student-name').value,
+                dateOfBirth: document.getElementById('date-of-birth').value,
+                studentCnic: document.getElementById('student-cnic').value,
+                fathersName: document.getElementById('fathers-name').value,
+                fathersCnic: document.getElementById('fathers-cnic').value,
+                cast: document.getElementById('cast').value,
+                fathersOccupation: document.getElementById('fathers-occupation').value,
+                admittedClass: document.getElementById('admitted-class').value,
+                address: document.getElementById('address').value,
+            };
 
-            // Store data in local storage (simulating a database)
-            localStorage.setItem(registrationNumber, JSON.stringify({
-                studentName,
-                dob,
-                studentCnic,
-                fathersName,
-                fathersCnic,
-                cast,
-                fathersOccupation,
-                classAdmitted,
-                address
-            }));
+            const classFolder = admissionData.admittedClass; // Use admitted class as folder name
+            const admissions = JSON.parse(localStorage.getItem(classFolder)) || [];
+            admissions.push(admissionData);
+            localStorage.setItem(classFolder, JSON.stringify(admissions));
 
-            alert('Admission details saved successfully!');
-            document.getElementById('admission-form').reset(); // Reset the form
-        });
+            alert('Admission data saved successfully!');
+            document.getElementById('admission-form').reset(); // Reset form
+        }
 
-        // Handle fee submission form submission
-        document.getElementById('fee-submission-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
+        function saveFeeData() {
+            const feeData = {
+                studentName: document.getElementById('fee-student-name').value,
+                fathersName: document.getElementById('fee-fathers-name').value,
+                grade: document.getElementById('fee-grade').value,
+                feeAmount: document.getElementById('fee-amount').value,
+                frn: Math.random().toString(36).substring(2, 15) // Generate random FRN
+            };
 
-            const feeStudentName = document.getElementById('fee-student-name').value;
-            const feeFathersName = document.getElementById('fee-fathers-name').value;
-            const grade = document.getElementById('grade-select').value;
-            const feeAmount = document.getElementById('fee-amount').value;
+            const classFolder = feeData.grade; // Use grade as folder name
+            const fees = JSON.parse(localStorage.getItem(classFolder + '-fees')) || [];
+            fees.push(feeData);
+            localStorage.setItem(classFolder + '-fees', JSON.stringify(fees));
 
-            // Generate a unique key based on the student name and grade
-            const feeKey = `${feeStudentName}-${grade}`;
+            alert('Fee data saved successfully! Your FRN is: ' + feeData.frn);
+            document.getElementById('fee-submission-form').reset(); // Reset form
+        }
 
-            // Store fee details in local storage
-            localStorage.setItem(feeKey, JSON.stringify({
-                feeStudentName,
-                feeFathersName,
-                grade,
-                feeAmount
-            }));
+        function checkFee() {
+            const studentName = document.getElementById('check-student-name').value;
+            const fathersName = document.getElementById('check-fathers-name').value;
+            const grade = document.getElementById('check-grade').value;
 
-            alert('Fee submission details saved successfully!');
-            document.getElementById('fee-submission-form').reset(); // Reset the form
-        });
+            const fees = JSON.parse(localStorage.getItem(grade + '-fees')) || [];
+            const result = fees.find(fee => fee.studentName === studentName && fee.fathersName === fathersName);
 
-        // Handle fee checking form submission
-        document.getElementById('fee-checking-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            const checkStudentName = document.getElementById('check-student-name').value;
-            const checkFathersName = document.getElementById('check-fathers-name').value;
-            const checkRegistrationNumber = document.getElementById('check-registration-number').value;
-
-            // Generate the fee key
-            const checkKey = `${checkStudentName}-${checkRegistrationNumber}`;
-
-            // Retrieve fee details from local storage
-            const feeDetails = localStorage.getItem(checkKey);
-            if (feeDetails) {
-                const { feeAmount } = JSON.parse(feeDetails);
-                alert(`The fee amount for ${checkStudentName} is: ${feeAmount}`);
+            const resultDiv = document.getElementById('fee-check-result');
+            if (result) {
+                resultDiv.innerHTML = `Fee Amount: ${result.feeAmount} <br> FRN: ${result.frn}`;
             } else {
-                alert('No fee details found for this student.');
+                resultDiv.innerHTML = 'No fee records found.';
             }
-        });
+        }
     </script>
 </body>
 </html>
