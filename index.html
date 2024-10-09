@@ -1,60 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HASS School Website</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <h1>Welcome to HASS School</h1>
-        <nav>
-            <ul>
-                <li><a href="#admission">Admission Panel</a></li>
-                <li><a href="#fees">Fee Submission</a></li>
-                <li><a href="#reports">Class Reports</a></li>
-            </ul>
-        </nav>
-    </header>
+<form action="https://formspree.io/f/xgvewqje" method="POST">
+    <label for="registration-number">Registration Number:</label>
+    <input type="text" id="registration-number" name="registration-number" required>
 
-    <section id="admission">
-        <h2>Admission Panel</h2>
-        <form action="https://formspree.io/f/xgvewqje" method="POST">
-            <label for="name">Student Name:</label>
-            <input type="text" id="name" name="name" required>
+    <label for="student-name">Student Name:</label>
+    <input type="text" id="student-name" name="student-name" required>
 
-            <label for="class">Class:</label>
-            <input type="text" id="class" name="class" required>
+    <label for="date-of-birth">Date of Birth:</label>
+    <input type="date" id="date-of-birth" name="date-of-birth" required>
 
-            <label for="dob">Date of Birth:</label>
-            <input type="date" id="dob" name="dob" required>
+    <label for="student-cnic">Student CNIC:</label>
+    <input type="text" id="student-cnic" name="student-cnic" required>
 
-            <input type="submit" value="Submit">
-        </form>
-    </section>
+    <label for="fathers-name">Father's Name:</label>
+    <input type="text" id="fathers-name" name="fathers-name" required>
 
-    <section id="fees">
-        <h2>Fee Submission</h2>
-        <p>Submit your fees using the details below:</p>
-        <ul>
-            <li>Account Name: HASS School</li>
-            <li>Account Number: 1234-5678-9101</li>
-            <li>Bank: ABC Bank</li>
-        </ul>
-    </section>
+    <label for="fathers-cnic">Father's CNIC:</label>
+    <input type="text" id="fathers-cnic" name="fathers-cnic" required>
 
-    <section id="reports">
-        <h2>Class Reports</h2>
-        <p>Enter your student ID to check reports:</p>
-        <form>
-            <input type="text" placeholder="Enter Student ID" required>
-            <input type="submit" value="Check Report">
-        </form>
-    </section>
+    <label for="cast">Cast:</label>
+    <input type="text" id="cast" name="cast" required>
 
-    <footer>
-        <p>Contact us: info@hass-school.com</p>
-    </footer>
-</body>
-</html>
+    <label for="fathers-occupation">Father's Occupation:</label>
+    <input type="text" id="fathers-occupation" name="fathers-occupation" required>
+
+    <label for="class-admitted">Admitted in Class:</label>
+    <input type="text" id="class-admitted" name="class-admitted" required>
+
+    <label for="address">Address:</label>
+    <textarea id="address" name="address" required></textarea>
+
+    <input type="submit" value="Submit">
+</form>
