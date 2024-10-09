@@ -1,33 +1,104 @@
-<form action="https://formspree.io/f/xgvewqje" method="POST">
-    <label for="registration-number">Registration Number:</label>
-    <input type="text" id="registration-number" name="registration-number" required>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>School Admission System</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Our School Admission System</h1>
+    </header>
 
-    <label for="student-name">Student Name:</label>
-    <input type="text" id="student-name" name="student-name" required>
+    <main>
+        <!-- Admission Panel -->
+        <section id="admission-panel">
+            <h2>Admission Panel</h2>
+            <form action="https://formspree.io/f/xgvewqje" method="POST">
+                <label for="registration-number">Registration Number:</label>
+                <input type="text" id="registration-number" name="registration-number" required>
 
-    <label for="date-of-birth">Date of Birth:</label>
-    <input type="date" id="date-of-birth" name="date-of-birth" required>
+                <label for="student-name">Student Name:</label>
+                <input type="text" id="student-name" name="student-name" required>
 
-    <label for="student-cnic">Student CNIC:</label>
-    <input type="text" id="student-cnic" name="student-cnic" required>
+                <label for="date-of-birth">Date of Birth:</label>
+                <input type="date" id="date-of-birth" name="date-of-birth" required>
 
-    <label for="fathers-name">Father's Name:</label>
-    <input type="text" id="fathers-name" name="fathers-name" required>
+                <label for="student-cnic">Student CNIC:</label>
+                <input type="text" id="student-cnic" name="student-cnic" required>
 
-    <label for="fathers-cnic">Father's CNIC:</label>
-    <input type="text" id="fathers-cnic" name="fathers-cnic" required>
+                <label for="fathers-name">Father's Name:</label>
+                <input type="text" id="fathers-name" name="fathers-name" required>
 
-    <label for="cast">Cast:</label>
-    <input type="text" id="cast" name="cast" required>
+                <label for="fathers-cnic">Father's CNIC:</label>
+                <input type="text" id="fathers-cnic" name="fathers-cnic" required>
 
-    <label for="fathers-occupation">Father's Occupation:</label>
-    <input type="text" id="fathers-occupation" name="fathers-occupation" required>
+                <label for="cast">Cast:</label>
+                <input type="text" id="cast" name="cast" required>
 
-    <label for="class-admitted">Admitted in Class:</label>
-    <input type="text" id="class-admitted" name="class-admitted" required>
+                <label for="fathers-occupation">Father's Occupation:</label>
+                <input type="text" id="fathers-occupation" name="fathers-occupation" required>
 
-    <label for="address">Address:</label>
-    <textarea id="address" name="address" required></textarea>
+                <label for="class-admitted">Admitted in Class:</label>
+                <input type="text" id="class-admitted" name="class-admitted" required>
 
-    <input type="submit" value="Submit">
-</form>
+                <label for="address">Address:</label>
+                <textarea id="address" name="address" required></textarea>
+
+                <input type="submit" value="Submit Admission">
+            </form>
+        </section>
+
+        <!-- Fee Submission Panel -->
+        <section id="fee-submission-panel">
+            <h2>Fee Submission Panel</h2>
+            <form action="https://formspree.io/f/xgvewqje" method="POST">
+                <label for="fee-student-name">Student Name:</label>
+                <input type="text" id="fee-student-name" name="fee-student-name" required>
+
+                <label for="fee-fathers-name">Father's Name:</label>
+                <input type="text" id="fee-fathers-name" name="fee-fathers-name" required>
+
+                <label for="grade-select">Select Grade:</label>
+                <select id="grade-select" name="grade" required>
+                    <option value="">--Please choose an option--</option>
+                    <option value="Play">Play</option>
+                    <option value="Nursery">Nursery</option>
+                    <option value="Prep">Prep</option>
+                    <option value="One">One</option>
+                    <option value="Two">Two</option>
+                    <option value="Three">Three</option>
+                    <option value="4th">4th</option>
+                    <option value="5th">5th</option>
+                    <option value="6th">6th</option>
+                    <option value="7th">7th</option>
+                    <option value="8th">8th</option>
+                    <option value="Pre 9th">Pre 9th</option>
+                    <option value="9th">9th</option>
+                    <option value="10th">10th</option>
+                </select>
+
+                <input type="submit" value="Submit Fee">
+            </form>
+        </section>
+
+        <!-- Fee Checking Panel -->
+        <section id="fee-checking-panel">
+            <h2>Fee Checking Panel</h2>
+            <form action="https://formspree.io/f/xgvewqje" method="POST">
+                <label for="check-student-name">Student Name:</label>
+                <input type="text" id="check-student-name" name="check-student-name" required>
+
+                <label for="check-fathers-name">Father's Name:</label>
+                <input type="text" id="check-fathers-name" name="check-fathers-name" required>
+
+                <label for="check-registration-number">Registration Number:</label>
+                <input type="text" id="check-registration-number" name="check-registration-number" required>
+
+                <input type="submit" value="Check Fee">
+            </form>
+        </section>
+    </main>
+</body>
+</html>
