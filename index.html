@@ -3,209 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>School Admission System</title>
+    <title>School Management System</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
             background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
         }
-        header {
-            background: #333;
-            color: #fff;
-            padding: 10px 0;
+        h1 {
             text-align: center;
         }
-        nav ul {
-            list-style: none;
-            padding: 0;
-        }
-        nav ul li {
-            display: inline;
-            margin: 0 15px;
-        }
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-        }
-        main {
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
             padding: 20px;
-        }
-        section {
-            display: none; /* Hide all sections initially */
-            background: #fff;
-            padding: 20px;
-            margin: 10px 0;
-            border-radius: 8px;
+            border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        form {
-            display: flex;
-            flex-direction: column;
+        .form-section {
+            display: none;
+            margin-top: 20px;
+        }
+        .form-section.active {
+            display: block;
         }
         label {
+            display: block;
             margin: 10px 0 5px;
         }
         input, select {
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
         }
         button {
+            padding: 10px;
             background-color: #5cb85c;
             color: white;
             border: none;
-            padding: 10px;
-            border-radius: 5px;
             cursor: pointer;
         }
         button:hover {
             background-color: #4cae4c;
         }
+        #fee-check-result {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+        }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to Our School Admission System</h1>
-        <nav>
-            <ul>
-                <li><a href="#" onclick="showSection('admission-panel')">Admission Panel</a></li>
-                <li><a href="#" onclick="showSection('fee-submission-panel')">Fee Submission</a></li>
-                <li><a href="#" onclick="showSection('fee-checking-panel')">Fee Checking</a></li>
-            </ul>
-        </nav>
-    </header>
+    <h1>School Management System</h1>
+    <div class="container">
+        <div>
+            <button onclick="showSection('admission')">Admission Panel</button>
+            <button onclick="showSection('feeSubmission')">Fee Submission</button>
+            <button onclick="showSection('feeChecking')">Fee Checking</button>
+            <button onclick="showSection('submittedFeeDetails')">Submitted Fee Details</button>
+        </div>
 
-    <main>
-        <!-- Admission Panel -->
-        <section id="admission-panel">
-            <h2>Admission Panel</h2>
-            <form id="admission-form">
-                <label for="registration-number">Registration Number:</label>
-                <input type="text" id="registration-number" name="registration-number" required>
-
-                <label for="student-name">Student Name:</label>
-                <input type="text" id="student-name" name="student-name" required>
-
-                <label for="date-of-birth">Date of Birth:</label>
-                <input type="date" id="date-of-birth" name="date-of-birth" required>
-
-                <label for="student-cnic">Student CNIC:</label>
-                <input type="text" id="student-cnic" name="student-cnic" required>
-
-                <label for="fathers-name">Father's Name:</label>
-                <input type="text" id="fathers-name" name="fathers-name" required>
-
-                <label for="fathers-cnic">Father's CNIC:</label>
-                <input type="text" id="fathers-cnic" name="fathers-cnic" required>
-
-                <label for="cast">Cast:</label>
-                <input type="text" id="cast" name="cast" required>
-
-                <label for="fathers-occupation">Father's Occupation:</label>
-                <input type="text" id="fathers-occupation" name="fathers-occupation" required>
-
-                <label for="admitted-class">Admitted in Class:</label>
-                <select id="admitted-class" name="admitted-class" required>
-                    <option value="">Select Class</option>
-                    <option value="1st">1st</option>
-                    <option value="2nd">2nd</option>
-                    <option value="3rd">3rd</option>
-                    <option value="4th">4th</option>
-                    <option value="5th">5th</option>
-                    <option value="6th">6th</option>
-                    <option value="7th">7th</option>
-                    <option value="8th">8th</option>
-                    <option value="9th">9th</option>
-                    <option value="10th">10th</option>
-                </select>
-
-                <label for="address">Address:</label>
-                <input type="text" id="address" name="address" required>
-
-                <button type="button" onclick="saveAdmissionData()">Submit Admission</button>
+        <div id="admission" class="form-section active">
+            <h2>Admission Form</h2>
+            <form id="admission-form" onsubmit="saveAdmissionData(); return false;">
+                <label for="registration-number">Registration Number</label>
+                <input type="text" id="registration-number" required>
+                <label for="student-name">Student Name</label>
+                <input type="text" id="student-name" required>
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" required>
+                <label for="student-cnic">Student CNIC</label>
+                <input type="text" id="student-cnic" required>
+                <label for="fathers-name">Father's Name</label>
+                <input type="text" id="fathers-name" required>
+                <label for="fathers-cnic">Father's CNIC</label>
+                <input type="text" id="fathers-cnic" required>
+                <label for="cast">Cast</label>
+                <input type="text" id="cast" required>
+                <label for="fathers-occupation">Father's Occupation</label>
+                <input type="text" id="fathers-occupation" required>
+                <label for="admitted-class">Admitted In Class</label>
+                <input type="text" id="admitted-class" required>
+                <label for="address">Address</label>
+                <input type="text" id="address" required>
+                <button type="submit">Submit Admission</button>
             </form>
-        </section>
+        </div>
 
-        <!-- Fee Submission Panel -->
-        <section id="fee-submission-panel">
-            <h2>Fee Submission Panel</h2>
-            <form id="fee-submission-form">
-                <label for="fee-student-name">Student Name:</label>
-                <input type="text" id="fee-student-name" name="fee-student-name" required>
-
-                <label for="fee-fathers-name">Father's Name:</label>
-                <input type="text" id="fee-fathers-name" name="fee-fathers-name" required>
-
-                <label for="fee-grade">Select Grade:</label>
-                <select id="fee-grade" name="fee-grade" required>
-                    <option value="">Select Grade</option>
-                    <option value="1st">1st</option>
-                    <option value="2nd">2nd</option>
-                    <option value="3rd">3rd</option>
-                    <option value="4th">4th</option>
-                    <option value="5th">5th</option>
-                    <option value="6th">6th</option>
-                    <option value="7th">7th</option>
-                    <option value="8th">8th</option>
-                    <option value="9th">9th</option>
-                    <option value="10th">10th</option>
-                </select>
-
-                <label for="fee-amount">Fee Amount:</label>
-                <input type="number" id="fee-amount" name="fee-amount" required>
-
-                <button type="button" onclick="saveFeeData()">Submit Fee</button>
+        <div id="feeSubmission" class="form-section">
+            <h2>Fee Submission</h2>
+            <form id="fee-submission-form" onsubmit="saveFeeData(); return false;">
+                <label for="fee-student-name">Student Name</label>
+                <input type="text" id="fee-student-name" required>
+                <label for="fee-fathers-name">Father's Name</label>
+                <input type="text" id="fee-fathers-name" required>
+                <label for="fee-grade">Select Grade</label>
+                <input type="text" id="fee-grade" required>
+                <label for="fee-amount">Fee Amount</label>
+                <input type="number" id="fee-amount" required>
+                <button type="submit">Submit Fee</button>
             </form>
-        </section>
+        </div>
 
-        <!-- Fee Checking Panel -->
-        <section id="fee-checking-panel">
-            <h2>Fee Checking Panel</h2>
-            <form id="fee-checking-form">
-                <label for="check-student-name">Student Name:</label>
-                <input type="text" id="check-student-name" name="check-student-name" required>
-
-                <label for="check-fathers-name">Father's Name:</label>
-                <input type="text" id="check-fathers-name" name="check-fathers-name" required>
-
-                <label for="check-grade">Select Grade:</label>
-                <select id="check-grade" name="check-grade" required>
-                    <option value="">Select Grade</option>
-                    <option value="1st">1st</option>
-                    <option value="2nd">2nd</option>
-                    <option value="3rd">3rd</option>
-                    <option value="4th">4th</option>
-                    <option value="5th">5th</option>
-                    <option value="6th">6th</option>
-                    <option value="7th">7th</option>
-                    <option value="8th">8th</option>
-                    <option value="9th">9th</option>
-                    <option value="10th">10th</option>
-                </select>
-
-                <button type="button" onclick="checkFee()">Check Fee</button>
+        <div id="feeChecking" class="form-section">
+            <h2>Check Fee by FRN</h2>
+            <form onsubmit="checkFee(); return false;">
+                <label for="check-frn">Enter FRN</label>
+                <input type="text" id="check-frn" required>
+                <button type="submit">Check Fee</button>
             </form>
             <div id="fee-check-result"></div>
-        </section>
-    </main>
+        </div>
+
+        <div id="submittedFeeDetails" class="form-section">
+            <h2>Submitted Fee Details</h2>
+            <div id="submitted-fee-list"></div>
+        </div>
+    </div>
 
     <script>
-        function showSection(sectionId) {
-            document.querySelectorAll('section').forEach(section => {
-                section.style.display = 'none'; // Hide all sections
-            });
-            document.getElementById(sectionId).style.display = 'block'; // Show selected section
+        function showSection(section) {
+            const sections = document.querySelectorAll('.form-section');
+            sections.forEach(s => s.classList.remove('active'));
+            document.getElementById(section).classList.add('active');
+            if (section === 'submittedFeeDetails') {
+                loadSubmittedFeeDetails();
+            }
         }
 
         function saveAdmissionData() {
             const admissionData = {
                 registrationNumber: document.getElementById('registration-number').value,
                 studentName: document.getElementById('student-name').value,
-                dateOfBirth: document.getElementById('date-of-birth').value,
+                dob: document.getElementById('dob').value,
                 studentCnic: document.getElementById('student-cnic').value,
                 fathersName: document.getElementById('fathers-name').value,
                 fathersCnic: document.getElementById('fathers-cnic').value,
@@ -243,19 +176,42 @@
         }
 
         function checkFee() {
-            const studentName = document.getElementById('check-student-name').value;
-            const fathersName = document.getElementById('check-fathers-name').value;
-            const grade = document.getElementById('check-grade').value;
+            const frn = document.getElementById('check-frn').value;
 
-            const fees = JSON.parse(localStorage.getItem(grade + '-fees')) || [];
-            const result = fees.find(fee => fee.studentName === studentName && fee.fathersName === fathersName);
-
-            const resultDiv = document.getElementById('fee-check-result');
-            if (result) {
-                resultDiv.innerHTML = `Fee Amount: ${result.feeAmount} <br> FRN: ${result.frn}`;
-            } else {
-                resultDiv.innerHTML = 'No fee records found.';
+            // Check all fee records for the entered FRN
+            let found = false;
+            const feeKeys = Object.keys(localStorage);
+            feeKeys.forEach(key => {
+                if (key.endsWith('-fees')) {
+                    const fees = JSON.parse(localStorage.getItem(key));
+                    const result = fees.find(fee => fee.frn === frn);
+                    if (result) {
+                        const resultDiv = document.getElementById('fee-check-result');
+                        resultDiv.innerHTML = `Fee Amount: ${result.feeAmount} <br> Student Name: ${result.studentName} <br> Father's Name: ${result.fathersName}`;
+                        found = true;
+                    }
+                }
+            });
+            if (!found) {
+                document.getElementById('fee-check-result').innerHTML = 'No fee records found for this FRN.';
             }
+        }
+
+        function loadSubmittedFeeDetails() {
+            const submittedFeeList = document.getElementById('submitted-fee-list');
+            submittedFeeList.innerHTML = ''; // Clear previous results
+
+            const feeKeys = Object.keys(localStorage);
+            feeKeys.forEach(key => {
+                if (key.endsWith('-fees')) {
+                    const fees = JSON.parse(localStorage.getItem(key));
+                    fees.forEach(fee => {
+                        const feeDetail = document.createElement('div');
+                        feeDetail.innerHTML = `FRN: ${fee.frn}, Student Name: ${fee.studentName}, Father's Name: ${fee.fathersName}, Fee Amount: ${fee.feeAmount}, Grade: ${key.replace('-fees', '')}`;
+                        submittedFeeList.appendChild(feeDetail);
+                    });
+                }
+            });
         }
     </script>
 </body>
