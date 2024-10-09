@@ -13,102 +13,70 @@
         }
         h1 {
             text-align: center;
+            color: #333;
         }
         .container {
             max-width: 800px;
             margin: 0 auto;
-            background: white;
+            background: #fff;
             padding: 20px;
             border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .option-button {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background-color: #5cb85c;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-bottom: 10px;
-            text-align: center;
-            font-size: 18px;
-        }
-        .option-button:hover {
-            background-color: #4cae4c;
-        }
-        .form-section {
-            display: none;
-            margin-top: 20px;
-        }
-        .form-section.active {
-            display: block;
-        }
-        label {
-            display: block;
-            margin: 10px 0 5px;
-        }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         button {
             padding: 10px;
+            margin: 5px;
+            border: none;
             background-color: #5cb85c;
             color: white;
-            border: none;
+            border-radius: 5px;
             cursor: pointer;
-            width: 100%;
         }
         button:hover {
             background-color: #4cae4c;
         }
+        .form-section {
+            margin-bottom: 20px;
+        }
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 10px;
         }
         .data-table th, .data-table td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: left;
+            border: 1px solid #ddd;
+            padding: 8px;
         }
         .data-table th {
-            background-color: #f4f4f4;
+            background-color: #f2f2f2;
         }
     </style>
 </head>
 <body>
-    <h1>School Management System</h1>
     <div class="container">
-        <button class="option-button" onclick="showSection('admission')">Admission Panel</button>
-        <button class="option-button" onclick="showSection('feeSubmission')">Fee Submission</button>
-        <button class="option-button" onclick="showSection('feeChecking')">Fee Checking</button>
-        <button class="option-button" onclick="showSection('submittedFeeDetails')">Submitted Fee Details</button>
-
-        <div id="admission" class="form-section">
+        <h1>School Management System</h1>
+        <div class="form-section">
+            <h2>Main Options</h2>
+            <button onclick="showForm('admission-form')">Admission Panel</button>
+            <button onclick="showForm('fee-submission-form')">Fee Submission</button>
+            <button onclick="showForm('fee-check-form')">Fee Checking</button>
+            <button onclick="loadSubmittedFeeDetails()">Submitted Fee Details</button>
+            <button onclick="loadAdmittedStudents()">Admitted Students Data</button>
+            <button onclick="loadCollectedFees()">Collected Fee Details</button>
+        </div>
+        <div id="admission-form" style="display: none;">
             <h2>Admission Form</h2>
-            <form id="admission-form" onsubmit="saveAdmissionData(); return false;">
-                <label for="registration-number">Registration Number</label>
-                <input type="text" id="registration-number" required>
-                <label for="student-name">Student Name</label>
-                <input type="text" id="student-name" required>
-                <label for="dob">Date of Birth</label>
-                <input type="date" id="dob" required>
-                <label for="student-cnic">Student CNIC</label>
-                <input type="text" id="student-cnic" required>
-                <label for="fathers-name">Father's Name</label>
-                <input type="text" id="fathers-name" required>
-                <label for="fathers-cnic">Father's CNIC</label>
-                <input type="text" id="fathers-cnic" required>
-                <label for="cast">Cast</label>
-                <input type="text" id="cast" required>
-                <label for="fathers-occupation">Father's Occupation</label>
-                <input type="text" id="fathers-occupation" required>
-                <label for="admitted-class">Admitted In Class</label>
+            <form onsubmit="submitAdmissionData(); return false;">
+                <input type="text" id="registration-number" placeholder="Registration Number" required><br>
+                <input type="text" id="student-name" placeholder="Student Name" required><br>
+                <input type="date" id="date-of-birth" required><br>
+                <input type="text" id="student-cnic" placeholder="Student CNIC" required><br>
+                <input type="text" id="fathers-name" placeholder="Father's Name" required><br>
+                <input type="text" id="fathers-cnic" placeholder="Father's CNIC" required><br>
+                <input type="text" id="cast" placeholder="Cast" required><br>
+                <input type="text" id="fathers-occupation" placeholder="Father's Occupation" required><br>
                 <select id="admitted-class" required>
+                    <option value="">Admitted In Class</option>
                     <option value="PLAY">PLAY</option>
                     <option value="NURSERY">NURSERY</option>
                     <option value="PREP">PREP</option>
@@ -123,22 +91,18 @@
                     <option value="PRE 9TH">PRE 9TH</option>
                     <option value="9TH">9TH</option>
                     <option value="10TH">10TH</option>
-                </select>
-                <label for="address">Address</label>
-                <input type="text" id="address" required>
+                </select><br>
+                <input type="text" id="address" placeholder="Address" required><br>
                 <button type="submit">Submit Admission</button>
             </form>
         </div>
-
-        <div id="feeSubmission" class="form-section">
-            <h2>Fee Submission</h2>
-            <form id="fee-submission-form" onsubmit="saveFeeData(); return false;">
-                <label for="fee-student-name">Student Name</label>
-                <input type="text" id="fee-student-name" required>
-                <label for="fee-fathers-name">Father's Name</label>
-                <input type="text" id="fee-fathers-name" required>
-                <label for="fee-grade">Select Grade</label>
+        <div id="fee-submission-form" style="display: none;">
+            <h2>Fee Submission Form</h2>
+            <form onsubmit="saveFeeData(); return false;">
+                <input type="text" id="fee-student-name" placeholder="Student Name" required><br>
+                <input type="text" id="fee-fathers-name" placeholder="Father's Name" required><br>
                 <select id="fee-grade" required>
+                    <option value="">Select Grade</option>
                     <option value="PLAY">PLAY</option>
                     <option value="NURSERY">NURSERY</option>
                     <option value="PREP">PREP</option>
@@ -153,46 +117,40 @@
                     <option value="PRE 9TH">PRE 9TH</option>
                     <option value="9TH">9TH</option>
                     <option value="10TH">10TH</option>
-                </select>
-                <label for="fee-amount">Fee Amount</label>
-                <input type="number" id="fee-amount" required>
+                </select><br>
+                <input type="number" id="fee-amount" placeholder="Fee Amount" required><br>
                 <button type="submit">Submit Fee</button>
             </form>
         </div>
-
-        <div id="feeChecking" class="form-section">
-            <h2>Check Fee by FRN</h2>
-            <form onsubmit="checkFee(); return false;">
-                <label for="check-frn">Enter FRN</label>
-                <input type="number" id="check-frn" required>
-                <button type="submit">Check Fee</button>
-            </form>
-            <div id="fee-check-result"></div>
+        <div id="fee-check-form" style="display: none;">
+            <h2>Check Fee Status</h2>
+            <input type="number" id="check-frn" placeholder="Enter FRN" required>
+            <button onclick="checkFee()">Check Fee</button>
+            <p id="fee-check-result"></p>
         </div>
-
-        <div id="submittedFeeDetails" class="form-section">
-            <h2>Submitted Fee Details</h2>
-            <div id="submitted-fee-list"></div>
-        </div>
+        <div id="submitted-fee-list" style="display: none;"></div>
+        <div id="admitted-students" style="display: none;"></div>
+        <div id="collected-fee-amount" style="margin-top: 20px;"></div>
     </div>
-
     <script>
-        let feeId = 1; // Simple counter for FRN
+        let feeId = 1;
 
-        function showSection(section) {
-            const sections = document.querySelectorAll('.form-section');
-            sections.forEach(s => s.classList.remove('active'));
-            document.getElementById(section).classList.add('active');
-            if (section === 'submittedFeeDetails') {
-                loadSubmittedFeeDetails();
-            }
+        function showForm(formId) {
+            document.getElementById('admission-form').style.display = 'none';
+            document.getElementById('fee-submission-form').style.display = 'none';
+            document.getElementById('fee-check-form').style.display = 'none';
+            document.getElementById('submitted-fee-list').style.display = 'none';
+            document.getElementById('admitted-students').style.display = 'none';
+            document.getElementById('collected-fee-amount').style.display = 'none';
+
+            document.getElementById(formId).style.display = 'block';
         }
 
-        function saveAdmissionData() {
+        function submitAdmissionData() {
             const admissionData = {
                 registrationNumber: document.getElementById('registration-number').value,
                 studentName: document.getElementById('student-name').value,
-                dob: document.getElementById('dob').value,
+                dateOfBirth: document.getElementById('date-of-birth').value,
                 studentCnic: document.getElementById('student-cnic').value,
                 fathersName: document.getElementById('fathers-name').value,
                 fathersCnic: document.getElementById('fathers-cnic').value,
@@ -224,55 +182,70 @@
             storedFees.push(feeData);
             localStorage.setItem(classFolder + '-fees', JSON.stringify(storedFees));
 
+            const collectedFees = JSON.parse(localStorage.getItem('collected-fees')) || 0;
+            localStorage.setItem('collected-fees', collectedFees + Number(feeData.feeAmount));
+
             alert('Fee data submitted successfully! Your FRN is: ' + feeData.frn);
             document.getElementById('fee-submission-form').reset();
         }
 
         function checkFee() {
             const frn = document.getElementById('check-frn').value;
-            const found = false;
-            const classes = ["PLAY", "NURSERY", "PREP", "ONE", "TWO", "THREE", "4TH", "5TH", "6TH", "7TH", "8TH", "PRE 9TH", "9TH", "10TH"];
+            let found = false;
 
-            classes.forEach(classFolder => {
-                const fees = JSON.parse(localStorage.getItem(classFolder + '-fees')) || [];
-                fees.forEach(fee => {
+            for (const className of ['PLAY', 'NURSERY', 'PREP', 'ONE', 'TWO', 'THREE', '4TH', '5TH', '6TH', '7TH', '8TH', 'PRE 9TH', '9TH', '10TH']) {
+                const fees = JSON.parse(localStorage.getItem(className + '-fees')) || [];
+                for (const fee of fees) {
                     if (fee.frn == frn) {
-                        document.getElementById('fee-check-result').innerHTML = `Student: ${fee.studentName}, Father's Name: ${fee.fathersName}, Fee Amount: ${fee.feeAmount}`;
+                        document.getElementById('fee-check-result').innerText = `Fee details - Student Name: ${fee.studentName}, Father's Name: ${fee.fathersName}, Amount: ${fee.feeAmount}`;
                         found = true;
+                        break;
                     }
-                });
-            });
-
+                }
+            }
             if (!found) {
-                document.getElementById('fee-check-result').innerHTML = 'No fee details found for this FRN.';
+                document.getElementById('fee-check-result').innerText = 'No fee details found for this FRN.';
             }
         }
 
         function loadSubmittedFeeDetails() {
-            const detailsContainer = document.getElementById('submitted-fee-list');
-            detailsContainer.innerHTML = '';
-            const classes = ["PLAY", "NURSERY", "PREP", "ONE", "TWO", "THREE", "4TH", "5TH", "6TH", "7TH", "8TH", "PRE 9TH", "9TH", "10TH"];
-            
-            classes.forEach(classFolder => {
-                const fees = JSON.parse(localStorage.getItem(classFolder + '-fees')) || [];
+            const submittedFeeList = document.getElementById('submitted-fee-list');
+            submittedFeeList.innerHTML = '<h2>Submitted Fee Details</h2>';
+            for (const className of ['PLAY', 'NURSERY', 'PREP', 'ONE', 'TWO', 'THREE', '4TH', '5TH', '6TH', '7TH', '8TH', 'PRE 9TH', '9TH', '10TH']) {
+                const fees = JSON.parse(localStorage.getItem(className + '-fees')) || [];
                 if (fees.length > 0) {
-                    const classDiv = document.createElement('div');
-                    classDiv.innerHTML = `<h3>${classFolder} Fees</h3>`;
-                    const table = document.createElement('table');
-                    table.classList.add('data-table');
-                    const headerRow = document.createElement('tr');
-                    headerRow.innerHTML = '<th>FRN</th><th>Student Name</th><th>Father\'s Name</th><th>Fee Amount</th>';
-                    table.appendChild(headerRow);
-
+                    submittedFeeList.innerHTML += `<h3>${className} Class:</h3>`;
+                    submittedFeeList.innerHTML += '<table class="data-table"><tr><th>FRN</th><th>Student Name</th><th>Father\'s Name</th><th>Amount</th></tr>';
                     fees.forEach(fee => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `<td>${fee.frn}</td><td>${fee.studentName}</td><td>${fee.fathersName}</td><td>${fee.feeAmount}</td>`;
-                        table.appendChild(row);
+                        submittedFeeList.innerHTML += `<tr><td>${fee.frn}</td><td>${fee.studentName}</td><td>${fee.fathersName}</td><td>${fee.feeAmount}</td></tr>`;
                     });
-                    classDiv.appendChild(table);
-                    detailsContainer.appendChild(classDiv);
+                    submittedFeeList.innerHTML += '</table>';
                 }
-            });
+            }
+            submittedFeeList.style.display = 'block';
+        }
+
+        function loadAdmittedStudents() {
+            const admittedStudents = document.getElementById('admitted-students');
+            admittedStudents.innerHTML = '<h2>Admitted Students Data</h2>';
+            for (const className of ['PLAY', 'NURSERY', 'PREP', 'ONE', 'TWO', 'THREE', '4TH', '5TH', '6TH', '7TH', '8TH', 'PRE 9TH', '9TH', '10TH']) {
+                const admissions = JSON.parse(localStorage.getItem(className)) || [];
+                if (admissions.length > 0) {
+                    admittedStudents.innerHTML += `<h3>${className} Class:</h3>`;
+                    admittedStudents.innerHTML += '<table class="data-table"><tr><th>Registration No</th><th>Student Name</th><th>Date of Birth</th></tr>';
+                    admissions.forEach(student => {
+                        admittedStudents.innerHTML += `<tr><td>${student.registrationNumber}</td><td>${student.studentName}</td><td>${student.dateOfBirth}</td></tr>`;
+                    });
+                    admittedStudents.innerHTML += '</table>';
+                }
+            }
+            admittedStudents.style.display = 'block';
+        }
+
+        function loadCollectedFees() {
+            const collectedFees = localStorage.getItem('collected-fees') || 0;
+            document.getElementById('collected-fee-amount').innerHTML = `<h2>Total Collected Fees: ${collectedFees}</h2>`;
+            document.getElementById('collected-fee-amount').style.display = 'block';
         }
     </script>
 </body>
