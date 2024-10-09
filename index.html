@@ -15,12 +15,28 @@
             text-align: center;
         }
         .container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
             background: white;
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .option-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 18px;
+        }
+        .option-button:hover {
+            background-color: #4cae4c;
         }
         .form-section {
             display: none;
@@ -35,7 +51,7 @@
         }
         input, select {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             margin-bottom: 10px;
         }
         button {
@@ -44,29 +60,35 @@
             color: white;
             border: none;
             cursor: pointer;
+            width: 100%;
         }
         button:hover {
             background-color: #4cae4c;
         }
-        #fee-check-result {
-            margin-top: 10px;
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .data-table th, .data-table td {
+            border: 1px solid #ccc;
             padding: 10px;
-            background-color: #e7f3fe;
-            border-left: 6px solid #2196F3;
+            text-align: left;
+        }
+        .data-table th {
+            background-color: #f4f4f4;
         }
     </style>
 </head>
 <body>
     <h1>School Management System</h1>
     <div class="container">
-        <div>
-            <button onclick="showSection('admission')">Admission Panel</button>
-            <button onclick="showSection('feeSubmission')">Fee Submission</button>
-            <button onclick="showSection('feeChecking')">Fee Checking</button>
-            <button onclick="showSection('submittedFeeDetails')">Submitted Fee Details</button>
-        </div>
+        <button class="option-button" onclick="showSection('admission')">Admission Panel</button>
+        <button class="option-button" onclick="showSection('feeSubmission')">Fee Submission</button>
+        <button class="option-button" onclick="showSection('feeChecking')">Fee Checking</button>
+        <button class="option-button" onclick="showSection('submittedFeeDetails')">Submitted Fee Details</button>
 
-        <div id="admission" class="form-section active">
+        <div id="admission" class="form-section">
             <h2>Admission Form</h2>
             <form id="admission-form" onsubmit="saveAdmissionData(); return false;">
                 <label for="registration-number">Registration Number</label>
@@ -86,7 +108,22 @@
                 <label for="fathers-occupation">Father's Occupation</label>
                 <input type="text" id="fathers-occupation" required>
                 <label for="admitted-class">Admitted In Class</label>
-                <input type="text" id="admitted-class" required>
+                <select id="admitted-class" required>
+                    <option value="PLAY">PLAY</option>
+                    <option value="NURSERY">NURSERY</option>
+                    <option value="PREP">PREP</option>
+                    <option value="ONE">ONE</option>
+                    <option value="TWO">TWO</option>
+                    <option value="THREE">THREE</option>
+                    <option value="4TH">4TH</option>
+                    <option value="5TH">5TH</option>
+                    <option value="6TH">6TH</option>
+                    <option value="7TH">7TH</option>
+                    <option value="8TH">8TH</option>
+                    <option value="PRE 9TH">PRE 9TH</option>
+                    <option value="9TH">9TH</option>
+                    <option value="10TH">10TH</option>
+                </select>
                 <label for="address">Address</label>
                 <input type="text" id="address" required>
                 <button type="submit">Submit Admission</button>
@@ -101,7 +138,22 @@
                 <label for="fee-fathers-name">Father's Name</label>
                 <input type="text" id="fee-fathers-name" required>
                 <label for="fee-grade">Select Grade</label>
-                <input type="text" id="fee-grade" required>
+                <select id="fee-grade" required>
+                    <option value="PLAY">PLAY</option>
+                    <option value="NURSERY">NURSERY</option>
+                    <option value="PREP">PREP</option>
+                    <option value="ONE">ONE</option>
+                    <option value="TWO">TWO</option>
+                    <option value="THREE">THREE</option>
+                    <option value="4TH">4TH</option>
+                    <option value="5TH">5TH</option>
+                    <option value="6TH">6TH</option>
+                    <option value="7TH">7TH</option>
+                    <option value="8TH">8TH</option>
+                    <option value="PRE 9TH">PRE 9TH</option>
+                    <option value="9TH">9TH</option>
+                    <option value="10TH">10TH</option>
+                </select>
                 <label for="fee-amount">Fee Amount</label>
                 <input type="number" id="fee-amount" required>
                 <button type="submit">Submit Fee</button>
@@ -112,7 +164,7 @@
             <h2>Check Fee by FRN</h2>
             <form onsubmit="checkFee(); return false;">
                 <label for="check-frn">Enter FRN</label>
-                <input type="text" id="check-frn" required>
+                <input type="number" id="check-frn" required>
                 <button type="submit">Check Fee</button>
             </form>
             <div id="fee-check-result"></div>
@@ -125,6 +177,8 @@
     </div>
 
     <script>
+        let feeId = 1; // Simple counter for FRN
+
         function showSection(section) {
             const sections = document.querySelectorAll('.form-section');
             sections.forEach(s => s.classList.remove('active'));
@@ -148,68 +202,75 @@
                 address: document.getElementById('address').value,
             };
 
-            const classFolder = admissionData.admittedClass; // Use admitted class as folder name
-            const admissions = JSON.parse(localStorage.getItem(classFolder)) || [];
-            admissions.push(admissionData);
-            localStorage.setItem(classFolder, JSON.stringify(admissions));
+            const classFolder = admissionData.admittedClass;
+            const storedAdmissions = JSON.parse(localStorage.getItem(classFolder)) || [];
+            storedAdmissions.push(admissionData);
+            localStorage.setItem(classFolder, JSON.stringify(storedAdmissions));
 
-            alert('Admission data saved successfully!');
-            document.getElementById('admission-form').reset(); // Reset form
+            alert('Admission data submitted successfully!');
+            document.getElementById('admission-form').reset();
         }
 
         function saveFeeData() {
             const feeData = {
                 studentName: document.getElementById('fee-student-name').value,
                 fathersName: document.getElementById('fee-fathers-name').value,
-                grade: document.getElementById('fee-grade').value,
                 feeAmount: document.getElementById('fee-amount').value,
-                frn: Math.random().toString(36).substring(2, 15) // Generate random FRN
+                frn: feeId++
             };
 
-            const classFolder = feeData.grade; // Use grade as folder name
-            const fees = JSON.parse(localStorage.getItem(classFolder + '-fees')) || [];
-            fees.push(feeData);
-            localStorage.setItem(classFolder + '-fees', JSON.stringify(fees));
+            const classFolder = document.getElementById('fee-grade').value;
+            const storedFees = JSON.parse(localStorage.getItem(classFolder + '-fees')) || [];
+            storedFees.push(feeData);
+            localStorage.setItem(classFolder + '-fees', JSON.stringify(storedFees));
 
-            alert('Fee data saved successfully! Your FRN is: ' + feeData.frn);
-            document.getElementById('fee-submission-form').reset(); // Reset form
+            alert('Fee data submitted successfully! Your FRN is: ' + feeData.frn);
+            document.getElementById('fee-submission-form').reset();
         }
 
         function checkFee() {
             const frn = document.getElementById('check-frn').value;
+            const found = false;
+            const classes = ["PLAY", "NURSERY", "PREP", "ONE", "TWO", "THREE", "4TH", "5TH", "6TH", "7TH", "8TH", "PRE 9TH", "9TH", "10TH"];
 
-            // Check all fee records for the entered FRN
-            let found = false;
-            const feeKeys = Object.keys(localStorage);
-            feeKeys.forEach(key => {
-                if (key.endsWith('-fees')) {
-                    const fees = JSON.parse(localStorage.getItem(key));
-                    const result = fees.find(fee => fee.frn === frn);
-                    if (result) {
-                        const resultDiv = document.getElementById('fee-check-result');
-                        resultDiv.innerHTML = `Fee Amount: ${result.feeAmount} <br> Student Name: ${result.studentName} <br> Father's Name: ${result.fathersName}`;
+            classes.forEach(classFolder => {
+                const fees = JSON.parse(localStorage.getItem(classFolder + '-fees')) || [];
+                fees.forEach(fee => {
+                    if (fee.frn == frn) {
+                        document.getElementById('fee-check-result').innerHTML = `Student: ${fee.studentName}, Father's Name: ${fee.fathersName}, Fee Amount: ${fee.feeAmount}`;
                         found = true;
                     }
-                }
+                });
             });
+
             if (!found) {
-                document.getElementById('fee-check-result').innerHTML = 'No fee records found for this FRN.';
+                document.getElementById('fee-check-result').innerHTML = 'No fee details found for this FRN.';
             }
         }
 
         function loadSubmittedFeeDetails() {
-            const submittedFeeList = document.getElementById('submitted-fee-list');
-            submittedFeeList.innerHTML = ''; // Clear previous results
+            const detailsContainer = document.getElementById('submitted-fee-list');
+            detailsContainer.innerHTML = '';
+            const classes = ["PLAY", "NURSERY", "PREP", "ONE", "TWO", "THREE", "4TH", "5TH", "6TH", "7TH", "8TH", "PRE 9TH", "9TH", "10TH"];
+            
+            classes.forEach(classFolder => {
+                const fees = JSON.parse(localStorage.getItem(classFolder + '-fees')) || [];
+                if (fees.length > 0) {
+                    const classDiv = document.createElement('div');
+                    classDiv.innerHTML = `<h3>${classFolder} Fees</h3>`;
+                    const table = document.createElement('table');
+                    table.classList.add('data-table');
+                    const headerRow = document.createElement('tr');
+                    headerRow.innerHTML = '<th>FRN</th><th>Student Name</th><th>Father\'s Name</th><th>Fee Amount</th>';
+                    table.appendChild(headerRow);
 
-            const feeKeys = Object.keys(localStorage);
-            feeKeys.forEach(key => {
-                if (key.endsWith('-fees')) {
-                    const fees = JSON.parse(localStorage.getItem(key));
                     fees.forEach(fee => {
-                        const feeDetail = document.createElement('div');
-                        feeDetail.innerHTML = `FRN: ${fee.frn}, Student Name: ${fee.studentName}, Father's Name: ${fee.fathersName}, Fee Amount: ${fee.feeAmount}, Grade: ${key.replace('-fees', '')}`;
-                        submittedFeeList.appendChild(feeDetail);
+                        const row = document.createElement('tr');
+                        row.innerHTML = `<td>${fee.frn}</td><td>${fee.studentName}</td><td>${fee.fathersName}</td><td>${fee.feeAmount}</td>`;
+                        table.appendChild(row);
                     });
+                    classDiv.appendChild(table);
+                    detailsContainer.appendChild(classDiv);
                 }
             });
         }
