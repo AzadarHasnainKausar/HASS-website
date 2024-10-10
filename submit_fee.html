@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,69 +8,95 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
+            background-color: #f0f0f0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
+
         .form-container {
-            background-color: white;
+            background-color: #fff;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            margin: auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            position: relative;
         }
+
         .form-container h2 {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            font-family: 'Segoe UI', sans-serif;
         }
+
         .form-group {
             margin-bottom: 15px;
         }
+
         .form-group label {
             display: block;
             margin-bottom: 5px;
         }
-        .form-group input, .form-group select {
+
+        .form-group input,
+        .form-group select {
             width: 100%;
-            padding: 10px;
-            border-radius: 4px;
+            padding: 8px;
+            border-radius: 6px;
             border: 1px solid #ccc;
         }
+
         button {
             display: block;
             width: 100%;
-            background-color: #004080;
+            background-color: #4CAF50;
             color: white;
-            padding: 12px;
+            padding: 10px;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            margin-bottom: 10px;
         }
+
         button:hover {
-            background-color: #003366;
+            background-color: #45a049;
         }
-        .back-button {
-            margin-top: 15px;
+
+        .back-button,
+        .print-button {
             background-color: #ccc;
+            color: #000;
+        }
+
+        .floating {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 15px;
+            background-color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
         }
     </style>
 </head>
-<body>
 
+<body>
     <div class="form-container">
         <h2>Submit Fee</h2>
         <div class="form-group">
-            <label for="name">Name of Student:</label>
-            <input type="text" id="name" name="name" required>
+            <label for="student">Student Name:</label>
+            <input type="text" id="student" name="student">
         </div>
+
         <div class="form-group">
-            <label for="father_name">Father's Name:</label>
-            <input type="text" id="father_name" name="father_name" required>
+            <label for="father-name">Father's Name:</label>
+            <input type="text" id="father-name" name="father-name">
         </div>
+
         <div class="form-group">
             <label for="class">Class:</label>
-            <select id="class" name="class" required>
+            <select id="class" name="class" onchange="populateFee()">
                 <option value="">Select Class</option>
                 <option value="Play">Play</option>
                 <option value="Nursery">Nursery</option>
@@ -87,72 +114,112 @@
                 <option value="Tenth">10th</option>
             </select>
         </div>
+
         <div class="form-group">
-            <label for="late_balance">Late Balance:</label>
-            <input type="number" id="late_balance" name="late_balance" required>
+            <label for="current-fee">Current Fee:</label>
+            <input type="number" id="current-fee" name="current-fee" readonly>
         </div>
+
         <div class="form-group">
-            <label for="current_fee">Current Fee:</label>
-            <input type="number" id="current_fee" name="current_fee" required>
+            <label for="late-balance">Late Balance:</label>
+            <input type="number" id="late-balance" name="late-balance" oninput="calculateTotal()">
         </div>
+
         <div class="form-group">
-            <label for="total">Total Amount:</label>
-            <input type="number" id="total" name="total" readonly>
+            <label for="total-fee">Total Fee:</label>
+            <input type="number" id="total-fee" name="total-fee" readonly>
         </div>
+
         <div class="form-group">
             <label for="received">Received Amount:</label>
-            <input type="number" id="received" name="received" required oninput="calculateBalance()">
+            <input type="number" id="received" name="received" oninput="calculateBalance()">
         </div>
+
         <div class="form-group">
             <label for="balance">Balance:</label>
             <input type="number" id="balance" name="balance" readonly>
         </div>
+
         <div class="form-group">
-            <label for="submission_date">Date of Fee Submission:</label>
-            <input type="date" id="submission_date" name="submission_date" required>
+            <label for="month">Month:</label>
+            <select id="month" name="month">
+                <option value="January">January</option>
+                <option value="February">February</option>
+                <!-- Add other months -->
+            </select>
         </div>
-        <button type="button" onclick="submitFee()">Submit</button>
-        <button class="back-button" onclick="window.location.href='index.html'">Back to Home</button>
+
+        <div class="form-group">
+            <label for="date">Submission Date:</label>
+            <input type="date" id="date" name="date" readonly>
+        </div>
+
+        <button type="button" onclick="validatePinAndSubmit()">Submit</button>
+        <button type="button" class="back-button" onclick="window.location.href='index.html'">Back to Home</button>
+        <button type="button" class="print-button" onclick="printReceipt()">Print Receipt</button>
+
+        <div class="floating">
+            <button onclick="searchStudent()">Search Student</button>
+        </div>
     </div>
 
     <script>
-        // Calculate total and balance
-        function calculateBalance() {
-            const currentFee = parseFloat(document.getElementById('current_fee').value);
-            const lateBalance = parseFloat(document.getElementById('late_balance').value);
-            const receivedAmount = parseFloat(document.getElementById('received').value);
+        // Populate fee according to class
+        function populateFee() {
+            const classSelection = document.getElementById('class').value;
+            const feeInput = document.getElementById('current-fee');
+            let feeAmount = 0;
 
-            const total = currentFee + lateBalance;
-            document.getElementById('total').value = total;
+            if (classSelection === 'Play') feeAmount = 500;
+            else if (classSelection === 'Nursery') feeAmount = 600;
+            else if (classSelection === 'Prep') feeAmount = 700;
+            else if (classSelection === 'One') feeAmount = 800;
+            // Add other classes...
 
-            const balance = total - receivedAmount;
-            document.getElementById('balance').value = balance;
+            feeInput.value = feeAmount;
+            calculateTotal();
         }
 
-        // Submit fee details and save to class-wise subfolders
-        function submitFee() {
-            const studentName = document.getElementById('name').value;
-            const fatherName = document.getElementById('father_name').value;
-            const studentClass = document.getElementById('class').value;
-            const lateBalance = document.getElementById('late_balance').value;
-            const currentFee = document.getElementById('current_fee').value;
-            const totalAmount = document.getElementById('total').value;
-            const receivedAmount = document.getElementById('received').value;
-            const balance = document.getElementById('balance').value;
-            const submissionDate = document.getElementById('submission_date').value;
+        // Calculate total fee
+        function calculateTotal() {
+            const currentFee = parseFloat(document.getElementById('current-fee').value) || 0;
+            const lateBalance = parseFloat(document.getElementById('late-balance').value) || 0;
+            document.getElementById('total-fee').value = currentFee + lateBalance;
+        }
 
-            if (!studentName || !fatherName || !studentClass || !currentFee || !receivedAmount || !submissionDate) {
-                alert('Please fill in all required fields.');
-                return;
+        // Calculate balance
+        function calculateBalance() {
+            const totalFee = parseFloat(document.getElementById('total-fee').value) || 0;
+            const received = parseFloat(document.getElementById('received').value) || 0;
+            document.getElementById('balance').value = totalFee - received;
+        }
+
+        // Set today's date for submission
+        document.getElementById('date').value = new Date().toISOString().split('T')[0];
+
+        // Function to validate PIN and submit the form
+        function validatePinAndSubmit() {
+            const pin = prompt("Please enter the PIN to submit the fee:");
+            const correctPin = '03079653457'; // Provided PIN
+
+            if (pin === correctPin) {
+                alert("Fee submission successful!");
+                // Normally, save the data to the server here
+            } else {
+                alert("Incorrect PIN. Submission denied.");
             }
+        }
 
-            // Simulate saving data to class-wise subfolders
-            alert(`Fee submission successful!\n\nStudent: ${studentName}\nClass: ${studentClass}\nTotal: ${totalAmount}\nReceived: ${receivedAmount}\nBalance: ${balance}\nDate: ${submissionDate}`);
+        // Function to search student (dummy function)
+        function searchStudent() {
+            alert('Search functionality to be implemented.');
+        }
 
-            // Save data to the respective class folder (this part will depend on backend implementation)
-            // For example, save in '/Submitted Fee Details/[Class]/[StudentName].txt'
+        // Function to print fee receipt (dummy function)
+        function printReceipt() {
+            alert('Printing receipt for the selected student.');
         }
     </script>
-
 </body>
+
 </html>
