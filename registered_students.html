@@ -93,6 +93,7 @@
                     <th>Contact</th>
                     <th>Address</th>
                     <th>Admitted Class</th>
+                    <th>Actions</th> <!-- New column for actions -->
                 </tr>
             </thead>
             <tbody>
@@ -112,7 +113,7 @@
             registeredStudents.forEach((student, index) => {
                 const row = studentsTable.insertRow();
                 row.innerHTML = `
-                    <td>${index + 1}</td> <!-- Row number -->
+                    <td>${index + 1}</td>
                     <td>${student.name}</td>
                     <td>${student.cnic}</td>
                     <td>${student.dob}</td>
@@ -122,8 +123,29 @@
                     <td>${student.contact}</td>
                     <td>${student.address}</td>
                     <td>${student.admittedClass}</td>
+                    <td><button onclick="confirmDelete('${student.name}', ${index})">Delete</button></td>
                 `;
             });
+        }
+
+        // Function to confirm deletion
+        function confirmDelete(studentName, index) {
+            const pin = prompt("Enter the PIN to delete the student data (Ask 03079653457 for the PIN):");
+            const correctPin = new Date().toLocaleTimeString('en-US', { hour12: false }).replace(/:/g, '').substring(0, 4); // Current time as HHMM
+
+            if (pin === correctPin) {
+                deleteStudent(index);
+            } else {
+                alert("Incorrect PIN. Deletion cancelled.");
+            }
+        }
+
+        // Function to delete a student from localStorage
+        function deleteStudent(index) {
+            let registeredStudents = JSON.parse(localStorage.getItem('registeredStudents')) || [];
+            registeredStudents.splice(index, 1); // Remove student at index
+            localStorage.setItem('registeredStudents', JSON.stringify(registeredStudents)); // Update localStorage
+            loadRegisteredStudents(); // Reload the table
         }
 
         // Function to search student names
