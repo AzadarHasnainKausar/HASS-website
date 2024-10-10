@@ -19,7 +19,7 @@
         }
         .container {
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
             padding: 50px;
         }
@@ -30,7 +30,7 @@
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            margin: 20px;
+            margin: 0 20px; /* Horizontal margin for side-by-side layout */
             font-size: 16px;
         }
         button:hover {
@@ -50,8 +50,6 @@
     </div>
 
     <div class="container">
-        <h2>Main Menu</h2>
-
         <!-- Option: Student Admission Form -->
         <button onclick="openPage('admissionForm.html')">Student Admission Form</button>
 
@@ -64,7 +62,7 @@
         <!-- Option: Registered Students with PIN -->
         <button onclick="checkPin('registeredStudents')">Registered Students</button>
 
-        <!-- Home Button -->
+        <!-- Home Button (aligned separately) -->
         <button class="home-button" onclick="goHome()">Home</button>
     </div>
 
@@ -74,14 +72,15 @@
             window.location.href = page;
         }
 
-        // Function to check the PIN
+        // Function to check the PIN (Islamabad PK time)
         function checkPin(page) {
-            let currentTime = new Date();
-            let pin = currentTime.getHours().toString() + currentTime.getMinutes().toString(); // Current time as PIN
+            const now = new Date();
+            const options = { timeZone: 'Asia/Karachi', hour12: false, hour: '2-digit', minute: '2-digit' };
+            const timeString = now.toLocaleTimeString('en-GB', options).replace(':', ''); // Get time in HHMM format
 
             let enteredPin = prompt("Enter PIN to access this section:");
 
-            if (enteredPin === pin) {
+            if (enteredPin === timeString) {
                 // Correct PIN, redirect to page
                 alert("PIN correct! Redirecting...");
                 window.location.href = page + ".html";
