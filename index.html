@@ -1,10 +1,10 @@
-<!-- submitted_fee_details.html -->
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submitted Fee Details</title>
+    <title>Main Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -25,11 +25,10 @@
             align-items: flex-start;
             padding: 50px;
         }
-        .class-buttons {
+        .options {
             display: flex;
-            flex-direction: column; /* Align buttons vertically */
+            flex-direction: column;
             gap: 15px; /* Space between buttons */
-            margin-bottom: 20px; /* Space below button row */
         }
         button {
             background-color: #004080;
@@ -49,45 +48,32 @@
 <body>
 
     <div class="header">
-        <h1>Submitted Fee Details</h1>
+        <h1>Welcome to the School Management System</h1>
     </div>
 
     <div class="container">
-        <div class="class-buttons">
-            <button onclick="checkClassPin('play')">Play</button>
-            <button onclick="checkClassPin('nursery')">Nursery</button>
-            <button onclick="checkClassPin('prep')">Prep</button>
-            <button onclick="checkClassPin('one')">1st Grade</button>
-            <button onclick="checkClassPin('two')">2nd Grade</button>
-            <button onclick="checkClassPin('three')">3rd Grade</button>
-            <button onclick="checkClassPin('four')">4th Grade</button>
-            <button onclick="checkClassPin('five')">5th Grade</button>
-            <button onclick="checkClassPin('six')">6th Grade</button>
-            <button onclick="checkClassPin('seven')">7th Grade</button>
-            <button onclick="checkClassPin('eight')">8th Grade</button>
-            <button onclick="checkClassPin('nine')">9th Grade</button>
-            <button onclick="checkClassPin('ten')">10th Grade</button>
+        <div class="options">
+            <button onclick="checkPin('student_admission.html')">Register a Student</button>
+            <button onclick="checkPin('fee_structure.html')">Fee Structure</button>
+            <button onclick="checkPin('submit_fee.html')">Submit Fee</button>
+            <button onclick="checkPin('check_fee.html')">Check Fee</button>
+            <button onclick="checkPin('submitted_fee_details.html')">Submitted Fee Details</button>
+            <button onclick="checkPin('check_result.html')">Check Result</button>
+            <button onclick="checkPin('registered_students.html')">Registered Students</button>
+            <button onclick="checkPin('gallery.html')">Gallery</button>
+            <button onclick="checkPin('papers.html')">Papers</button>
         </div>
-
-        <!-- Home Button -->
-        <button onclick="goHome()">Home</button>
     </div>
 
     <script>
-        // Function to check the PIN for class access
-        function checkClassPin(className) {
-            const pin = prompt("Enter PIN to access " + className + " fee details:");
+        function checkPin(page) {
+            const pin = prompt("Enter PIN to access this option:");
             const correctPin = "1019"; // Replace with your actual PIN logic if needed
             if (pin === correctPin) {
-                window.location.href = className + "_fee_details.html"; // Adjust with actual data page
+                window.location.href = page; // Redirect to the specified page
             } else {
                 alert("Incorrect PIN. Access denied.");
             }
-        }
-
-        // Function for Home button
-        function goHome() {
-            window.location.href = "index.html"; // Change this to your main page file name
         }
     </script>
 
