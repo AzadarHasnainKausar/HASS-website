@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hasnain Academic Services School</title>
+    <title>Hasnain Academic Services School - Main Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -21,53 +21,25 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
-        }
-        .form-container, .summary-container, .data-container {
-            background-color: white;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            width: 100%;
-            max-width: 1200px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            color: #333;
-        }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border-radius: 4px;
-            border: 1px solid #ccc;
+            padding: 50px;
         }
         button {
             background-color: #004080;
             color: white;
-            padding: 10px 20px;
+            padding: 15px 30px;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
+            margin: 20px;
+            font-size: 16px;
         }
         button:hover {
             background-color: #003366;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #004080;
-            color: white;
+        .home-button {
+            margin-top: 40px;
+            padding: 10px 20px;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -78,122 +50,51 @@
     </div>
 
     <div class="container">
+        <h2>Main Menu</h2>
 
-        <!-- Admission Form -->
-        <div class="form-container">
-            <h2>Student Admission Form</h2>
-            <form id="admissionForm">
-                <label for="studentName">Student Name</label>
-                <input type="text" id="studentName" name="studentName" required>
+        <!-- Option: Student Admission Form -->
+        <button onclick="openPage('admissionForm.html')">Student Admission Form</button>
 
-                <label for="dob">Date of Birth</label>
-                <input type="date" id="dob" name="dob" required>
+        <!-- Option: Fee Submission with PIN -->
+        <button onclick="checkPin('feeSubmission')">Fee Submission</button>
 
-                <label for="class">Class</label>
-                <select id="class" name="class">
-                    <option value="PLAY">PLAY</option>
-                    <option value="NURSERY">NURSERY</option>
-                    <!-- Add other classes here -->
-                    <option value="10TH">10TH</option>
-                </select>
+        <!-- Option: Check Fee with PIN -->
+        <button onclick="checkPin('checkFee')">Check Fee</button>
 
-                <button type="submit">Submit</button>
-            </form>
-        </div>
+        <!-- Option: Registered Students with PIN -->
+        <button onclick="checkPin('registeredStudents')">Registered Students</button>
 
-        <!-- Fee Submission Panel -->
-        <div class="form-container">
-            <h2>Fee Submission</h2>
-            <form id="feeForm">
-                <label for="studentId">Student ID</label>
-                <input type="text" id="studentId" name="studentId" required>
-
-                <label for="feeAmount">Fee Amount</label>
-                <input type="number" id="feeAmount" name="feeAmount" required>
-
-                <button type="submit">Submit Fee</button>
-            </form>
-        </div>
-
-        <!-- Class Reports -->
-        <div class="data-container">
-            <h2>Class Reports</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Student ID</th>
-                        <th>Student Name</th>
-                        <th>Class</th>
-                        <th>Fee Status</th>
-                    </tr>
-                </thead>
-                <tbody id="classReport">
-                    <!-- Dynamic Data goes here -->
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Fee Summary -->
-        <div class="summary-container">
-            <h2>Fee Collection Summary</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Class</th>
-                        <th>Total Collected Fee</th>
-                    </tr>
-                </thead>
-                <tbody id="feeSummary">
-                    <!-- Summary data goes here -->
-                </tbody>
-            </table>
-        </div>
-
+        <!-- Home Button -->
+        <button class="home-button" onclick="goHome()">Home</button>
     </div>
 
     <script>
-        // Form Submission Handling
-        document.getElementById('admissionForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            // Simulate form submission
-            alert('Admission submitted!');
-            // Clear the form
-            this.reset();
-        });
+        // Function to open pages
+        function openPage(page) {
+            window.location.href = page;
+        }
 
-        document.getElementById('feeForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            // Simulate fee submission
-            alert('Fee submitted!');
-            // Clear the form
-            this.reset();
-        });
+        // Function to check the PIN
+        function checkPin(page) {
+            let currentTime = new Date();
+            let pin = currentTime.getHours().toString() + currentTime.getMinutes().toString(); // Current time as PIN
 
-        // Example Data Population for Class Reports
-        const classReportData = [
-            { id: 'S001', name: 'Ahmed', class: '10TH', feeStatus: 'Paid' },
-            { id: 'S002', name: 'Ali', class: '9TH', feeStatus: 'Unpaid' }
-        ];
+            let enteredPin = prompt("Enter PIN to access this section:");
 
-        const classReportTable = document.getElementById('classReport');
-        classReportData.forEach(item => {
-            const row = document.createElement('tr');
-            row.innerHTML = `<td>${item.id}</td><td>${item.name}</td><td>${item.class}</td><td>${item.feeStatus}</td>`;
-            classReportTable.appendChild(row);
-        });
+            if (enteredPin === pin) {
+                // Correct PIN, redirect to page
+                alert("PIN correct! Redirecting...");
+                window.location.href = page + ".html";
+            } else {
+                // Incorrect PIN
+                alert("Incorrect PIN! Access denied.");
+            }
+        }
 
-        // Example Data Population for Fee Summary
-        const feeSummaryData = [
-            { class: '10TH', totalFee: 20000 },
-            { class: '9TH', totalFee: 18000 }
-        ];
-
-        const feeSummaryTable = document.getElementById('feeSummary');
-        feeSummaryData.forEach(item => {
-            const row = document.createElement('tr');
-            row.innerHTML = `<td>${item.class}</td><td>${item.totalFee}</td>`;
-            feeSummaryTable.appendChild(row);
-        });
+        // Function for Home button
+        function goHome() {
+            alert("You are already on the home page.");
+        }
     </script>
 
 </body>
