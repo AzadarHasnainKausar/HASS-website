@@ -1,4 +1,4 @@
-<!-- index.html -->
+<!-- Updated index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,22 +53,23 @@
 
     <div class="container">
         <div class="options">
-            <!-- PIN-protected options -->
-            <button onclick="checkPin('student_admission.html')">Register a Student</button>
+            <!-- No PIN required -->
+            <button onclick="redirectWithoutPin('student_admission.html')">Register a Student</button>
+            <button onclick="redirectWithoutPin('fee_structure.html')">Fee Structure</button>
+            <button onclick="redirectWithoutPin('check_fee.html')">Check Fee</button>
+            <button onclick="redirectWithoutPin('gallery.html')">Gallery</button>
+
+            <!-- PIN required -->
             <button onclick="checkPin('submit_fee.html')">Submit Fee</button>
             <button onclick="checkPin('submitted_fee_details.html')">Submitted Fee Details</button>
             <button onclick="checkPin('check_result.html')">Check Result</button>
             <button onclick="checkPin('registered_students.html')">Registered Students</button>
             <button onclick="checkPin('papers.html')">Papers</button>
-
-            <!-- Non-PIN-protected options -->
-            <button onclick="window.location.href='fee_structure.html'">Fee Structure</button>
-            <button onclick="window.location.href='check_fee.html'">Check Fee</button>
-            <button onclick="window.location.href='gallery.html'">Gallery</button>
         </div>
     </div>
 
     <script>
+        // Function to get the current time in HHMM format (for the PIN)
         function getCurrentPin() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0'); // Ensure two digits
@@ -76,6 +77,7 @@
             return hours + minutes; // Return in HHMM format
         }
 
+        // Function to check PIN for the pages that require it
         function checkPin(page) {
             const pin = prompt("Enter PIN to access this option:");
             const correctPin = getCurrentPin(); // Get the current time as PIN
@@ -84,6 +86,11 @@
             } else {
                 alert("Incorrect PIN. Access denied.");
             }
+        }
+
+        // Function to directly redirect without PIN
+        function redirectWithoutPin(page) {
+            window.location.href = page; // Directly redirect to the specified page
         }
     </script>
 
