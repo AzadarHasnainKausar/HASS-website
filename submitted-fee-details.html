@@ -8,102 +8,236 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            padding: 20px;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
         }
 
-        h2 {
-            text-align: center;
-            color: #333;
+        .header {
+            background-color: #004080;
+            color: white;
+            padding: 20px;
+            text-align: left;
+            padding-left: 20px;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        input, select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #004080;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #003366;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            margin-top: 20px;
         }
 
-        table, th, td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: left;
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
         }
 
         th {
-            background-color: #4CAF50;
+            background-color: #004080;
             color: white;
         }
 
-        .form-row {
-            margin: 20px 0;
-        }
-
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #45a049;
+        .back-button {
+            margin-top: 20px;
         }
     </style>
 </head>
 
 <body>
 
-    <h2>Submitted Fee Details</h2>
-
-    <div class="form-row">
-        <label for="student-name">Student Name:</label>
-        <input type="text" id="student-name" name="student-name" placeholder="Enter Student Name">
-        <button onclick="submitFeeDetails()">Submit</button>
+    <div class="header">
+        <h1 style="text-align: center;">Submitted Fee Details</h1>
     </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Student Name</th>
-                <th>Father's Name</th>
-                <th>Class</th>
-                <th>Total Fee</th>
-                <th>Received Amount</th>
-                <th>Submission Date</th>
-            </tr>
-        </thead>
-        <tbody id="fee-details-body">
-            <!-- Fee details will be populated here -->
-        </tbody>
-    </table>
+    <div class="container">
+        <form id="feeForm">
+            <label for="studentName">Name of Student:</label>
+            <input type="text" id="studentName" required>
+
+            <label for="fatherName">Father's Name:</label>
+            <input type="text" id="fatherName" required>
+
+            <label for="classSelect">Class:</label>
+            <select id="classSelect" required>
+                <option value="">Select Class</option>
+                <option value="PLAY">PLAY - 700</option>
+                <option value="PREP">PREP - 700</option>
+                <option value="ONE">1 - 800</option>
+                <option value="TWO">2 - 800</option>
+                <option value="THREE">3 - 800</option>
+                <option value="FOUR">4 - 800</option>
+                <option value="FIVE">5 - 800</option>
+                <option value="SIX">6 - 800</option>
+                <option value="SEVEN">7 - 800</option>
+                <option value="EIGHT">8 - 800</option>
+                <option value="PRE 9TH">PRE 9TH - 1000</option>
+                <option value="NINTH">9TH - 2000</option>
+                <option value="TENTH">10TH - 2000</option>
+            </select>
+
+            <label for="lateBalance">Late Balance:</label>
+            <input type="number" id="lateBalance" value="0" required>
+
+            <label for="totalAmount">Total Amount:</label>
+            <input type="text" id="totalAmount" readonly>
+
+            <label for="received">Received:</label>
+            <input type="text" id="received" required>
+
+            <label for="monthSelect">Month:</label>
+            <select id="monthSelect" required>
+                <option value="">Select Month</option>
+                <option value="January">January</option>
+                <option value="February">February</option>
+                <option value="March">March</option>
+                <option value="April">April</option>
+                <option value="May">May</option>
+                <option value="June">June</option>
+                <option value="July">July</option>
+                <option value="August">August</option>
+                <option value="September">September</option>
+                <option value="October">October</option>
+                <option value="November">November</option>
+                <option value="December">December</option>
+            </select>
+
+            <label for="submissionDate">Date of Submission:</label>
+            <input type="text" id="submissionDate" value="" readonly>
+            
+            <button type="button" onclick="submitFee()">Submit Fee</button>
+        </form>
+
+        <button class="back-button" onclick="window.location.href='index.html'">Back to Home</button>
+
+        <table id="feeDetailsTable">
+            <thead>
+                <tr>
+                    <th>Name of Student</th>
+                    <th>Father's Name</th>
+                    <th>Class</th>
+                    <th>Late Balance</th>
+                    <th>Total Amount</th>
+                    <th>Received</th>
+                    <th>Month</th>
+                    <th>Date of Submission</th>
+                </tr>
+            </thead>
+            <tbody id="feeDetailsBody">
+                <!-- Fee submission details will be populated here -->
+            </tbody>
+        </table>
+    </div>
 
     <script>
+        // Set current date in submissionDate field
+        document.getElementById('submissionDate').value = new Date().toLocaleDateString();
+
+        // Calculate total fee based on selected class and late balance
+        function calculateTotal() {
+            const classSelect = document.getElementById('classSelect');
+            const lateBalance = parseFloat(document.getElementById('lateBalance').value) || 0;
+            let fee = 0;
+
+            switch (classSelect.value) {
+                case 'PLAY':
+                case 'PREP':
+                    fee = 700;
+                    break;
+                case 'ONE':
+                case 'TWO':
+                case 'THREE':
+                case 'FOUR':
+                case 'FIVE':
+                case 'SIX':
+                case 'SEVEN':
+                case 'EIGHT':
+                    fee = 800;
+                    break;
+                case 'PRE 9TH':
+                    fee = 1000;
+                    break;
+                case 'NINTH':
+                case 'TENTH':
+                    fee = 2000;
+                    break;
+                default:
+                    fee = 0;
+            }
+
+            const totalAmount = fee + lateBalance;
+            document.getElementById('totalAmount').value = totalAmount;
+        }
+
+        // Event listener for class selection to calculate total fee
+        document.getElementById('classSelect').addEventListener('change', calculateTotal);
+        document.getElementById('lateBalance').addEventListener('input', calculateTotal);
+
         // Function to submit fee details
-        function submitFeeDetails() {
-            const studentName = document.getElementById('student-name').value;
-            const fatherName = prompt("Enter Father's Name:");
-            const className = prompt("Enter Class:");
-            const totalFee = prompt("Enter Total Fee:");
-            const receivedAmount = prompt("Enter Received Amount:");
-            const submissionDate = new Date().toLocaleDateString();
+        function submitFee() {
+            const studentName = document.getElementById('studentName').value;
+            const fatherName = document.getElementById('fatherName').value;
+            const className = document.getElementById('classSelect').value;
+            const lateBalance = document.getElementById('lateBalance').value;
+            const totalAmount = document.getElementById('totalAmount').value;
+            const received = document.getElementById('received').value;
+            const month = document.getElementById('monthSelect').value;
+            const submissionDate = document.getElementById('submissionDate').value;
 
-            // Insert new row in the table
-            const tableBody = document.getElementById('fee-details-body');
-            const newRow = document.createElement('tr');
-            newRow.innerHTML = `
-                <td>${studentName}</td>
-                <td>${fatherName}</td>
-                <td>${className}</td>
-                <td>${totalFee}</td>
-                <td>${receivedAmount}</td>
-                <td>${submissionDate}</td>
+            // Create a new row for the table
+            const newRow = `
+                <tr>
+                    <td>${studentName}</td>
+                    <td>${fatherName}</td>
+                    <td>${className}</td>
+                    <td>${lateBalance}</td>
+                    <td>${totalAmount}</td>
+                    <td>${received}</td>
+                    <td>${month}</td>
+                    <td>${submissionDate}</td>
+                </tr>
             `;
-            tableBody.appendChild(newRow);
+            
+            // Add the new row to the table body
+            document.getElementById('feeDetailsBody').innerHTML += newRow;
 
-            // Clear the input
-            document.getElementById('student-name').value = '';
+            // Clear the form fields after submission
+            document.getElementById('feeForm').reset();
+            document.getElementById('totalAmount').value = '';
         }
     </script>
 
