@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Fee</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        .form-group input[readonly] {
+            background-color: #e9e9e9;
+        }
+        button {
+            display: block;
+            width: 100%;
+            background-color: #004080;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #003366;
+        }
+        .back-button {
+            margin-top: 15px;
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Submit Fee</h2>
+        <div class="form-group">
+            <label for="class">Class:</label>
+            <select id="class" name="class" onchange="populateStudents()">
+                <option value="">Select Class</option>
+                <!-- Populate class options from registered students data -->
+                <option value="Play-Nursery-Prep">Play/Nursery/Prep</option>
+                <option value="One-Eight">Class One to 8th</option>
+                <option value="Pre9th">Pre 9th</option>
+                <option value="9th-10th">Class 9th & 10th</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="student">Student Name:</label>
+            <select id="student" name="student">
+                <option value="">Select Student</option>
+                <!-- Populated dynamically based on class selection -->
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="fee">Fee:</label>
+            <input type="number" id="fee" name="fee" readonly>
+        </div>
+
+        <div class="form-group">
+            <label for="received">Received Amount:</label>
+            <input type="number" id="received" name="received" oninput="calculateBalance()">
+        </div>
+
+        <div class="form-group">
+            <label for="balance">Balance:</label>
+            <input type="number" id="balance" name="balance" readonly>
+        </div>
+
+        <div class="form-group">
+            <label for="date">Submission Date:</label>
+            <input type="date" id="date" name="date" readonly>
+        </div>
+
+        <button type="button" onclick="submitFee()">Submit</button>
+        <button class="back-button" onclick="window.location.href='index.html'">Back to Home</button>
+    </div>
+
+    <script>
+        // Automatically populate student list and fee based on class
+        function populateStudents() {
+            const classSelection = document.getElementById('class').value;
+            const studentSelect = document.getElementById('student');
+            const feeInput = document.getElementById('fee');
+            
+            studentSelect.innerHTML = ''; // Clear current options
+            let students = [];
+            let feeAmount = 0;
+
+            if (classSelection === 'Play-Nursery-Prep') {
+                students = ['Ali', 'Ahmed', 'Sara']; // Example student names
+                feeAmount = 700;
+            } else if (classSelection === 'One-Eight') {
+                students = ['Hassan', 'Fatima', 'Bilal'];
+                feeAmount = 800;
+            } else if (classSelection === 'Pre9th') {
+                students = ['Ayesha', 'Zain', 'Usman'];
+                feeAmount = 1000;
+            } else if (classSelection === '9th-10th') {
+                students = ['Hamza', 'Farhan', 'Amina'];
+                feeAmount = 2000;
+            }
+
+            // Populate students in the dropdown
+            students.forEach(student => {
+                const option = document.createElement('option');
+                option.value = student;
+                option.textContent = student;
+                studentSelect.appendChild(option);
+            });
+
+            // Set fee
+            feeInput.value = feeAmount;
+        }
+
+        // Calculate balance based on fee and received amount
+        function calculateBalance() {
+            const fee = parseFloat(document.getElementById('fee').value);
+            const received = parseFloat(document.getElementById('received').value);
+            const balanceInput = document.getElementById('balance');
+
+            if (received < fee) {
+                balanceInput.value = (fee - received).toFixed(2);
+            } else {
+                balanceInput.value = 0;
+            }
+        }
+
+        // Set today's date in the submission date field
+        document.getElementById('date').value = new Date().toISOString().split('T')[0];
+
+        // Submit fee and save data to the 'Submitted Fee Details' folder
+        function submitFee() {
+            const student = document.getElementById('student').value;
+            const fee = document.getElementById('fee').value;
+            const received = document.getElementById('received').value;
+            const balance = document.getElementById('balance').value;
+            const date = document.getElementById('date').value;
+
+            if (!student || !fee || !received) {
+                alert('Please fill in all the fields.');
+                return;
+            }
+
+            // Normally, here we would save the data to the server or database.
+            // For the purpose of this task, we are simply alerting the data.
+            alert(`Fee submission successful!\n\nStudent: ${student}\nClass: ${document.getElementById('class').value}\nFee: ${fee}\nReceived: ${received}\nBalance: ${balance}\nDate: ${date}`);
+
+            // Redirect to the Submitted Fee Details page
+            window.location.href = 'submitted_fee_details.html';
+        }
+    </script>
+
+</body>
+</html>
