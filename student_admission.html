@@ -42,6 +42,11 @@
         button:hover {
             background-color: #003366;
         }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -51,7 +56,11 @@
         <form id="admissionForm" onsubmit="return submitForm(event);">
             <input type="text" id="studentName" placeholder="Name of Student" required>
             <input type="text" id="studentCNIC" placeholder="Student's CNIC (Format: 00000-0000000-0)" pattern="\d{5}-\d{7}-\d" required>
-            <input type="date" id="dob" placeholder="Date of Birth" required>
+
+            <!-- Date of Birth with label -->
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" required>
+
             <input type="text" id="fatherName" placeholder="Father's Name" required>
             <input type="text" id="fatherCNIC" placeholder="Father's CNIC (Format: 00000-0000000-0)" pattern="\d{5}-\d{7}-\d" required>
             <input type="text" id="cast" placeholder="Cast" required>
@@ -77,8 +86,9 @@
                 <option value="10TH">10TH</option>
             </select>
 
-            <!-- New "Admission Date" field -->
-            <input type="date" id="admissionDate" placeholder="Admission Date" required>
+            <!-- Admission Date with label -->
+            <label for="admissionDate">Admission Date</label>
+            <input type="date" id="admissionDate" required>
 
             <button type="submit">Submit</button>
         </form>
