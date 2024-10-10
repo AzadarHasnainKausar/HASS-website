@@ -91,6 +91,15 @@
             border-radius: 50%;
             cursor: pointer;
         }
+
+        #student-details {
+            display: none;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f0f0f0;
+        }
     </style>
 </head>
 
@@ -98,7 +107,7 @@
 
     <div class="form-container">
         <h2>Submit Student Fee</h2>
-        
+
         <div class="form-row">
             <div class="form-group">
                 <label for="student">Student Name:</label>
@@ -180,9 +189,19 @@
             <button type="button" onclick="validatePinAndSubmit()">Submit</button>
             <button type="button" onclick="clearForm()">Clear</button>
             <button type="button" onclick="searchStudent()">Search Student</button>
+            <button type="button" onclick="goToHome()">Back to Home</button>
         </div>
 
         <div class="floating" onclick="searchStudent()">🔍</div>
+        
+        <!-- Student details will be displayed here after search -->
+        <div id="student-details">
+            <h3>Fee Details for <span id="searched-student-name"></span></h3>
+            <p>Class: <span id="searched-student-class"></span></p>
+            <p>Total Fee: <span id="searched-student-fee"></span></p>
+            <p>Submission Date: <span id="searched-student-date"></span></p>
+            <button onclick="printReceipt()">Print Fee Receipt</button>
+        </div>
     </div>
 
     <script>
@@ -221,24 +240,23 @@
         // Function to validate PIN and submit the form
         function validatePinAndSubmit() {
             const currentDate = new Date();
-            const hours = String(currentDate.getHours()).padStart(2, '0');
-            const minutes = String(currentDate.getMinutes()).padStart(2, '0');
-            const currentPin = hours + minutes;  // Current time in HHMM format
-            
-            const pin = prompt(`Enter PIN (Current Time HHMM - Islamabad):`);
+            const currentHours = String(currentDate.getHours()).padStart(2, '0');
+            const currentMinutes = String(currentDate.getMinutes()).padStart(2, '0');
+            const pin = prompt("Enter PIN:");
 
-            if (pin === currentPin) {
-                if (confirm("Please review the details. Do you want to submit the fee?")) {
-                    alert("Fee submission successful!");
-                    // Normally, save the data to the server here
+            const correctPin = currentHours + currentMinutes;
+            if (pin === correctPin) {
+                if (confirm("Do you want to submit the fee?")) {
+                    alert("Fee submitted successfully!");
+                    // Code to transfer data to "Submitted Fee Details" folder
                     clearForm();
                 }
             } else {
-                alert("Incorrect PIN. Submission denied.");
+                alert("Incorrect PIN. Try again.");
             }
         }
 
-        // Clear form after submission
+        // Function to clear the form
         function clearForm() {
             document.getElementById('student').value = '';
             document.getElementById('father-name').value = '';
@@ -254,8 +272,25 @@
         // Placeholder for search functionality
         function searchStudent() {
             const studentName = prompt("Enter student name to search:");
-            alert(`Searching for ${studentName}...`);
-            // Implement search functionality
+            if (studentName) {
+                // Simulate student search and show details (replace with real logic)
+                document.getElementById('searched-student-name').textContent = studentName;
+                document.getElementById('searched-student-class').textContent = "Class Example";
+                document.getElementById('searched-student-fee').textContent = "2000 PKR";
+                document.getElementById('searched-student-date').textContent = "October 10, 2024";
+                document.getElementById('student-details').style.display = 'block';
+            }
+        }
+
+        // Function to print fee receipt
+        function printReceipt() {
+            alert("Printing fee receipt...");
+            // Implement print logic
+        }
+
+        // Function to go back to home page
+        function goToHome() {
+            window.location.href = 'index.html'; // Replace with actual home page URL
         }
     </script>
 
