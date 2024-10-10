@@ -1,10 +1,10 @@
-<!-- feeCollection.html -->
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fee Collection Data</title>
+    <title>School Management System</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -21,15 +21,13 @@
         .container {
             display: flex;
             flex-direction: column;
-            align-items: center; /* Center items horizontally */
+            align-items: center;
             padding: 50px;
         }
-        .class-buttons {
-            display: flex; /* Use flexbox to align buttons in a row */
-            flex-wrap: wrap; /* Allow wrapping to next line if needed */
-            justify-content: center; /* Center the buttons */
-            gap: 20px; /* Add space between buttons */
-            margin-bottom: 20px; /* Space below button row */
+        .options {
+            display: flex;
+            flex-direction: column; /* Align buttons vertically */
+            gap: 20px; /* Space between buttons */
         }
         button {
             background-color: #004080;
@@ -39,7 +37,7 @@
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s;
-            min-width: 120px; /* Minimum width for buttons */
+            min-width: 200px; /* Ensure buttons are wider */
         }
         button:hover {
             background-color: #003366;
@@ -49,45 +47,73 @@
 <body>
 
     <div class="header">
-        <h1>Fee Collection Data</h1>
+        <h1>School Management System</h1>
     </div>
 
     <div class="container">
-        <div class="class-buttons">
-            <button onclick="checkClassPin('play')">Play</button>
-            <button onclick="checkClassPin('nursery')">Nursery</button>
-            <button onclick="checkClassPin('prep')">Prep</button>
-            <button onclick="checkClassPin('one')">1st Grade</button>
-            <button onclick="checkClassPin('two')">2nd Grade</button>
-            <button onclick="checkClassPin('three')">3rd Grade</button>
-            <button onclick="checkClassPin('four')">4th Grade</button>
-            <button onclick="checkClassPin('five')">5th Grade</button>
-            <button onclick="checkClassPin('six')">6th Grade</button>
-            <button onclick="checkClassPin('seven')">7th Grade</button>
-            <button onclick="checkClassPin('eight')">8th Grade</button>
-            <button onclick="checkClassPin('nine')">9th Grade</button>
-            <button onclick="checkClassPin('ten')">10th Grade</button>
+        <div class="options">
+            <button onclick="openForm('registerStudent')">Register a Student</button>
+            <button onclick="openForm('feeStructure')">Fee Structure</button>
+            <button onclick="openForm('submitFee')">Submit Fee</button>
+            <button onclick="openForm('checkFee')">Check Fee</button>
+            <button onclick="openForm('submittedFeeDetails')">Submitted Fee Details</button>
+            <button onclick="openForm('checkResult')">Check Result</button>
+            <button onclick="openForm('registeredStudents')">Registered Students</button>
+            <button onclick="openForm('gallery')">Gallery</button>
+            <button onclick="openForm('papers')">Papers</button>
         </div>
-
-        <!-- Home Button -->
-        <button onclick="goHome()">Home</button>
     </div>
 
     <script>
-        // Function to check the PIN for class access
-        function checkClassPin(className) {
-            const pin = prompt("Enter PIN to access " + className + " fee collection data:");
-            const correctPin = "1019"; // Replace with your actual PIN logic if needed
-            if (pin === correctPin) {
-                window.location.href = className + "_data.html"; // Adjust with actual data page
-            } else {
-                alert("Incorrect PIN. Access denied.");
+        function openForm(option) {
+            switch (option) {
+                case 'registerStudent':
+                    window.location.href = 'registration_form.html'; // Link to your student registration form page
+                    break;
+                case 'feeStructure':
+                    window.location.href = 'fee_structure.html'; // Link to your fee structure page
+                    break;
+                case 'submitFee':
+                    const submitFeePin = prompt("Enter PIN to access Fee Submission:");
+                    const correctPin = "1019"; // Replace with your actual PIN logic if needed
+                    if (submitFeePin === correctPin) {
+                        window.location.href = 'fee_submission.html'; // Link to your fee submission page
+                    } else {
+                        alert("Incorrect PIN. Access denied.");
+                    }
+                    break;
+                case 'checkFee':
+                    const checkFeePin = prompt("Enter PIN to access Check Fee:");
+                    if (checkFeePin === correctPin) {
+                        window.location.href = 'check_fee.html'; // Link to your check fee page
+                    } else {
+                        alert("Incorrect PIN. Access denied.");
+                    }
+                    break;
+                case 'submittedFeeDetails':
+                    window.location.href = 'submitted_fee_details.html'; // Link to submitted fee details page
+                    break;
+                case 'checkResult':
+                    window.location.href = 'check_result.html'; // Link to your result checking page
+                    break;
+                case 'registeredStudents':
+                    const registeredPin = prompt("Enter PIN to access Registered Students:");
+                    if (registeredPin === correctPin) {
+                        window.location.href = 'registered_students.html'; // Link to your registered students page
+                    } else {
+                        alert("Incorrect PIN. Access denied.");
+                    }
+                    break;
+                case 'gallery':
+                    window.location.href = 'gallery.html'; // Link to your gallery page
+                    break;
+                case 'papers':
+                    window.location.href = 'papers.html'; // Link to your papers page
+                    break;
+                default:
+                    alert("Invalid option selected.");
+                    break;
             }
-        }
-
-        // Function for Home button
-        function goHome() {
-            window.location.href = "index.html"; // Change this to your main page file name
         }
     </script>
 
