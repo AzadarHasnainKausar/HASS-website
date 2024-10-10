@@ -47,32 +47,34 @@
     </div>
 
     <div class="container">
-        <button onclick="checkClassPin('play')">Play</button>
-        <button onclick="checkClassPin('nursery')">Nursery</button>
-        <button onclick="checkClassPin('prep')">Prep</button>
-        <button onclick="checkClassPin('one')">1st Grade</button>
-        <button onclick="checkClassPin('two')">2nd Grade</button>
-        <button onclick="checkClassPin('three')">3rd Grade</button>
-        <button onclick="checkClassPin('four')">4th Grade</button>
-        <button onclick="checkClassPin('five')">5th Grade</button>
-        <button onclick="checkClassPin('six')">6th Grade</button>
-        <button onclick="checkClassPin('seven')">7th Grade</button>
-        <button onclick="checkClassPin('eight')">8th Grade</button>
-        <button onclick="checkClassPin('nine')">9th Grade</button>
-        <button onclick="checkClassPin('ten')">10th Grade</button>
+        <button onclick="goToClass('play')">Play</button>
+        <button onclick="goToClass('nursery')">Nursery</button>
+        <button onclick="goToClass('prep')">Prep</button>
+        <button onclick="goToClass('one')">1st Grade</button>
+        <button onclick="goToClass('two')">2nd Grade</button>
+        <button onclick="goToClass('three')">3rd Grade</button>
+        <button onclick="goToClass('four')">4th Grade</button>
+        <button onclick="goToClass('five')">5th Grade</button>
+        <button onclick="goToClass('six')">6th Grade</button>
+        <button onclick="goToClass('seven')">7th Grade</button>
+        <button onclick="goToClass('eight')">8th Grade</button>
+        <button onclick="goToClass('nine')">9th Grade</button>
+        <button onclick="goToClass('ten')">10th Grade</button>
 
         <!-- Home Button -->
         <button onclick="goHome()">Home</button>
     </div>
 
     <script>
-        // Function to check the PIN for class access
-        function checkClassPin(className) {
+        // Function to redirect to class-specific fee collection data page
+        function goToClass(className) {
             const pin = prompt("Enter PIN to access " + className + " fee collection data:");
-            // Validate the pin (you can set a static pin for each class or generate dynamically)
-            // Redirect to class data page if correct
-            // alert("Correct PIN! Redirecting to " + className + " data.");
-            // window.location.href = className + "_data.html"; // Adjust with actual data page
+            const correctPin = "1019"; // Replace with your actual PIN logic if needed
+            if (pin === correctPin) {
+                window.location.href = className + "_data.html"; // Replace with actual file name for each class
+            } else {
+                alert("Incorrect PIN. Access denied.");
+            }
         }
 
         // Function for Home button
