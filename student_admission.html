@@ -9,135 +9,105 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
-            padding: 0;
-        }
-        .header {
-            background-color: #004080;
-            color: white;
             padding: 20px;
-            text-align: left;
-            padding-left: 20px;
         }
         .container {
-            padding: 50px;
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        label {
-            display: block;
-            margin: 15px 0 5px;
-        }
-        input {
-            padding: 10px;
+        input[type="text"],
+        input[type="date"],
+        input[type="tel"] {
             width: 100%;
-            max-width: 400px; /* Set max width for input fields */
-            margin-bottom: 20px;
+            padding: 10px;
+            margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
         button {
             background-color: #004080;
             color: white;
-            padding: 15px 20px;
+            padding: 10px;
             border: none;
-            border-radius: 8px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            width: 100%;
+            margin-top: 20px;
         }
         button:hover {
             background-color: #003366;
-        }
-        .info {
-            font-size: 0.9em;
-            color: red;
-            margin-bottom: 15px;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>Register a Student</h1>
-    </div>
-
     <div class="container">
-        <form id="registrationForm" onsubmit="handleSubmit(event)">
-            <label for="studentName">Name of Student:</label>
-            <input type="text" id="studentName" name="studentName" required>
-
-            <label for="studentCnic">Student's CNIC (Format: 00000-0000000-0):</label>
-            <input type="text" id="studentCnic" name="studentCnic" pattern="\d{5}-\d{7}-\d{1}" title="Format: 00000-0000000-0" required>
-
-            <label for="dob">Date of Birth:</label>
-            <input type="date" id="dob" name="dob" required>
-
-            <label for="fatherName">Father's Name:</label>
-            <input type="text" id="fatherName" name="fatherName" required>
-
-            <label for="fatherCnic">Father's CNIC (Format: 00000-0000000-0):</label>
-            <input type="text" id="fatherCnic" name="fatherCnic" pattern="\d{5}-\d{7}-\d{1}" title="Format: 00000-0000000-0" required>
-
-            <label for="cast">Cast:</label>
-            <input type="text" id="cast" name="cast" required>
-
-            <label for="contact">Contact (Format: 0000-0000000):</label>
-            <input type="text" id="contact" name="contact" pattern="\d{4}-\d{7}" title="Format: 0000-0000000" required>
-
-            <label for="address">Address:</label>
-            <input type="text" id="address" name="address" required>
-
-            <div class="info">
-                <p>Contact 0307-9653457 for a PIN to submit the form. You have 5 minutes to submit after receiving the PIN.</p>
-            </div>
-
-            <label for="pin">Enter PIN:</label>
-            <input type="password" id="pin" name="pin" required>
-
+        <h1>Register a Student</h1>
+        <form id="admissionForm" onsubmit="return submitForm(event);">
+            <input type="text" id="studentName" placeholder="Name of Student" required>
+            <input type="text" id="studentCNIC" placeholder="Student's CNIC (Format: 00000-0000000-0)" pattern="\d{5}-\d{7}-\d" required>
+            <input type="date" id="dob" placeholder="Date of Birth" required>
+            <input type="text" id="fatherName" placeholder="Father's Name" required>
+            <input type="text" id="fatherCNIC" placeholder="Father's CNIC (Format: 00000-0000000-0)" pattern="\d{5}-\d{7}-\d" required>
+            <input type="text" id="cast" placeholder="Cast" required>
+            <input type="tel" id="contact" placeholder="Contact (Format: 0000-0000000)" pattern="\d{4}-\d{7}" required>
+            <input type="text" id="address" placeholder="Address" required>
             <button type="submit">Submit</button>
         </form>
-        <button onclick="goHome()">Back to Home</button>
     </div>
 
     <script>
-        let pinGeneratedTime = null;
+        function getCurrentPin() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0'); // Ensure two digits
+            const minutes = String(now.getMinutes()).padStart(2, '0'); // Ensure two digits
+            return hours + minutes; // Return in HHMM format
+        }
 
-        function handleSubmit(event) {
-            event.preventDefault(); // Prevent the default form submission
+        function submitForm(event) {
+            event.preventDefault(); // Prevent default form submission
+            const pin = prompt("Enter PIN (current time in HHMM format):");
+            const correctPin = getCurrentPin(); // Get the current time as PIN
 
-            const currentTime = new Date().getTime();
-            if (pinGeneratedTime && currentTime - pinGeneratedTime > 5 * 60 * 1000) {
-                alert("The PIN has expired. Please request a new PIN.");
-                return;
-            }
-
-            const studentName = document.getElementById('studentName').value;
-            const studentCnic = document.getElementById('studentCnic').value;
-            const dob = document.getElementById('dob').value;
-            const fatherName = document.getElementById('fatherName').value;
-            const fatherCnic = document.getElementById('fatherCnic').value;
-            const cast = document.getElementById('cast').value;
-            const contact = document.getElementById('contact').value;
-            const address = document.getElementById('address').value;
-            const pin = document.getElementById('pin').value;
-
-            // Here you should validate the PIN against a stored value
-            const correctPin = "123456"; // Example correct PIN (replace this with actual PIN checking logic)
             if (pin === correctPin) {
-                // If PIN is correct, display an alert with the submitted information
-                alert(`Student Registered:\nName: ${studentName}\nCNIC: ${studentCnic}\nDate of Birth: ${dob}\nFather's Name: ${fatherName}\nFather's CNIC: ${fatherCnic}\nCast: ${cast}\nContact: ${contact}\nAddress: ${address}`);
+                const studentData = {
+                    name: document.getElementById('studentName').value,
+                    cnic: document.getElementById('studentCNIC').value,
+                    dob: document.getElementById('dob').value,
+                    fatherName: document.getElementById('fatherName').value,
+                    fatherCnic: document.getElementById('fatherCNIC').value,
+                    cast: document.getElementById('cast').value,
+                    contact: document.getElementById('contact').value,
+                    address: document.getElementById('address').value
+                };
+
+                // Convert student data to a CSV format
+                const csvData = Object.values(studentData).join(',') + '\n';
+
+                // Create or append to the CSV file
+                const fileName = 'Registered_Students.csv'; // Name of the file
+
+                // Use the File API to save the CSV file
+                const blob = new Blob([csvData], { type: 'text/csv' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = fileName; // Specify the filename
+                document.body.appendChild(link);
+                link.click(); // Simulate click to download
+                document.body.removeChild(link);
+
+                alert('Form submitted successfully!');
+
+                // Optionally, clear the form
+                document.getElementById('admissionForm').reset();
             } else {
-                alert("Incorrect PIN. Please try again.");
+                alert("Incorrect PIN. Access denied.");
             }
         }
-
-        function goHome() {
-            window.location.href = "index.html"; // Link back to your main page
-        }
-
-        function generatePin() {
-            pinGeneratedTime = new Date().getTime(); // Store the time when the PIN is generated
-        }
-
-        // Call generatePin() when the user requests a PIN (for demonstration)
-        generatePin(); // Simulate generating a PIN when the page loads; replace with actual logic in production
     </script>
 
 </body>
