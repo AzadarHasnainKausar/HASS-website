@@ -15,25 +15,31 @@
         .header {
             background-color: #004080;
             color: white;
-            padding: 15px;
+            padding: 20px;
             text-align: center;
         }
         .container {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center; /* Center items horizontally */
             padding: 50px;
-            max-width: 300px; /* Set max width for the container */
+        }
+        .class-buttons {
+            display: flex; /* Use flexbox to align buttons in a row */
+            flex-wrap: wrap; /* Allow wrapping to next line if needed */
+            justify-content: center; /* Center the buttons */
+            gap: 20px; /* Add space between buttons */
+            margin-bottom: 20px; /* Space below button row */
         }
         button {
             background-color: #004080;
             color: white;
-            padding: 15px 30px;
+            padding: 15px 20px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            margin: 10px 0; /* Vertical margin for spacing */
-            width: 100%; /* Full width buttons */
+            transition: background-color 0.3s;
+            min-width: 120px; /* Minimum width for buttons */
         }
         button:hover {
             background-color: #003366;
@@ -47,31 +53,33 @@
     </div>
 
     <div class="container">
-        <button onclick="goToClass('play')">Play</button>
-        <button onclick="goToClass('nursery')">Nursery</button>
-        <button onclick="goToClass('prep')">Prep</button>
-        <button onclick="goToClass('one')">1st Grade</button>
-        <button onclick="goToClass('two')">2nd Grade</button>
-        <button onclick="goToClass('three')">3rd Grade</button>
-        <button onclick="goToClass('four')">4th Grade</button>
-        <button onclick="goToClass('five')">5th Grade</button>
-        <button onclick="goToClass('six')">6th Grade</button>
-        <button onclick="goToClass('seven')">7th Grade</button>
-        <button onclick="goToClass('eight')">8th Grade</button>
-        <button onclick="goToClass('nine')">9th Grade</button>
-        <button onclick="goToClass('ten')">10th Grade</button>
+        <div class="class-buttons">
+            <button onclick="checkClassPin('play')">Play</button>
+            <button onclick="checkClassPin('nursery')">Nursery</button>
+            <button onclick="checkClassPin('prep')">Prep</button>
+            <button onclick="checkClassPin('one')">1st Grade</button>
+            <button onclick="checkClassPin('two')">2nd Grade</button>
+            <button onclick="checkClassPin('three')">3rd Grade</button>
+            <button onclick="checkClassPin('four')">4th Grade</button>
+            <button onclick="checkClassPin('five')">5th Grade</button>
+            <button onclick="checkClassPin('six')">6th Grade</button>
+            <button onclick="checkClassPin('seven')">7th Grade</button>
+            <button onclick="checkClassPin('eight')">8th Grade</button>
+            <button onclick="checkClassPin('nine')">9th Grade</button>
+            <button onclick="checkClassPin('ten')">10th Grade</button>
+        </div>
 
         <!-- Home Button -->
         <button onclick="goHome()">Home</button>
     </div>
 
     <script>
-        // Function to redirect to class-specific fee collection data page
-        function goToClass(className) {
+        // Function to check the PIN for class access
+        function checkClassPin(className) {
             const pin = prompt("Enter PIN to access " + className + " fee collection data:");
             const correctPin = "1019"; // Replace with your actual PIN logic if needed
             if (pin === correctPin) {
-                window.location.href = className + "_data.html"; // Replace with actual file name for each class
+                window.location.href = className + "_data.html"; // Adjust with actual data page
             } else {
                 alert("Incorrect PIN. Access denied.");
             }
