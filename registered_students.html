@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registered Students</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Registered Students</h1>
+        <table id="studentsTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>CNIC</th>
+                    <th>Date of Birth</th>
+                    <th>Father's Name</th>
+                    <th>Father's CNIC</th>
+                    <th>Cast</th>
+                    <th>Contact</th>
+                    <th>Address</th>
+                    <th>Admitted Class</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Student data will be inserted here -->
+            </tbody>
+        </table>
+
+        <!-- Back to Home button -->
+        <button onclick="window.location.href='index.html'">Back to Home</button>
+    </div>
+
+    <script>
+        function loadRegisteredStudents() {
+            const studentsTable = document.getElementById('studentsTable').getElementsByTagName('tbody')[0];
+            const registeredStudents = JSON.parse(localStorage.getItem('registeredStudents')) || [];
+
+            registeredStudents.forEach(student => {
+                const row = studentsTable.insertRow();
+                row.innerHTML = `
+                    <td>${student.name}</td>
+                    <td>${student.cnic}</td>
+                    <td>${student.dob}</td>
+                    <td>${student.fatherName}</td>
+                    <td>${student.fatherCnic}</td>
+                    <td>${student.cast}</td>
+                    <td>${student.contact}</td>
+                    <td>${student.address}</td>
+                    <td>${student.admittedClass}</td>
+                `;
+            });
+        }
+
+        window.onload = loadRegisteredStudents;
+    </script>
+
+</body>
+</html>
