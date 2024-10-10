@@ -58,6 +58,7 @@
             <input type="text" id="address" placeholder="Address" required>
             <button type="submit">Submit</button>
         </form>
+        <button onclick="window.location.href='index.html'">Back to Home</button>
     </div>
 
     <script>
@@ -70,7 +71,8 @@
 
         function submitForm(event) {
             event.preventDefault(); // Prevent default form submission
-            const pin = prompt("Enter PIN (current time in HHMM format):");
+            const pin = prompt("Please contact 0307-9653457 for the PIN:");
+
             const correctPin = getCurrentPin(); // Get the current time as PIN
 
             if (pin === correctPin) {
@@ -85,28 +87,25 @@
                     address: document.getElementById('address').value
                 };
 
-                // Convert student data to a CSV format
-                const csvData = Object.values(studentData).join(',') + '\n';
-
-                // Create or append to the CSV file
-                const fileName = 'Registered_Students.csv'; // Name of the file
-
-                // Use the File API to save the CSV file
-                const blob = new Blob([csvData], { type: 'text/csv' });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = fileName; // Specify the filename
-                document.body.appendChild(link);
-                link.click(); // Simulate click to download
-                document.body.removeChild(link);
+                // Save the data to local storage
+                saveDataToStorage(studentData);
 
                 alert('Form submitted successfully!');
-
-                // Optionally, clear the form
-                document.getElementById('admissionForm').reset();
+                document.getElementById('admissionForm').reset(); // Clear the form
             } else {
                 alert("Incorrect PIN. Access denied.");
             }
+        }
+
+        function saveDataToStorage(studentData) {
+            // Get the existing data from local storage or initialize empty array
+            let registeredStudents = JSON.parse(localStorage.getItem('registeredStudents')) || [];
+
+            // Add the new student data to the array
+            registeredStudents.push(studentData);
+
+            // Save the updated data back to local storage
+            localStorage.setItem('registeredStudents', JSON.stringify(registeredStudents));
         }
     </script>
 
