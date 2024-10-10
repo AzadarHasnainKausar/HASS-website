@@ -1,0 +1,115 @@
+<!-- fee_structure.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fee Structure</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #004080;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: left;
+        }
+        .fee-table {
+            width: 80%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        .fee-table th, .fee-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        .fee-table th {
+            background-color: #004080;
+            color: white;
+        }
+        .fee-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+        }
+        button {
+            background-color: #004080;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #003366;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Hasnain Academic Services School</h1>
+        <h2>Fee Structure</h2>
+    </div>
+
+    <div class="container">
+        <p class="message">
+            We provide free education to orphans.<br>All other students must pay according to the following fee structure:
+        </p>
+
+        <table class="fee-table">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>Fee (in Rupees)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Play, Nursery, Prep</td>
+                    <td>700</td>
+                </tr>
+                <tr>
+                    <td>Class 1 to 8</td>
+                    <td>800</td>
+                </tr>
+                <tr>
+                    <td>Pre 9th</td>
+                    <td>1000</td>
+                </tr>
+                <tr>
+                    <td>9th & 10th</td>
+                    <td>2000</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button onclick="goHome()">Back to Home</button>
+    </div>
+
+    <script>
+        function goHome() {
+            window.location.href = "index.html"; // Redirect to home page
+        }
+    </script>
+
+</body>
+</html>
