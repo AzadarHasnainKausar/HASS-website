@@ -66,11 +66,20 @@
             <label for="class">Class:</label>
             <select id="class" name="class" onchange="populateStudents()">
                 <option value="">Select Class</option>
-                <!-- Populate class options from registered students data -->
-                <option value="Play-Nursery-Prep">Play/Nursery/Prep</option>
-                <option value="One-Eight">Class One to 8th</option>
+                <option value="Play">Play</option>
+                <option value="Nursery">Nursery</option>
+                <option value="Prep">Prep</option>
+                <option value="One">1st</option>
+                <option value="Two">2nd</option>
+                <option value="Three">3rd</option>
+                <option value="Four">4th</option>
+                <option value="Five">5th</option>
+                <option value="Six">6th</option>
+                <option value="Seven">7th</option>
+                <option value="Eight">8th</option>
                 <option value="Pre9th">Pre 9th</option>
-                <option value="9th-10th">Class 9th & 10th</option>
+                <option value="Ninth">9th</option>
+                <option value="Tenth">10th</option>
             </select>
         </div>
 
@@ -78,7 +87,7 @@
             <label for="student">Student Name:</label>
             <select id="student" name="student">
                 <option value="">Select Student</option>
-                <!-- Populated dynamically based on class selection -->
+                <!-- Dynamically populated based on class selection -->
             </select>
         </div>
 
@@ -102,33 +111,64 @@
             <input type="date" id="date" name="date" readonly>
         </div>
 
-        <button type="button" onclick="submitFee()">Submit</button>
+        <button type="button" onclick="validatePinAndSubmit()">Submit</button>
         <button class="back-button" onclick="window.location.href='index.html'">Back to Home</button>
     </div>
 
     <script>
-        // Automatically populate student list and fee based on class
+        // Function to populate student names based on selected class
         function populateStudents() {
             const classSelection = document.getElementById('class').value;
             const studentSelect = document.getElementById('student');
             const feeInput = document.getElementById('fee');
-            
+
             studentSelect.innerHTML = ''; // Clear current options
             let students = [];
             let feeAmount = 0;
 
-            if (classSelection === 'Play-Nursery-Prep') {
-                students = ['Ali', 'Ahmed', 'Sara']; // Example student names
+            // Get registered student names and fees based on the selected class
+            if (classSelection === 'Play') {
+                students = ['Ali', 'Fatima']; // Example student names from registered data
+                feeAmount = 500;
+            } else if (classSelection === 'Nursery') {
+                students = ['Hassan', 'Ayesha'];
+                feeAmount = 600;
+            } else if (classSelection === 'Prep') {
+                students = ['Bilal', 'Sara'];
                 feeAmount = 700;
-            } else if (classSelection === 'One-Eight') {
-                students = ['Hassan', 'Fatima', 'Bilal'];
+            } else if (classSelection === 'One') {
+                students = ['Zain', 'Amina'];
                 feeAmount = 800;
-            } else if (classSelection === 'Pre9th') {
-                students = ['Ayesha', 'Zain', 'Usman'];
+            } else if (classSelection === 'Two') {
+                students = ['Usman', 'Hira'];
+                feeAmount = 900;
+            } else if (classSelection === 'Three') {
+                students = ['Hamza', 'Sana'];
                 feeAmount = 1000;
-            } else if (classSelection === '9th-10th') {
-                students = ['Hamza', 'Farhan', 'Amina'];
-                feeAmount = 2000;
+            } else if (classSelection === 'Four') {
+                students = ['Ahsan', 'Lubna'];
+                feeAmount = 1100;
+            } else if (classSelection === 'Five') {
+                students = ['Arif', 'Mariam'];
+                feeAmount = 1200;
+            } else if (classSelection === 'Six') {
+                students = ['Sameer', 'Nadia'];
+                feeAmount = 1300;
+            } else if (classSelection === 'Seven') {
+                students = ['Faisal', 'Saima'];
+                feeAmount = 1400;
+            } else if (classSelection === 'Eight') {
+                students = ['Sajid', 'Rabia'];
+                feeAmount = 1500;
+            } else if (classSelection === 'Pre9th') {
+                students = ['Irfan', 'Tariq'];
+                feeAmount = 1600;
+            } else if (classSelection === 'Ninth') {
+                students = ['Farhan', 'Zara'];
+                feeAmount = 1700;
+            } else if (classSelection === 'Tenth') {
+                students = ['Mubashir', 'Farah'];
+                feeAmount = 1800;
             }
 
             // Populate students in the dropdown
@@ -159,25 +199,32 @@
         // Set today's date in the submission date field
         document.getElementById('date').value = new Date().toISOString().split('T')[0];
 
-        // Submit fee and save data to the 'Submitted Fee Details' folder
-        function submitFee() {
-            const student = document.getElementById('student').value;
-            const fee = document.getElementById('fee').value;
-            const received = document.getElementById('received').value;
-            const balance = document.getElementById('balance').value;
-            const date = document.getElementById('date').value;
+        // Function to validate PIN and submit the form
+        function validatePinAndSubmit() {
+            const pin = prompt("Please enter the PIN to submit the fee:");
+            const correctPin = '03079653457'; // PIN as per the request
 
-            if (!student || !fee || !received) {
-                alert('Please fill in all the fields.');
-                return;
+            if (pin === correctPin) {
+                // Gather form data
+                const student = document.getElementById('student').value;
+                const fee = document.getElementById('fee').value;
+                const received = document.getElementById('received').value;
+                const balance = document.getElementById('balance').value;
+                const date = document.getElementById('date').value;
+
+                if (!student || !fee || !received) {
+                    alert('Please fill in all the fields.');
+                    return;
+                }
+
+                // Normally, here we would save the data to the server or database.
+                alert(`Fee submission successful!\n\nStudent: ${student}\nClass: ${document.getElementById('class').value}\nFee: ${fee}\nReceived: ${received}\nBalance: ${balance}\nDate: ${date}`);
+
+                // Redirect to the Submitted Fee Details page
+                window.location.href = 'submitted_fee_details.html';
+            } else {
+                alert("Incorrect PIN. Fee submission denied.");
             }
-
-            // Normally, here we would save the data to the server or database.
-            // For the purpose of this task, we are simply alerting the data.
-            alert(`Fee submission successful!\n\nStudent: ${student}\nClass: ${document.getElementById('class').value}\nFee: ${fee}\nReceived: ${received}\nBalance: ${balance}\nDate: ${date}`);
-
-            // Redirect to the Submitted Fee Details page
-            window.location.href = 'submitted_fee_details.html';
         }
     </script>
 
