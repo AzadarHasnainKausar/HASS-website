@@ -93,6 +93,7 @@
                     <th>Contact</th>
                     <th>Address</th>
                     <th>Admitted Class</th>
+                    <th>Date of Admission</th> <!-- New column for Date of Admission -->
                     <th>Actions</th> <!-- New column for actions -->
                 </tr>
             </thead>
@@ -123,6 +124,7 @@
                     <td>${student.contact}</td>
                     <td>${student.address}</td>
                     <td>${student.admittedClass}</td>
+                    <td>${student.admissionDate}</td> <!-- Inserted Date of Admission -->
                     <td><button onclick="confirmDelete('${student.name}', ${index})">Delete</button></td>
                 `;
             });
