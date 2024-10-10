@@ -66,9 +66,16 @@
     </div>
 
     <script>
+        function getCurrentPin() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0'); // Ensure two digits
+            const minutes = String(now.getMinutes()).padStart(2, '0'); // Ensure two digits
+            return hours + minutes; // Return in HHMM format
+        }
+
         function checkPin(page) {
             const pin = prompt("Enter PIN to access this option:");
-            const correctPin = "1019"; // Replace with your actual PIN logic if needed
+            const correctPin = getCurrentPin(); // Get the current time as PIN
             if (pin === correctPin) {
                 window.location.href = page; // Redirect to the specified page
             } else {
