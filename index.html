@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>School Management System</title>
+    <title>Main Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,18 +16,19 @@
             background-color: #004080;
             color: white;
             padding: 20px;
-            text-align: center;
+            text-align: left;
+            padding-left: 20px;
         }
         .container {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start;
             padding: 50px;
         }
         .options {
             display: flex;
-            flex-direction: column; /* Align buttons vertically */
-            gap: 20px; /* Space between buttons */
+            flex-direction: column;
+            gap: 15px; /* Space between buttons */
         }
         button {
             background-color: #004080;
@@ -37,7 +38,7 @@
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s;
-            min-width: 200px; /* Ensure buttons are wider */
+            min-width: 200px; /* Minimum width for buttons */
         }
         button:hover {
             background-color: #003366;
@@ -47,72 +48,31 @@
 <body>
 
     <div class="header">
-        <h1>School Management System</h1>
+        <h1>Welcome to the School Management System</h1>
     </div>
 
     <div class="container">
         <div class="options">
-            <button onclick="openForm('registerStudent')">Register a Student</button>
-            <button onclick="openForm('feeStructure')">Fee Structure</button>
-            <button onclick="openForm('submitFee')">Submit Fee</button>
-            <button onclick="openForm('checkFee')">Check Fee</button>
-            <button onclick="openForm('submittedFeeDetails')">Submitted Fee Details</button>
-            <button onclick="openForm('checkResult')">Check Result</button>
-            <button onclick="openForm('registeredStudents')">Registered Students</button>
-            <button onclick="openForm('gallery')">Gallery</button>
-            <button onclick="openForm('papers')">Papers</button>
+            <button onclick="checkPin('student_admission.html')">Register a Student</button>
+            <button onclick="checkPin('fee_structure.html')">Fee Structure</button>
+            <button onclick="checkPin('submit_fee.html')">Submit Fee</button>
+            <button onclick="checkPin('check_fee.html')">Check Fee</button>
+            <button onclick="checkPin('submitted_fee_details.html')">Submitted Fee Details</button>
+            <button onclick="checkPin('check_result.html')">Check Result</button>
+            <button onclick="checkPin('registered_students.html')">Registered Students</button>
+            <button onclick="checkPin('gallery.html')">Gallery</button>
+            <button onclick="checkPin('papers.html')">Papers</button>
         </div>
     </div>
 
     <script>
-        function openForm(option) {
-            switch (option) {
-                case 'registerStudent':
-                    window.location.href = 'registration_form.html'; // Link to your student registration form page
-                    break;
-                case 'feeStructure':
-                    window.location.href = 'fee_structure.html'; // Link to your fee structure page
-                    break;
-                case 'submitFee':
-                    const submitFeePin = prompt("Enter PIN to access Fee Submission:");
-                    const correctPin = "1019"; // Replace with your actual PIN logic if needed
-                    if (submitFeePin === correctPin) {
-                        window.location.href = 'fee_submission.html'; // Link to your fee submission page
-                    } else {
-                        alert("Incorrect PIN. Access denied.");
-                    }
-                    break;
-                case 'checkFee':
-                    const checkFeePin = prompt("Enter PIN to access Check Fee:");
-                    if (checkFeePin === correctPin) {
-                        window.location.href = 'check_fee.html'; // Link to your check fee page
-                    } else {
-                        alert("Incorrect PIN. Access denied.");
-                    }
-                    break;
-                case 'submittedFeeDetails':
-                    window.location.href = 'submitted_fee_details.html'; // Link to submitted fee details page
-                    break;
-                case 'checkResult':
-                    window.location.href = 'check_result.html'; // Link to your result checking page
-                    break;
-                case 'registeredStudents':
-                    const registeredPin = prompt("Enter PIN to access Registered Students:");
-                    if (registeredPin === correctPin) {
-                        window.location.href = 'registered_students.html'; // Link to your registered students page
-                    } else {
-                        alert("Incorrect PIN. Access denied.");
-                    }
-                    break;
-                case 'gallery':
-                    window.location.href = 'gallery.html'; // Link to your gallery page
-                    break;
-                case 'papers':
-                    window.location.href = 'papers.html'; // Link to your papers page
-                    break;
-                default:
-                    alert("Invalid option selected.");
-                    break;
+        function checkPin(page) {
+            const pin = prompt("Enter PIN to access this option:");
+            const correctPin = "1019"; // Replace with your actual PIN logic if needed
+            if (pin === correctPin) {
+                window.location.href = page; // Redirect to the specified page
+            } else {
+                alert("Incorrect PIN. Access denied.");
             }
         }
     </script>
