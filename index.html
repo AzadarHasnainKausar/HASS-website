@@ -53,15 +53,18 @@
 
     <div class="container">
         <div class="options">
+            <!-- PIN-protected options -->
             <button onclick="checkPin('student_admission.html')">Register a Student</button>
-            <button onclick="checkPin('fee_structure.html')">Fee Structure</button>
             <button onclick="checkPin('submit_fee.html')">Submit Fee</button>
-            <button onclick="checkPin('check_fee.html')">Check Fee</button>
             <button onclick="checkPin('submitted_fee_details.html')">Submitted Fee Details</button>
             <button onclick="checkPin('check_result.html')">Check Result</button>
             <button onclick="checkPin('registered_students.html')">Registered Students</button>
-            <button onclick="checkPin('gallery.html')">Gallery</button>
             <button onclick="checkPin('papers.html')">Papers</button>
+
+            <!-- Non-PIN-protected options -->
+            <button onclick="window.location.href='fee_structure.html'">Fee Structure</button>
+            <button onclick="window.location.href='check_fee.html'">Check Fee</button>
+            <button onclick="window.location.href='gallery.html'">Gallery</button>
         </div>
     </div>
 
