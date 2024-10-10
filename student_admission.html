@@ -77,6 +77,9 @@
                 <option value="10TH">10TH</option>
             </select>
 
+            <!-- New "Admission Date" field -->
+            <input type="date" id="admissionDate" placeholder="Admission Date" required>
+
             <button type="submit">Submit</button>
         </form>
 
@@ -108,7 +111,8 @@
                     cast: document.getElementById('cast').value,
                     contact: document.getElementById('contact').value,
                     address: document.getElementById('address').value,
-                    admittedClass: document.getElementById('admittedClass').value
+                    admittedClass: document.getElementById('admittedClass').value,
+                    admissionDate: document.getElementById('admissionDate').value // Added admission date
                 };
 
                 // Store data to localStorage for display on the "Registered Students" page
