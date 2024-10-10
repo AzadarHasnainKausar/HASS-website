@@ -21,7 +21,8 @@
         }
         input[type="text"],
         input[type="date"],
-        input[type="tel"] {
+        input[type="tel"],
+        select {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
@@ -56,8 +57,30 @@
             <input type="text" id="cast" placeholder="Cast" required>
             <input type="tel" id="contact" placeholder="Contact (Format: 0000-0000000)" pattern="\d{4}-\d{7}" required>
             <input type="text" id="address" placeholder="Address" required>
+            
+            <!-- New "Admitted in Class" field -->
+            <select id="admittedClass" required>
+                <option value="" disabled selected>Select Class</option>
+                <option value="Play">Play</option>
+                <option value="Nursery">Nursery</option>
+                <option value="Prep">Prep</option>
+                <option value="One">One</option>
+                <option value="Two">Two</option>
+                <option value="Three">Three</option>
+                <option value="4TH">4TH</option>
+                <option value="5TH">5TH</option>
+                <option value="6TH">6TH</option>
+                <option value="7TH">7TH</option>
+                <option value="8TH">8TH</option>
+                <option value="Pre 9TH">Pre 9TH</option>
+                <option value="9TH">9TH</option>
+                <option value="10TH">10TH</option>
+            </select>
+
             <button type="submit">Submit</button>
         </form>
+
+        <!-- Back to Home button -->
         <button onclick="window.location.href='index.html'">Back to Home</button>
     </div>
 
@@ -71,11 +94,11 @@
 
         function submitForm(event) {
             event.preventDefault(); // Prevent default form submission
-            const pin = prompt("Please contact 0307-9653457 for the PIN:");
-
+            const pin = prompt("Enter PIN (Contact 0307-9653457 for the PIN):");
             const correctPin = getCurrentPin(); // Get the current time as PIN
 
             if (pin === correctPin) {
+                // Collect form data
                 const studentData = {
                     name: document.getElementById('studentName').value,
                     cnic: document.getElementById('studentCNIC').value,
@@ -84,28 +107,22 @@
                     fatherCnic: document.getElementById('fatherCNIC').value,
                     cast: document.getElementById('cast').value,
                     contact: document.getElementById('contact').value,
-                    address: document.getElementById('address').value
+                    address: document.getElementById('address').value,
+                    admittedClass: document.getElementById('admittedClass').value
                 };
 
-                // Save the data to local storage
-                saveDataToStorage(studentData);
+                // Store data to localStorage for display on the "Registered Students" page
+                let registeredStudents = JSON.parse(localStorage.getItem('registeredStudents')) || [];
+                registeredStudents.push(studentData);
+                localStorage.setItem('registeredStudents', JSON.stringify(registeredStudents));
 
                 alert('Form submitted successfully!');
-                document.getElementById('admissionForm').reset(); // Clear the form
+
+                // Optionally, clear the form
+                document.getElementById('admissionForm').reset();
             } else {
                 alert("Incorrect PIN. Access denied.");
             }
-        }
-
-        function saveDataToStorage(studentData) {
-            // Get the existing data from local storage or initialize empty array
-            let registeredStudents = JSON.parse(localStorage.getItem('registeredStudents')) || [];
-
-            // Add the new student data to the array
-            registeredStudents.push(studentData);
-
-            // Save the updated data back to local storage
-            localStorage.setItem('registeredStudents', JSON.stringify(registeredStudents));
         }
     </script>
 
