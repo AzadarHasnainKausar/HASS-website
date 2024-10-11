@@ -6,166 +6,158 @@
     <title>Submitted Fee Details</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
             margin: 0;
-            padding: 0;
-            color: #333;
-        }
-        .header {
-            background-color: #004080;
-            color: white;
             padding: 20px;
-            text-align: center;
         }
-        .container {
-            padding: 40px;
-        }
-        .section-title {
-            font-size: 22px;
-            font-weight: bold;
-            margin-top: 40px;
+        h2 {
             text-align: center;
+            color: #004080;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        table, th, td {
-            border: 1px solid #ccc;
-            padding: 12px;
-            text-align: center;
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #004080;
+            color: white;
         }
         tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #f2f2f2;
         }
         .btn {
-            background-color: #004080;
+            padding: 10px;
+            background-color: #00b33c;
             color: white;
-            padding: 10px 20px;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.3s;
+            margin-top: 10px;
         }
         .btn:hover {
-            background-color: #003366;
+            background-color: #009933;
         }
-        .delete-button {
-            background-color: #e60000;
-            color: white;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .search-bar {
-            margin-bottom: 20px;
+        .search-container {
+            margin: 20px 0;
             text-align: center;
         }
-        .search-bar input[type="text"] {
-            padding: 8px;
-            width: 250px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        .search-container input {
+            padding: 10px;
+            width: 80%;
             margin-right: 10px;
-        }
-        .search-bar button {
-            padding: 8px 12px;
-            border: none;
-            background-color: #004080;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>Submitted Fee Details</h1>
-    </div>
+<h2>Submitted Fee Details</h2>
 
-    <div class="container">
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search for a student..." onkeyup="searchStudent()">
+    <button class="btn" onclick="printTable()">Print / Download</button>
+</div>
 
-        <!-- Search Bar -->
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search by Student Name..." />
-            <button onclick="searchStudent()">Search</button>
-        </div>
+<table id="feeTable">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Student Name</th>
+            <th>Father's Name</th>
+            <th>Class</th>
+            <th>Previous Balance</th>
+            <th>Total Amount</th>
+            <th>Receiving Amount</th>
+            <th>Current Balance</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+        <!-- Submitted fee data will be displayed here -->
+    </tbody>
+</table>
 
-        <!-- Class Sections -->
-        <div class="section-title">Class 9th</div>
-        <table id="class9Table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Student Name</th>
-                    <th>Submission Date</th>
-                    <th>Amount</th>
-                    <th>Remarks</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Dynamic rows will be added here -->
-            </tbody>
-        </table>
+<script>
+    // Function to save submitted fee data to local storage
+    function saveFeeData(studentName, fatherName, className, previousBalance, totalAmount, receivingAmount, currentBalance) {
+        const feeData = {
+            studentName,
+            fatherName,
+            className,
+            previousBalance,
+            totalAmount,
+            receivingAmount,
+            currentBalance
+        };
+        let existingData = JSON.parse(localStorage.getItem('submittedFeeDetails')) || [];
+        existingData.push(feeData);
+        localStorage.setItem('submittedFeeDetails', JSON.stringify(existingData));
+    }
 
-        <div class="section-title">Class 8th</div>
-        <table id="class8Table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Student Name</th>
-                    <th>Submission Date</th>
-                    <th>Amount</th>
-                    <th>Remarks</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Dynamic rows will be added here -->
-            </tbody>
-        </table>
+    // Function to load submitted fee data from local storage
+    function loadFeeData() {
+        const data = JSON.parse(localStorage.getItem('submittedFeeDetails')) || [];
+        const tableBody = document.getElementById('tableBody');
+        tableBody.innerHTML = '';
+        data.forEach((item, index) => {
+            const row = `<tr>
+                <td>${index + 1}</td>
+                <td>${item.studentName}</td>
+                <td>${item.fatherName}</td>
+                <td>${item.className}</td>
+                <td>${item.previousBalance}</td>
+                <td>${item.totalAmount}</td>
+                <td>${item.receivingAmount}</td>
+                <td>${item.currentBalance}</td>
+                <td><button onclick="deleteFeeData(${index})">Delete</button></td>
+            </tr>`;
+            tableBody.innerHTML += row;
+        });
+    }
 
-        <!-- Buttons -->
-        <div style="text-align: center;">
-            <button class="btn" onclick="window.print()">Print/Download</button>
-            <button class="btn" onclick="window.history.back()">Back to Home</button>
-        </div>
+    // Function to delete fee data
+    function deleteFeeData(index) {
+        let existingData = JSON.parse(localStorage.getItem('submittedFeeDetails'));
+        existingData.splice(index, 1);
+        localStorage.setItem('submittedFeeDetails', JSON.stringify(existingData));
+        loadFeeData();
+    }
 
-    </div>
+    // Function to search for a student
+    function searchStudent() {
+        const input = document.getElementById('searchInput').value.toLowerCase();
+        const rows = document.querySelectorAll('#tableBody tr');
+        rows.forEach(row => {
+            const name = row.cells[1].textContent.toLowerCase();
+            if (name.includes(input)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
 
-    <script>
-        // Search Functionality
-        function searchStudent() {
-            const searchValue = document.getElementById("searchInput").value.toLowerCase();
-            const tables = document.querySelectorAll("table tbody");
+    // Function to print or download table details
+    function printTable() {
+        const table = document.getElementById('feeTable');
+        const newWin = window.open('', '', 'height=500,width=800');
+        newWin.document.write('<html><head><title>Print Fee Details</title>');
+        newWin.document.write('</head><body>');
+        newWin.document.write(table.outerHTML);
+        newWin.document.write('</body></html>');
+        newWin.document.close();
+        newWin.print();
+    }
 
-            tables.forEach(tbody => {
-                Array.from(tbody.getElementsByTagName("tr")).forEach(row => {
-                    const studentName = row.getElementsByTagName("td")[1].textContent.toLowerCase();
-                    if (studentName.includes(searchValue)) {
-                        row.style.display = "";
-                    } else {
-                        row.style.display = "none";
-                    }
-                });
-            });
-        }
-
-        // Delete Row Functionality
-        function deleteRow(btn) {
-            const row = btn.parentElement.parentElement;
-            row.parentElement.removeChild(row);
-        }
-    </script>
+    // Load fee data when the page loads
+    window.onload = loadFeeData;
+</script>
 
 </body>
 </html>
