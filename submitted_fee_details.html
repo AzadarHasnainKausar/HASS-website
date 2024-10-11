@@ -40,7 +40,7 @@
         .delete-button:hover {
             background-color: #cc0000;
         }
-        .back-button {
+        .back-button, .print-button {
             background-color: #004080;
             color: white;
             padding: 10px 20px;
@@ -54,14 +54,29 @@
             margin-right: auto;
             transition: background-color 0.3s;
         }
-        .back-button:hover {
+        .back-button:hover, .print-button:hover {
             background-color: #003366;
+        }
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .search-input {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
 
 <h2>Submitted Fee Details</h2>
+
+<div class="search-container">
+    <input type="text" id="searchInput" class="search-input" placeholder="Search by Student Name...">
+    <button class="print-button" onclick="printReceipt()">Print Receipt</button>
+</div>
 
 <table>
     <thead>
@@ -86,6 +101,26 @@
 <script>
     // Load the fee data from local storage and display it
     document.addEventListener('DOMContentLoaded', function() {
+        loadFeeData();
+        
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('keyup', function() {
+            const filter = searchInput.value.toLowerCase();
+            const rows = document.querySelectorAll('#feeDetailsBody tr');
+            rows.forEach(row => {
+                const nameCell = row.cells[0].textContent.toLowerCase();
+                if (nameCell.includes(filter)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // Function to load fee data from local storage
+    function loadFeeData() {
         const feeDetailsBody = document.getElementById('feeDetailsBody');
         const feeData = JSON.parse(localStorage.getItem('submittedFeeDetails')) || [];
 
@@ -103,7 +138,7 @@
             `;
             feeDetailsBody.appendChild(row);
         });
-    });
+    }
 
     // Function to delete a fee entry
     function deleteEntry(index) {
@@ -118,6 +153,48 @@
             location.reload(); // Reload the page to update the table
         } else {
             alert('Incorrect PIN. Entry not deleted.'); // Notify the user about incorrect PIN
+        }
+    }
+
+    // Function to print receipt for a specific student
+    function printReceipt() {
+        const studentName = prompt("Enter the Student's Name to print receipt:");
+
+        const feeData = JSON.parse(localStorage.getItem('submittedFeeDetails')) || [];
+        const studentData = feeData.find(entry => entry.studentName.toLowerCase() === studentName.toLowerCase());
+
+        if (studentData) {
+            const receiptWindow = window.open('', 'Receipt', 'height=600,width=800');
+            receiptWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Receipt</title>
+                        <style>
+                            body { font-family: 'Arial', sans-serif; padding: 20px; }
+                            h2 { text-align: center; color: #004080; }
+                            .school-name { text-align: center; font-weight: bold; font-size: 24px; }
+                            .receipt-details { margin-top: 20px; }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="school-name">Your School Name</div>
+                        <h2>Receipt</h2>
+                        <div class="receipt-details">
+                            <p><strong>Student Name:</strong> ${studentData.studentName}</p>
+                            <p><strong>Father's Name:</strong> ${studentData.fatherName}</p>
+                            <p><strong>Class:</strong> ${studentData.className}</p>
+                            <p><strong>Previous Balance:</strong> ${studentData.previousBalance}</p>
+                            <p><strong>Total Amount:</strong> ${studentData.totalAmount}</p>
+                            <p><strong>Receiving Amount:</strong> ${studentData.receivingAmount}</p>
+                            <p><strong>Current Balance:</strong> ${studentData.currentBalance}</p>
+                        </div>
+                        <button onclick="window.print();">Print this receipt</button>
+                    </body>
+                </html>
+            `);
+            receiptWindow.document.close();
+        } else {
+            alert('No data found for this student.');
         }
     }
 </script>
