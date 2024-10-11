@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f0f8ff;
+            background-color: #f7f7f7;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -15,56 +15,55 @@
             margin: 0;
         }
         .form-container {
-            background-color: #ffffff;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            padding: 30px;
             border-radius: 10px;
-            width: 400px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 100%;
         }
         h2 {
             text-align: center;
             color: #004080;
         }
         label {
-            display: block;
-            margin-bottom: 8px;
             font-weight: bold;
+            margin-bottom: 5px;
         }
-        input[type="text"], input[type="number"], select {
-            width: 100%;
+        input, select {
             padding: 10px;
-            margin-bottom: 15px;
+            width: 100%;
+            border-radius: 5px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
         }
-        .calculate-btn {
-            background-color: #004080;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        .row {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .column {
+            flex: 0 0 48%;
+            margin-bottom: 20px;
+        }
+        .btn {
             width: 100%;
-        }
-        .calculate-btn:hover {
-            background-color: #003366;
-        }
-        .submit-btn {
+            padding: 15px;
             background-color: #00b33c;
-            color: white;
-            padding: 10px 15px;
             border: none;
+            color: white;
+            font-size: 16px;
             border-radius: 5px;
             cursor: pointer;
-            width: 100%;
         }
-        .submit-btn:hover {
+        .btn:hover {
             background-color: #009933;
         }
         .back-btn {
             background-color: #808080;
             color: white;
-            padding: 10px 15px;
+            padding: 15px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -78,91 +77,117 @@
 </head>
 <body>
 
-    <div class="form-container">
-        <h2>Submit Fee</h2>
+<div class="form-container">
+    <h2>Submit Fee</h2>
 
-        <label for="pin">Enter PIN Code</label>
-        <input type="text" id="pin" placeholder="Enter PIN" required>
-
-        <label for="student-name">Student Name</label>
-        <input type="text" id="student-name" placeholder="Enter Student Name" required>
-
-        <label for="father-name">Father's Name</label>
-        <input type="text" id="father-name" placeholder="Enter Father's Name" required>
-
-        <label for="class-select">Class</label>
-        <select id="class-select" onchange="autoFillFee()" required>
-            <option value="">Select Class</option>
-            <option value="5000">9th</option>
-            <option value="4500">8th</option>
-            <option value="4000">7th</option>
-            <option value="3500">6th</option>
-        </select>
-
-        <label for="previous-balance">Previous Balance</label>
-        <input type="number" id="previous-balance" value="0" readonly>
-
-        <label for="total-amount">Total Amount</label>
-        <input type="number" id="total-amount" readonly>
-
-        <label for="receiving-amount">Receiving Amount</label>
-        <input type="number" id="receiving-amount" oninput="calculateCurrentBalance()" required>
-
-        <label for="current-balance">Current Balance</label>
-        <input type="number" id="current-balance" readonly>
-
-        <button class="calculate-btn" onclick="calculateTotal()">Calculate Total</button>
-        <button class="submit-btn" onclick="submitFee()">Submit Fee</button>
-        <button class="back-btn" onclick="window.history.back()">Back to Home</button>
+    <div class="row">
+        <div class="column">
+            <label for="student-name">Student Name</label>
+            <input type="text" id="student-name" placeholder="Enter Student Name" required>
+        </div>
+        <div class="column">
+            <label for="father-name">Father's Name</label>
+            <input type="text" id="father-name" placeholder="Enter Father's Name" required>
+        </div>
     </div>
 
-    <script>
-        function autoFillFee() {
-            const classFee = document.getElementById("class-select").value;
-            document.getElementById("total-amount").value = parseInt(classFee) + parseInt(document.getElementById("previous-balance").value);
+    <div class="row">
+        <div class="column">
+            <label for="class-select">Class</label>
+            <select id="class-select" onchange="autoFillFee()" required>
+                <option value="">Select Class</option>
+                <option value="700">PLAY</option>
+                <option value="700">NURSERY</option>
+                <option value="700">PREP</option>
+                <option value="800">1st</option>
+                <option value="800">2nd</option>
+                <option value="800">3rd</option>
+                <option value="800">4th</option>
+                <option value="800">5th</option>
+                <option value="800">6th</option>
+                <option value="800">7th</option>
+                <option value="800">8th</option>
+                <option value="1000">PRE 9TH</option>
+                <option value="2000">9TH</option>
+                <option value="2000">10TH</option>
+            </select>
+        </div>
+        <div class="column">
+            <label for="previous-balance">Previous Balance</label>
+            <input type="number" id="previous-balance" value="0" readonly>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <label for="total-amount">Total Amount</label>
+            <input type="number" id="total-amount" readonly>
+        </div>
+        <div class="column">
+            <label for="receiving-amount">Receiving Amount</label>
+            <input type="number" id="receiving-amount" oninput="calculateCurrentBalance()" required>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <label for="current-balance">Current Balance</label>
+            <input type="number" id="current-balance" readonly>
+        </div>
+        <div class="column">
+            <label for="pin">Enter PIN Code</label>
+            <input type="text" id="pin" placeholder="Enter PIN" required>
+        </div>
+    </div>
+
+    <button class="btn" onclick="submitFee()">Submit Fee</button>
+    <button class="back-btn" onclick="window.history.back()">Back to Home</button>
+
+</div>
+
+<script>
+    function autoFillFee() {
+        const classFee = document.getElementById("class-select").value;
+        document.getElementById("total-amount").value = parseInt(classFee) + parseInt(document.getElementById("previous-balance").value);
+    }
+
+    function calculateCurrentBalance() {
+        const totalAmount = parseInt(document.getElementById("total-amount").value);
+        const receivingAmount = parseInt(document.getElementById("receiving-amount").value);
+        document.getElementById("current-balance").value = totalAmount - receivingAmount;
+    }
+
+    function submitFee() {
+        const pin = document.getElementById("pin").value;
+        const currentTime = new Date().toLocaleTimeString('en-GB', { hour12: false, timeZone: 'Asia/Karachi' }).replace(/:/g, '');
+
+        if (pin !== currentTime) {
+            alert("Invalid PIN! Please ask 0307-9653457 for a PIN to submit the fee.");
+            return;
         }
 
-        function calculateTotal() {
-            const previousBalance = parseInt(document.getElementById("previous-balance").value);
-            const classFee = parseInt(document.getElementById("class-select").value);
-            document.getElementById("total-amount").value = previousBalance + classFee;
-        }
+        const studentName = document.getElementById("student-name").value;
+        const fatherName = document.getElementById("father-name").value;
+        const classSelected = document.getElementById("class-select").value;
+        const previousBalance = document.getElementById("previous-balance").value;
+        const totalAmount = document.getElementById("total-amount").value;
+        const receivingAmount = document.getElementById("receiving-amount").value;
+        const currentBalance = document.getElementById("current-balance").value;
 
-        function calculateCurrentBalance() {
-            const totalAmount = parseInt(document.getElementById("total-amount").value);
-            const receivingAmount = parseInt(document.getElementById("receiving-amount").value);
-            document.getElementById("current-balance").value = totalAmount - receivingAmount;
-        }
+        // Here, you'd submit the data to your server or save it in the submitted fee details file
+        alert("Fee Submitted Successfully!");
 
-        function submitFee() {
-            const pin = document.getElementById("pin").value;
-            if (pin !== "0307-9653457") {
-                alert("Invalid PIN code!");
-                return;
-            }
-
-            const studentName = document.getElementById("student-name").value;
-            const fatherName = document.getElementById("father-name").value;
-            const classSelected = document.getElementById("class-select").value;
-            const previousBalance = document.getElementById("previous-balance").value;
-            const totalAmount = document.getElementById("total-amount").value;
-            const receivingAmount = document.getElementById("receiving-amount").value;
-            const currentBalance = document.getElementById("current-balance").value;
-
-            // Here, you'd submit the data to your server or save it in the submitted fee details file
-            alert("Fee Submitted Successfully!");
-
-            // Reset the form
-            document.getElementById("pin").value = '';
-            document.getElementById("student-name").value = '';
-            document.getElementById("father-name").value = '';
-            document.getElementById("class-select").value = '';
-            document.getElementById("previous-balance").value = 0;
-            document.getElementById("total-amount").value = '';
-            document.getElementById("receiving-amount").value = '';
-            document.getElementById("current-balance").value = '';
-        }
-    </script>
+        // Reset the form
+        document.getElementById("student-name").value = '';
+        document.getElementById("father-name").value = '';
+        document.getElementById("class-select").value = '';
+        document.getElementById("previous-balance").value = 0;
+        document.getElementById("total-amount").value = '';
+        document.getElementById("receiving-amount").value = '';
+        document.getElementById("current-balance").value = '';
+        document.getElementById("pin").value = '';
+    }
+</script>
 
 </body>
 </html>
