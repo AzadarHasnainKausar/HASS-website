@@ -3,39 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Submitted Fee Details</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
+            background-color: #f4f4f4;
             margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #004080;
+            color: white;
             padding: 20px;
+            text-align: left;
+            padding-left: 20px;
         }
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px;
         }
         table {
-            width: 100%;
+            width: 80%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 30px;
         }
         table, th, td {
             border: 1px solid #ccc;
-        }
-        th, td {
             padding: 12px;
-            text-align: left;
         }
         th {
             background-color: #f2f2f2;
@@ -43,43 +39,59 @@
         tr:nth-child(even) {
             background-color: #f9f9f9;
         }
+        .back-button {
+            background-color: #004080;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #003366;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Submitted Fee Details</h1>
+    <div class="header">
+        <h1>Submitted Fee Details</h1>
+    </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Student Name</th>
-                <th>Class</th>
-                <th>Submission Date</th>
-                <th>Amount</th>
-                <th>Remarks</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Ali Ahmed</td>
-                <td>9th</td>
-                <td>2024-10-01</td>
-                <td>5000 PKR</td>
-                <td>Paid in full</td>
-            </tr>
-            <tr>
-                <td>Fatima Hussain</td>
-                <td>8th</td>
-                <td>2024-09-28</td>
-                <td>4500 PKR</td>
-                <td>Late Fee Applied</td>
-            </tr>
-            <!-- Add more fee entries as needed -->
-        </tbody>
-    </table>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Class</th>
+                    <th>Submission Date</th>
+                    <th>Amount</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Ali Ahmed</td>
+                    <td>9th</td>
+                    <td>2024-10-01</td>
+                    <td>5000 PKR</td>
+                    <td>Paid in full</td>
+                </tr>
+                <tr>
+                    <td>Fatima Hussain</td>
+                    <td>8th</td>
+                    <td>2024-09-28</td>
+                    <td>4500 PKR</td>
+                    <td>Late Fee Applied</td>
+                </tr>
+                <!-- Add more fee entries as needed -->
+            </tbody>
+        </table>
 
-</div>
+        <button class="back-button" onclick="window.history.back()">Go Back</button>
+    </div>
 
 </body>
 </html>
