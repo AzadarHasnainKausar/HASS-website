@@ -188,7 +188,16 @@
 
             saveFeeData(studentName, fatherName, className, previousBalance, totalAmount, receivingAmount, currentBalance);
             alert('Fee submitted successfully!');
-            document.querySelector('.form-container').reset();
+
+            // Reset form fields
+            document.getElementById('studentName').value = '';
+            document.getElementById('fatherName').value = '';
+            document.getElementById('classSelect').selectedIndex = 0;
+            document.getElementById('previousBalance').value = '';
+            document.getElementById('totalAmount').value = '';
+            document.getElementById('receivingAmount').value = '';
+            document.getElementById('currentBalance').value = '0';
+
             document.querySelector('.pin-notice').style.display = 'none'; // Hide notice on successful submission
         } else {
             document.querySelector('.pin-notice').style.display = 'block'; // Show notice on incorrect PIN
