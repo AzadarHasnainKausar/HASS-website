@@ -6,224 +6,162 @@
     <title>Submit Fee</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f5;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             margin: 0;
-            padding: 0;
         }
-        .header {
-            background-color: #00509e;
-            color: white;
+        .form-container {
+            background-color: #ffffff;
             padding: 20px;
-            text-align: center;
-        }
-        .container {
-            max-width: 800px;
-            margin: 30px auto;
-            background-color: #fff;
-            padding: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h2 {
+            text-align: center;
+            color: #004080;
         }
         label {
-            font-weight: bold;
-            margin-top: 10px;
             display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
         }
-        input, select {
+        input[type="text"], input[type="number"], select {
             width: 100%;
-            padding: 12px;
-            margin-top: 8px;
-            margin-bottom: 20px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            border: 1px solid #ddd;
-            transition: border-color 0.3s;
         }
-        input:focus, select:focus {
-            border-color: #00509e;
-        }
-        .submit-button, .back-button {
-            background-color: #00509e;
+        .calculate-btn {
+            background-color: #004080;
             color: white;
-            padding: 15px;
+            padding: 10px 15px;
             border: none;
             border-radius: 5px;
-            width: 100%;
             cursor: pointer;
-            transition: background-color 0.3s;
-            font-size: 18px;
-            margin-top: 10px;
+            width: 100%;
         }
-        .submit-button:hover, .back-button:hover {
-            background-color: #003d80;
+        .calculate-btn:hover {
+            background-color: #003366;
         }
-        .error-message {
-            color: red;
-            font-size: 0.9em;
-            margin-top: -15px;
-        }
-        .tooltip {
-            position: relative;
-            display: inline-block;
-            cursor: help;
-        }
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 200px;
-            background-color: #555;
-            color: #fff;
-            text-align: center;
+        .submit-btn {
+            background-color: #00b33c;
+            color: white;
+            padding: 10px 15px;
+            border: none;
             border-radius: 5px;
-            padding: 10px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%; /* Show above the element */
-            left: 50%;
-            margin-left: -100px;
-            opacity: 0;
-            transition: opacity 0.3s;
+            cursor: pointer;
+            width: 100%;
         }
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
+        .submit-btn:hover {
+            background-color: #009933;
         }
-        .preview {
-            background-color: #f9f9f9;
-            padding: 20px;
-            margin-top: 20px;
-            border-radius: 10px;
-            border: 1px solid #ddd;
-        }
-        .preview h3 {
-            margin-top: 0;
-        }
-        .field-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .field-group label {
-            font-size: 0.9em;
-        }
-        .progress-bar {
-            background-color: #e0e0e0;
-            border-radius: 20px;
-            padding: 3px;
+        .back-btn {
+            background-color: #808080;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
             margin-top: 10px;
         }
-        .progress {
-            background-color: #00509e;
-            height: 15px;
-            width: 0%;
-            border-radius: 15px;
+        .back-btn:hover {
+            background-color: #666666;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>Submit Fee</h1>
-        <p>Complete the form below to submit a student's fee.</p>
-    </div>
+    <div class="form-container">
+        <h2>Submit Fee</h2>
 
-    <div class="container">
-        <form id="submitFeeForm">
-            <label for="studentName">Student Name <span class="tooltip">ℹ️
-                <span class="tooltiptext">Enter the full name of the student.</span></span>:
-            </label>
-            <input type="text" id="studentName" name="studentName" placeholder="Enter student name" required>
+        <label for="pin">Enter PIN Code</label>
+        <input type="text" id="pin" placeholder="Enter PIN" required>
 
-            <label for="class">Class <span class="tooltip">ℹ️
-                <span class="tooltiptext">Select the class of the student.</span></span>:
-            </label>
-            <select id="class" name="class" required>
-                <option value="">-- Select Class --</option>
-                <option value="Play">Play</option>
-                <option value="Nursery">Nursery</option>
-                <option value="Prep">Prep</option>
-                <option value="1">Class 1</option>
-                <option value="2">Class 2</option>
-                <option value="3">Class 3</option>
-                <option value="4">Class 4</option>
-                <option value="5">Class 5</option>
-                <option value="6">Class 6</option>
-                <option value="7">Class 7</option>
-                <option value="8">Class 8</option>
-                <option value="9">Class 9</option>
-                <option value="10">Class 10</option>
-            </select>
+        <label for="student-name">Student Name</label>
+        <input type="text" id="student-name" placeholder="Enter Student Name" required>
 
-            <label for="month">Month <span class="tooltip">ℹ️
-                <span class="tooltiptext">Select the month for fee submission.</span></span>:
-            </label>
-            <select id="month" name="month" required>
-                <option value="">-- Select Month --</option>
-                <option value="January">January</option>
-                <option value="February">February</option>
-                <option value="March">March</option>
-                <option value="April">April</option>
-                <option value="May">May</option>
-                <option value="June">June</option>
-                <option value="July">July</option>
-                <option value="August">August</option>
-                <option value="September">September</option>
-                <option value="October">October</option>
-                <option value="November">November</option>
-                <option value="December">December</option>
-            </select>
+        <label for="father-name">Father's Name</label>
+        <input type="text" id="father-name" placeholder="Enter Father's Name" required>
 
-            <label for="amount">Amount (PKR) <span class="tooltip">ℹ️
-                <span class="tooltiptext">Enter the total fee amount.</span></span>:
-            </label>
-            <input type="number" id="amount" name="amount" min="100" max="50000" step="50" placeholder="Enter amount in PKR" required>
+        <label for="class-select">Class</label>
+        <select id="class-select" onchange="autoFillFee()" required>
+            <option value="">Select Class</option>
+            <option value="5000">9th</option>
+            <option value="4500">8th</option>
+            <option value="4000">7th</option>
+            <option value="3500">6th</option>
+        </select>
 
-            <label for="date">Submission Date <span class="tooltip">ℹ️
-                <span class="tooltiptext">Select the fee submission date.</span></span>:
-            </label>
-            <input type="date" id="date" name="date" required>
+        <label for="previous-balance">Previous Balance</label>
+        <input type="number" id="previous-balance" value="0" readonly>
 
-            <div class="progress-bar">
-                <div class="progress" id="progress"></div>
-            </div>
+        <label for="total-amount">Total Amount</label>
+        <input type="number" id="total-amount" readonly>
 
-            <button type="submit" class="submit-button">Submit Fee</button>
-            <button type="button" class="back-button" onclick="location.href='index.html';">Back to Home</button>
-        </form>
+        <label for="receiving-amount">Receiving Amount</label>
+        <input type="number" id="receiving-amount" oninput="calculateCurrentBalance()" required>
+
+        <label for="current-balance">Current Balance</label>
+        <input type="number" id="current-balance" readonly>
+
+        <button class="calculate-btn" onclick="calculateTotal()">Calculate Total</button>
+        <button class="submit-btn" onclick="submitFee()">Submit Fee</button>
+        <button class="back-btn" onclick="window.history.back()">Back to Home</button>
     </div>
 
     <script>
-        const form = document.getElementById('submitFeeForm');
-        const progressBar = document.getElementById('progress');
-        
-        // Function to store form data locally
-        function storeDataLocally(studentName, studentClass, month, amount, date) {
-            const feeData = { studentName, studentClass, month, amount, date };
-            let allFeeData = JSON.parse(localStorage.getItem('feeData')) || [];
-            allFeeData.push(feeData);
-            localStorage.setItem('feeData', JSON.stringify(allFeeData));
+        function autoFillFee() {
+            const classFee = document.getElementById("class-select").value;
+            document.getElementById("total-amount").value = parseInt(classFee) + parseInt(document.getElementById("previous-balance").value);
         }
 
-        // Event listener for form submit
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            // Get form values
-            const studentName = document.getElementById('studentName').value;
-            const studentClass = document.getElementById('class').value;
-            const month = document.getElementById('month').value;
-            const amount = document.getElementById('amount').value;
-            const date = document.getElementById('date').value;
+        function calculateTotal() {
+            const previousBalance = parseInt(document.getElementById("previous-balance").value);
+            const classFee = parseInt(document.getElementById("class-select").value);
+            document.getElementById("total-amount").value = previousBalance + classFee;
+        }
 
-            // Store the data locally
-            storeDataLocally(studentName, studentClass, month, amount, date);
+        function calculateCurrentBalance() {
+            const totalAmount = parseInt(document.getElementById("total-amount").value);
+            const receivingAmount = parseInt(document.getElementById("receiving-amount").value);
+            document.getElementById("current-balance").value = totalAmount - receivingAmount;
+        }
 
-            // Progress bar animation
-            progressBar.style.width = '100%';
-            progressBar.innerText = '100%';
+        function submitFee() {
+            const pin = document.getElementById("pin").value;
+            if (pin !== "0307-9653457") {
+                alert("Invalid PIN code!");
+                return;
+            }
 
-            // Redirect to the submitted fee details page
-            window.location.href = 'submitted_fee_details.html';
-        });
+            const studentName = document.getElementById("student-name").value;
+            const fatherName = document.getElementById("father-name").value;
+            const classSelected = document.getElementById("class-select").value;
+            const previousBalance = document.getElementById("previous-balance").value;
+            const totalAmount = document.getElementById("total-amount").value;
+            const receivingAmount = document.getElementById("receiving-amount").value;
+            const currentBalance = document.getElementById("current-balance").value;
+
+            // Here, you'd submit the data to your server or save it in the submitted fee details file
+            alert("Fee Submitted Successfully!");
+
+            // Reset the form
+            document.getElementById("pin").value = '';
+            document.getElementById("student-name").value = '';
+            document.getElementById("father-name").value = '';
+            document.getElementById("class-select").value = '';
+            document.getElementById("previous-balance").value = 0;
+            document.getElementById("total-amount").value = '';
+            document.getElementById("receiving-amount").value = '';
+            document.getElementById("current-balance").value = '';
+        }
     </script>
 
 </body>
