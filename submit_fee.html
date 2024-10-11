@@ -42,7 +42,7 @@
         input:focus, select:focus {
             border-color: #00509e;
         }
-        .submit-button {
+        .submit-button, .back-button {
             background-color: #00509e;
             color: white;
             padding: 15px;
@@ -52,8 +52,9 @@
             cursor: pointer;
             transition: background-color 0.3s;
             font-size: 18px;
+            margin-top: 10px;
         }
-        .submit-button:hover {
+        .submit-button:hover, .back-button:hover {
             background-color: #003d80;
         }
         .error-message {
@@ -152,6 +153,25 @@
                 <option value="10">Class 10</option>
             </select>
 
+            <label for="month">Month <span class="tooltip">ℹ️
+                <span class="tooltiptext">Select the month for fee submission.</span></span>:
+            </label>
+            <select id="month" name="month" required>
+                <option value="">-- Select Month --</option>
+                <option value="January">January</option>
+                <option value="February">February</option>
+                <option value="March">March</option>
+                <option value="April">April</option>
+                <option value="May">May</option>
+                <option value="June">June</option>
+                <option value="July">July</option>
+                <option value="August">August</option>
+                <option value="September">September</option>
+                <option value="October">October</option>
+                <option value="November">November</option>
+                <option value="December">December</option>
+            </select>
+
             <label for="amount">Amount (PKR) <span class="tooltip">ℹ️
                 <span class="tooltiptext">Enter the total fee amount.</span></span>:
             </label>
@@ -167,52 +187,42 @@
             </div>
 
             <button type="submit" class="submit-button">Submit Fee</button>
+            <button type="button" class="back-button" onclick="location.href='index.html';">Back to Home</button>
         </form>
-
-        <div id="preview" class="preview" style="display: none;">
-            <h3>Fee Submission Preview:</h3>
-            <p><strong>Student Name:</strong> <span id="previewStudentName"></span></p>
-            <p><strong>Class:</strong> <span id="previewClass"></span></p>
-            <p><strong>Amount:</strong> <span id="previewAmount"></span></p>
-            <p><strong>Submission Date:</strong> <span id="previewDate"></span></p>
-        </div>
     </div>
 
     <script>
         const form = document.getElementById('submitFeeForm');
         const progressBar = document.getElementById('progress');
-        const preview = document.getElementById('preview');
         
-        // Add event listener for form submit
+        // Function to store form data locally
+        function storeDataLocally(studentName, studentClass, month, amount, date) {
+            const feeData = { studentName, studentClass, month, amount, date };
+            let allFeeData = JSON.parse(localStorage.getItem('feeData')) || [];
+            allFeeData.push(feeData);
+            localStorage.setItem('feeData', JSON.stringify(allFeeData));
+        }
+
+        // Event listener for form submit
         form.addEventListener('submit', function(event) {
             event.preventDefault();
             
-            // Display preview before actual submission
+            // Get form values
             const studentName = document.getElementById('studentName').value;
             const studentClass = document.getElementById('class').value;
+            const month = document.getElementById('month').value;
             const amount = document.getElementById('amount').value;
             const date = document.getElementById('date').value;
 
-            document.getElementById('previewStudentName').innerText = studentName;
-            document.getElementById('previewClass').innerText = studentClass;
-            document.getElementById('previewAmount').innerText = amount + ' PKR';
-            document.getElementById('previewDate').innerText = date;
+            // Store the data locally
+            storeDataLocally(studentName, studentClass, month, amount, date);
 
-            preview.style.display = 'block'; // Show preview
-            
             // Progress bar animation
             progressBar.style.width = '100%';
             progressBar.innerText = '100%';
-        });
 
-        // Input validation feedback (example)
-        document.getElementById('amount').addEventListener('input', function() {
-            const value = this.value;
-            if (value < 100 || value > 50000) {
-                this.setCustomValidity('Amount must be between 100 and 50,000 PKR.');
-            } else {
-                this.setCustomValidity('');
-            }
+            // Redirect to the submitted fee details page
+            window.location.href = 'submitted_fee_details.html';
         });
     </script>
 
