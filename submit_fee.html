@@ -1,333 +1,79 @@
+<!-- submit_fee.html -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Fee Submission Form</title>
+    <title>Submit Fee</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            background-color: #f4f4f4;
             margin: 0;
+            padding: 0;
         }
-
-        .form-container {
-            background-color: #ffffff;
+        .header {
+            background-color: #004080;
+            color: white;
             padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-            width: 700px;
-            max-width: 100%;
-            position: relative;
+            text-align: left;
+            padding-left: 20px;
         }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-family: 'Segoe UI', sans-serif;
-            font-size: 24px;
-            color: #333;
-        }
-
-        .form-row {
+        .container {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px;
         }
-
-        .form-group {
-            width: 48%;
-        }
-
-        .form-group label {
+        label {
             display: block;
-            font-size: 14px;
-            margin-bottom: 6px;
-            color: #555;
+            margin-bottom: 10px;
         }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 8px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            background-color: #4CAF50;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 15px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .button-row {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .floating {
-            position: absolute;
-            top: -40px;
-            right: -20px;
-            background-color: #4CAF50;
-            color: white;
+        input {
+            width: 80%;
             padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        #student-details {
-            display: none;
-            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
             border: 1px solid #ccc;
-            padding: 15px;
-            border-radius: 8px;
-            background-color: #f0f0f0;
+        }
+        .submit-button {
+            background-color: #004080;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background-color 0.3s;
+        }
+        .submit-button:hover {
+            background-color: #003366;
         }
     </style>
 </head>
-
 <body>
 
-    <div class="form-container">
-        <h2>Submit Student Fee</h2>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="student">Student Name:</label>
-                <input type="text" id="student" name="student">
-            </div>
-            <div class="form-group">
-                <label for="father-name">Father's Name:</label>
-                <input type="text" id="father-name" name="father-name">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="class">Class:</label>
-                <select id="class" name="class" onchange="populateFee()">
-                    <option value="">Select Class</option>
-                    <option value="Play">Play</option>
-                    <option value="Nursery">Nursery</option>
-                    <option value="Prep">Prep</option>
-                    <option value="One">1st</option>
-                    <option value="Two">2nd</option>
-                    <option value="Three">3rd</option>
-                    <option value="Four">4th</option>
-                    <option value="Five">5th</option>
-                    <option value="Six">6th</option>
-                    <option value="Seven">7th</option>
-                    <option value="Eight">8th</option>
-                    <option value="Pre9th">Pre 9th</option>
-                    <option value="Ninth">9th</option>
-                    <option value="Tenth">10th</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="current-fee">Current Fee:</label>
-                <input type="number" id="current-fee" name="current-fee" readonly>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="late-balance">Late Balance:</label>
-                <input type="number" id="late-balance" name="late-balance" oninput="calculateTotal()">
-            </div>
-            <div class="form-group">
-                <label for="total-fee">Total Fee:</label>
-                <input type="number" id="total-fee" name="total-fee" readonly>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="received">Received Amount:</label>
-                <input type="number" id="received" name="received" oninput="calculateBalance()">
-            </div>
-            <div class="form-group">
-                <label for="balance">Balance:</label>
-                <input type="number" id="balance" name="balance" readonly>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="month">Month:</label>
-                <select id="month" name="month">
-                    <option value="January">January</option>
-                    <option value="February">February</option>
-                    <!-- Add other months -->
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="date">Submission Date:</label>
-                <input type="date" id="date" name="date" readonly>
-            </div>
-        </div>
-
-        <div class="button-row">
-            <button type="button" onclick="validatePinAndSubmit()">Submit</button>
-            <button type="button" onclick="clearForm()">Clear</button>
-            <button type="button" onclick="searchStudent()">Search Student</button>
-            <button type="button" onclick="goToHome()">Back to Home</button>
-        </div>
-
-        <div class="floating" onclick="searchStudent()">🔍</div>
-        
-        <!-- Student details will be displayed here after search -->
-        <div id="student-details">
-            <h3>Fee Details for <span id="searched-student-name"></span></h3>
-            <p>Class: <span id="searched-student-class"></span></p>
-            <p>Total Fee: <span id="searched-student-fee"></span></p>
-            <p>Submission Date: <span id="searched-student-date"></span></p>
-            <button onclick="printReceipt()">Print Fee Receipt</button>
-        </div>
+    <div class="header">
+        <h1>Submit Fee</h1>
     </div>
 
-    <script>
-        // Fee structure based on class
-        function populateFee() {
-            const classSelection = document.getElementById('class').value;
-            const feeInput = document.getElementById('current-fee');
-            let feeAmount = 0;
+    <div class="container">
+        <form action="submit_fee_action.html" method="POST">
+            <label for="studentName">Student Name:</label>
+            <input type="text" id="studentName" name="studentName" required>
 
-            if (classSelection === 'Play' || classSelection === 'Nursery' || classSelection === 'Prep') feeAmount = 700;
-            else if (['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight'].includes(classSelection)) feeAmount = 800;
-            else if (classSelection === 'Pre9th') feeAmount = 1000;
-            else if (classSelection === 'Ninth' || classSelection === 'Tenth') feeAmount = 2000;
+            <label for="class">Class:</label>
+            <input type="text" id="class" name="class" required>
 
-            feeInput.value = feeAmount;
-            calculateTotal();
-        }
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" required>
 
-        // Calculate total fee
-        function calculateTotal() {
-            const currentFee = parseFloat(document.getElementById('current-fee').value) || 0;
-            const lateBalance = parseFloat(document.getElementById('late-balance').value) || 0;
-            document.getElementById('total-fee').value = currentFee + lateBalance;
-        }
+            <label for="date">Submission Date:</label>
+            <input type="date" id="date" name="date" required>
 
-        // Calculate balance
-        function calculateBalance() {
-            const totalFee = parseFloat(document.getElementById('total-fee').value) || 0;
-            const received = parseFloat(document.getElementById('received').value) || 0;
-            document.getElementById('balance').value = totalFee - received;
-        }
-
-        // Set today's date for submission
-        document.getElementById('date').value = new Date().toISOString().split('T')[0];
-
-        // Function to validate PIN and submit the form
-        function validatePinAndSubmit() {
-            const currentDate = new Date();
-            const currentHours = String(currentDate.getHours()).padStart(2, '0');
-            const currentMinutes = String(currentDate.getMinutes()).padStart(2, '0');
-            const currentTime = `${currentHours}${currentMinutes}`;
-            const enteredPin = prompt("Enter PIN:");
-
-            if (enteredPin === currentTime) {
-                alert("PIN Verified. Fee Submitted!");
-                saveData();
-            } else {
-                alert("Invalid PIN. Submission Failed.");
-            }
-        }
-
-        // Function to save the form data into local storage
-        function saveData() {
-            const student = document.getElementById('student').value;
-            const fatherName = document.getElementById('father-name').value;
-            const studentClass = document.getElementById('class').value;
-            const totalFee = document.getElementById('total-fee').value;
-            const date = document.getElementById('date').value;
-
-            // Create an object for the submitted fee data
-            const feeData = {
-                student,
-                fatherName,
-                studentClass,
-                totalFee,
-                date
-            };
-
-            // Save the fee data in local storage
-            const storedData = JSON.parse(localStorage.getItem('feeData')) || [];
-            storedData.push(feeData);
-            localStorage.setItem('feeData', JSON.stringify(storedData));
-
-            // Clear form after submission
-            clearForm();
-        }
-
-        // Function to clear the form
-        function clearForm() {
-            document.getElementById('student').value = '';
-            document.getElementById('father-name').value = '';
-            document.getElementById('class').value = '';
-            document.getElementById('current-fee').value = '';
-            document.getElementById('late-balance').value = '';
-            document.getElementById('total-fee').value = '';
-            document.getElementById('received').value = '';
-            document.getElementById('balance').value = '';
-            document.getElementById('month').value = 'January';
-            document.getElementById('date').value = new Date().toISOString().split('T')[0];
-        }
-
-        // Function to redirect to the home page
-        function goToHome() {
-            window.location.href = "index.html";
-        }
-
-        // Function to search a student from local storage
-        function searchStudent() {
-            const studentName = prompt("Enter student name to search:");
-            const storedData = JSON.parse(localStorage.getItem('feeData')) || [];
-
-            const student = storedData.find(data => data.student.toLowerCase() === studentName.toLowerCase());
-
-            if (student) {
-                document.getElementById('searched-student-name').textContent = student.student;
-                document.getElementById('searched-student-class').textContent = student.studentClass;
-                document.getElementById('searched-student-fee').textContent = student.totalFee;
-                document.getElementById('searched-student-date').textContent = student.date;
-                document.getElementById('student-details').style.display = 'block';
-            } else {
-                alert("Student not found.");
-            }
-        }
-
-        // Function to print the fee receipt
-        function printReceipt() {
-            const receiptContent = document.getElementById('student-details').innerHTML;
-            const printWindow = window.open('', '', 'width=800,height=600');
-            printWindow.document.write('<html><head><title>Print Fee Receipt</title></head><body>');
-            printWindow.document.write(receiptContent);
-            printWindow.document.write('</body></html>');
-            printWindow.document.close();
-            printWindow.print();
-        }
-    </script>
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+    </div>
 
 </body>
-
 </html>
