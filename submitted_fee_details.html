@@ -6,38 +6,39 @@
     <title>Submitted Fee Details</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
             margin: 0;
-            padding: 0;
-        }
-        .header {
-            background-color: #004080;
-            color: white;
             padding: 20px;
-            text-align: left;
-            padding-left: 20px;
         }
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 50px;
+        h2 {
+            text-align: center;
+            color: #004080;
         }
         table {
-            width: 80%;
+            width: 100%;
             border-collapse: collapse;
-            margin-top: 30px;
+            margin-top: 20px;
         }
-        table, th, td {
+        th, td {
             border: 1px solid #ccc;
-            padding: 12px;
+            padding: 10px;
+            text-align: left;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #004080;
+            color: white;
         }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
+        .delete-button {
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .delete-button:hover {
+            background-color: #cc0000;
         }
         .back-button {
             background-color: #004080;
@@ -46,149 +47,80 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 30px;
+            margin-top: 20px;
+            display: block;
+            width: 200px;
+            margin-left: auto;
+            margin-right: auto;
             transition: background-color 0.3s;
         }
         .back-button:hover {
             background-color: #003366;
         }
-        .search-container {
-            margin-top: 20px;
-        }
-        .search-container input {
-            padding: 10px;
-            width: 200px;
-        }
-        .print-button, .delete-button {
-            background-color: #ff5722;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 5px;
-        }
-        .print-button:hover, .delete-button:hover {
-            background-color: #e64a19;
-        }
-        .student-entry {
-            margin-top: 20px;
-            display: none; /* Initially hidden */
-        }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>Submitted Fee Details</h1>
-    </div>
+<h2>Submitted Fee Details</h2>
 
-    <div class="container">
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search Student" onkeyup="searchStudent()">
-        </div>
-        <table id="studentTable">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Student Name</th>
-                    <th>Class</th>
-                    <th>Submission Date</th>
-                    <th>Amount</th>
-                    <th>Remarks</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="studentTableBody">
-                <!-- Dynamic content will be inserted here -->
-            </tbody>
-        </table>
+<table>
+    <thead>
+        <tr>
+            <th>Student Name</th>
+            <th>Father's Name</th>
+            <th>Class</th>
+            <th>Previous Balance</th>
+            <th>Total Amount</th>
+            <th>Receiving Amount</th>
+            <th>Current Balance</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id="feeDetailsBody">
+        <!-- Dynamic rows will be added here -->
+    </tbody>
+</table>
 
-        <button class="back-button" onclick="window.location.href='index.html'">Go Back</button>
-    </div>
+<button class="back-button" onclick="window.location.href='index.html'">Back to Home</button>
 
-    <script>
-        // Sample data (this should be replaced with actual data retrieval)
-        const submittedFees = [
-            {name: "Ali Ahmed", class: "9th", date: "2024-10-01", amount: "5000 PKR", remarks: "Paid in full"},
-            {name: "Fatima Hussain", class: "8th", date: "2024-09-28", amount: "4500 PKR", remarks: "Late Fee Applied"},
-            // Add more sample data as needed
-        ];
+<script>
+    // Load the fee data from local storage and display it
+    document.addEventListener('DOMContentLoaded', function() {
+        const feeDetailsBody = document.getElementById('feeDetailsBody');
+        const feeData = JSON.parse(localStorage.getItem('submittedFeeDetails')) || [];
 
-        // Function to display student data
-        function displayStudents(students) {
-            const tableBody = document.getElementById('studentTableBody');
-            tableBody.innerHTML = ''; // Clear previous entries
+        feeData.forEach((entry, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${entry.studentName}</td>
+                <td>${entry.fatherName}</td>
+                <td>${entry.className}</td>
+                <td>${entry.previousBalance}</td>
+                <td>${entry.totalAmount}</td>
+                <td>${entry.receivingAmount}</td>
+                <td>${entry.currentBalance}</td>
+                <td><button class="delete-button" onclick="deleteEntry(${index})">Delete</button></td>
+            `;
+            feeDetailsBody.appendChild(row);
+        });
+    });
 
-            students.forEach((student, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${student.name}</td>
-                    <td>${student.class}</td>
-                    <td>${student.date}</td>
-                    <td>${student.amount}</td>
-                    <td>${student.remarks}</td>
-                    <td>
-                        <button class="print-button" onclick="printReceipt('${student.name}')">Print Receipt</button>
-                        <button class="delete-button" onclick="confirmDelete('${student.name}')">Delete</button>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
+    // Function to delete a fee entry
+    function deleteEntry(index) {
+        const pin = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Karachi' }).replace(':', '');
+        const enteredPin = prompt("Please enter the PIN to delete this entry (contact 0307-9653457 for the PIN):");
+
+        if (enteredPin === pin) {
+            let feeData = JSON.parse(localStorage.getItem('submittedFeeDetails')) || [];
+            feeData.splice(index, 1); // Remove the entry at the specified index
+            localStorage.setItem('submittedFeeDetails', JSON.stringify(feeData)); // Update local storage
+            alert('Entry deleted successfully!'); // Notify the user
+            location.reload(); // Reload the page to update the table
+        } else {
+            alert('Incorrect PIN. Entry not deleted.'); // Notify the user about incorrect PIN
         }
-
-        // Function to search for a student
-        function searchStudent() {
-            const input = document.getElementById('searchInput').value.toLowerCase();
-            const filteredStudents = submittedFees.filter(student => student.name.toLowerCase().includes(input));
-            displayStudents(filteredStudents);
-        }
-
-        // Function to confirm deletion
-        function confirmDelete(name) {
-            const pin = prompt("Enter PIN to delete this entry (current time in HHMM):");
-            const correctPin = getCurrentPin(); // Get the current time as PIN
-            if (pin === correctPin) {
-                const index = submittedFees.findIndex(student => student.name === name);
-                if (index > -1) {
-                    submittedFees.splice(index, 1); // Remove student
-                    displayStudents(submittedFees); // Update table
-                }
-                alert("Entry deleted successfully.");
-            } else {
-                alert("Incorrect PIN. Entry not deleted.");
-            }
-        }
-
-        // Function to print the receipt
-        function printReceipt(name) {
-            const student = submittedFees.find(s => s.name === name);
-            if (student) {
-                const receipt = `
-                    School Name: HASNAIN ACADEMIC SERVICES SCHOOL\n
-                    Student Name: ${student.name}\n
-                    Class: ${student.class}\n
-                    Submission Date: ${student.date}\n
-                    Amount: ${student.amount}\n
-                    Remarks: ${student.remarks}\n
-                `;
-                console.log(receipt); // Print to console (or implement print functionality)
-                alert("Receipt printed to console. Check the console for details.");
-            }
-        }
-
-        // Function to get the current time in HHMM format (for the PIN)
-        function getCurrentPin() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0'); // Ensure two digits
-            const minutes = String(now.getMinutes()).padStart(2, '0'); // Ensure two digits
-            return hours + minutes; // Return in HHMM format
-        }
-
-        // Initial display of all students
-        displayStudents(submittedFees);
-    </script>
+    }
+</script>
 
 </body>
 </html>
