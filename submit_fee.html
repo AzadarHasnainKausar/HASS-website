@@ -73,6 +73,16 @@
         .back-btn:hover {
             background-color: #666666;
         }
+        .notification {
+            display: none;
+            background-color: #f9edbe;
+            color: #856404;
+            padding: 10px;
+            margin-top: 20px;
+            border: 1px solid #ffeeba;
+            border-radius: 5px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -140,8 +150,12 @@
         </div>
     </div>
 
-    <button class="btn" onclick="submitFee()">Submit Fee</button>
+    <button class="btn" onclick="checkPin()">Submit Fee</button>
     <button class="back-btn" onclick="window.history.back()">Back to Home</button>
+
+    <div class="notification" id="notification">
+        Contact 0307-9653457 AZADAR HASNAIN KAUSAR for PIN to submit fee.
+    </div>
 
 </div>
 
@@ -157,35 +171,31 @@
         document.getElementById("current-balance").value = totalAmount - receivingAmount;
     }
 
-    function submitFee() {
+    function checkPin() {
         const pin = document.getElementById("pin").value;
-        const currentTime = new Date().toLocaleTimeString('en-GB', { hour12: false, timeZone: 'Asia/Karachi' }).replace(/:/g, '');
+        const currentTime = new Date().toLocaleTimeString('en-GB', { hour12: false, timeZone: 'Asia/Karachi' }).slice(0, 5).replace(":", "");
+        
+        // Show notification message for PIN
+        document.getElementById("notification").style.display = "block";
 
-        if (pin !== currentTime) {
+        // If PIN is correct, submit the fee
+        if (pin === currentTime) {
+            alert("Fee Submitted Successfully!");
+
+            // Here, you'd save the data to your submitted fee details file
+            
+            // Reset the form
+            document.getElementById("student-name").value = '';
+            document.getElementById("father-name").value = '';
+            document.getElementById("class-select").value = '';
+            document.getElementById("previous-balance").value = 0;
+            document.getElementById("total-amount").value = '';
+            document.getElementById("receiving-amount").value = '';
+            document.getElementById("current-balance").value = '';
+            document.getElementById("pin").value = '';
+        } else {
             alert("Invalid PIN! Please ask 0307-9653457 for a PIN to submit the fee.");
-            return;
         }
-
-        const studentName = document.getElementById("student-name").value;
-        const fatherName = document.getElementById("father-name").value;
-        const classSelected = document.getElementById("class-select").value;
-        const previousBalance = document.getElementById("previous-balance").value;
-        const totalAmount = document.getElementById("total-amount").value;
-        const receivingAmount = document.getElementById("receiving-amount").value;
-        const currentBalance = document.getElementById("current-balance").value;
-
-        // Here, you'd submit the data to your server or save it in the submitted fee details file
-        alert("Fee Submitted Successfully!");
-
-        // Reset the form
-        document.getElementById("student-name").value = '';
-        document.getElementById("father-name").value = '';
-        document.getElementById("class-select").value = '';
-        document.getElementById("previous-balance").value = 0;
-        document.getElementById("total-amount").value = '';
-        document.getElementById("receiving-amount").value = '';
-        document.getElementById("current-balance").value = '';
-        document.getElementById("pin").value = '';
     }
 </script>
 
