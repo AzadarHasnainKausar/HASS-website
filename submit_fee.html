@@ -174,7 +174,7 @@
 
     // Function to submit fee data
     document.getElementById('submitButton').addEventListener('click', function() {
-        const pin = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Karachi' }).replace(':', '');
+        const pin = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Karachi' }).replace(':', '');
         const enteredPin = prompt("Please enter the PIN to submit the fee (contact 0307-9653457 for the PIN):");
 
         if (enteredPin === pin) {
