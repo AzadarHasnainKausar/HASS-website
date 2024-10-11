@@ -55,6 +55,7 @@
             color: red;
             text-align: center;
             margin-top: 10px;
+            display: none; /* Hidden initially */
         }
         .back-button {
             background-color: #004080;
@@ -111,7 +112,7 @@
     </div>
     <div class="form-group">
         <label for="previousBalance">Previous Balance</label>
-        <input type="number" id="previousBalance" value="0" required>
+        <input type="number" id="previousBalance" required>
     </div>
     <div class="form-group">
         <label for="totalAmount">Total Amount</label>
@@ -126,7 +127,7 @@
         <input type="number" id="currentBalance" value="0" readonly required>
     </div>
     <button id="submitButton">Submit Fee</button>
-    <p class="pin-notice">Contact 0307-9653457 for PIN to submit fee.</p>
+    <p class="pin-notice">Incorrect PIN. Please contact 0307-9653457 for the correct PIN.</p>
 </div>
 
 <button class="back-button" onclick="window.location.href='index.html'">Back to Home</button>
@@ -184,8 +185,9 @@
             saveFeeData(studentName, fatherName, className, previousBalance, totalAmount, receivingAmount, currentBalance);
             alert('Fee submitted successfully!');
             document.querySelector('.form-container').reset();
+            document.querySelector('.pin-notice').style.display = 'none'; // Hide notice on successful submission
         } else {
-            alert('Incorrect PIN. Please try again.');
+            document.querySelector('.pin-notice').style.display = 'block'; // Show notice on incorrect PIN
         }
     });
 
