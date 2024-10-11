@@ -8,194 +8,201 @@
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f7f7f7;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
-        }
-        .form-container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            max-width: 700px;
-            width: 100%;
+            padding: 20px;
         }
         h2 {
             text-align: center;
             color: #004080;
         }
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
         label {
-            font-weight: bold;
             margin-bottom: 5px;
+            display: block;
+            color: #333;
         }
         input, select {
-            padding: 10px;
             width: 100%;
-            border-radius: 5px;
+            padding: 10px;
             border: 1px solid #ccc;
-            margin-bottom: 20px;
+            border-radius: 4px;
             box-sizing: border-box;
         }
-        .row {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        .column {
-            flex: 0 0 48%;
-            margin-bottom: 20px;
-        }
-        .btn {
+        button {
             width: 100%;
-            padding: 15px;
-            background-color: #00b33c;
-            border: none;
+            padding: 10px;
+            background-color: #004080;
             color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
             font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
         }
-        .btn:hover {
-            background-color: #009933;
+        button:hover {
+            background-color: #003366;
         }
-        .back-btn {
-            background-color: #808080;
-            color: white;
-            padding: 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
+        .pin-notice {
+            color: red;
+            text-align: center;
             margin-top: 10px;
         }
-        .back-btn:hover {
-            background-color: #666666;
-        }
-        .notification {
-            display: none;
-            background-color: #f9edbe;
-            color: #856404;
-            padding: 10px;
-            margin-top: 20px;
-            border: 1px solid #ffeeba;
+        .back-button {
+            background-color: #004080;
+            color: white;
+            padding: 10px 20px;
+            border: none;
             border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
             text-align: center;
+            display: block;
+            width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #003366;
         }
     </style>
 </head>
 <body>
 
+<h2>Submit Fee</h2>
+
 <div class="form-container">
-    <h2>Submit Fee</h2>
-
-    <div class="row">
-        <div class="column">
-            <label for="student-name">Student Name</label>
-            <input type="text" id="student-name" placeholder="Enter Student Name" required>
-        </div>
-        <div class="column">
-            <label for="father-name">Father's Name</label>
-            <input type="text" id="father-name" placeholder="Enter Father's Name" required>
-        </div>
+    <div class="form-group">
+        <label for="studentName">Student Name</label>
+        <input type="text" id="studentName" required>
     </div>
-
-    <div class="row">
-        <div class="column">
-            <label for="class-select">Class</label>
-            <select id="class-select" onchange="autoFillFee()" required>
-                <option value="">Select Class</option>
-                <option value="700">PLAY</option>
-                <option value="700">NURSERY</option>
-                <option value="700">PREP</option>
-                <option value="800">1st</option>
-                <option value="800">2nd</option>
-                <option value="800">3rd</option>
-                <option value="800">4th</option>
-                <option value="800">5th</option>
-                <option value="800">6th</option>
-                <option value="800">7th</option>
-                <option value="800">8th</option>
-                <option value="1000">PRE 9TH</option>
-                <option value="2000">9TH</option>
-                <option value="2000">10TH</option>
-            </select>
-        </div>
-        <div class="column">
-            <label for="previous-balance">Previous Balance</label>
-            <input type="number" id="previous-balance" value="0" readonly>
-        </div>
+    <div class="form-group">
+        <label for="fatherName">Father's Name</label>
+        <input type="text" id="fatherName" required>
     </div>
-
-    <div class="row">
-        <div class="column">
-            <label for="total-amount">Total Amount</label>
-            <input type="number" id="total-amount" readonly>
-        </div>
-        <div class="column">
-            <label for="receiving-amount">Receiving Amount</label>
-            <input type="number" id="receiving-amount" oninput="calculateCurrentBalance()" required>
-        </div>
+    <div class="form-group">
+        <label for="classSelect">Class</label>
+        <select id="classSelect" required>
+            <option value="" disabled selected>Select Class</option>
+            <option value="Play">Play</option>
+            <option value="Nursery">Nursery</option>
+            <option value="Prep">Prep</option>
+            <option value="1st">1st</option>
+            <option value="2nd">2nd</option>
+            <option value="3rd">3rd</option>
+            <option value="4th">4th</option>
+            <option value="5th">5th</option>
+            <option value="6th">6th</option>
+            <option value="7th">7th</option>
+            <option value="8th">8th</option>
+            <option value="Pre 9th">Pre 9th</option>
+            <option value="9th">9th</option>
+            <option value="10th">10th</option>
+        </select>
     </div>
-
-    <div class="row">
-        <div class="column">
-            <label for="current-balance">Current Balance</label>
-            <input type="number" id="current-balance" readonly>
-        </div>
-        <div class="column">
-            <label for="pin">Enter PIN Code</label>
-            <input type="text" id="pin" placeholder="Enter PIN" required>
-        </div>
+    <div class="form-group">
+        <label for="previousBalance">Previous Balance</label>
+        <input type="number" id="previousBalance" value="0" required>
     </div>
-
-    <button class="btn" onclick="checkPin()">Submit Fee</button>
-    <button class="back-btn" onclick="window.history.back()">Back to Home</button>
-
-    <div class="notification" id="notification">
-        Contact 0307-9653457 AZADAR HASNAIN KAUSAR for PIN to submit fee.
+    <div class="form-group">
+        <label for="totalAmount">Total Amount</label>
+        <input type="number" id="totalAmount" readonly required>
     </div>
-
+    <div class="form-group">
+        <label for="receivingAmount">Receiving Amount</label>
+        <input type="number" id="receivingAmount" required>
+    </div>
+    <div class="form-group">
+        <label for="currentBalance">Current Balance</label>
+        <input type="number" id="currentBalance" value="0" readonly required>
+    </div>
+    <button id="submitButton">Submit Fee</button>
+    <p class="pin-notice">Contact 0307-9653457 for PIN to submit fee.</p>
 </div>
 
+<button class="back-button" onclick="window.location.href='index.html'">Back to Home</button>
+
 <script>
-    function autoFillFee() {
-        const classFee = document.getElementById("class-select").value;
-        document.getElementById("total-amount").value = parseInt(classFee) + parseInt(document.getElementById("previous-balance").value);
-    }
+    // Function to update fee amounts based on selected class
+    document.getElementById('classSelect').addEventListener('change', function() {
+        const classFees = {
+            "Play": 700,
+            "Nursery": 700,
+            "Prep": 700,
+            "1st": 800,
+            "2nd": 800,
+            "3rd": 800,
+            "4th": 800,
+            "5th": 800,
+            "6th": 800,
+            "7th": 800,
+            "8th": 800,
+            "Pre 9th": 1000,
+            "9th": 2000,
+            "10th": 2000
+        };
 
-    function calculateCurrentBalance() {
-        const totalAmount = parseInt(document.getElementById("total-amount").value);
-        const receivingAmount = parseInt(document.getElementById("receiving-amount").value);
-        document.getElementById("current-balance").value = totalAmount - receivingAmount;
-    }
+        const selectedClass = this.value;
+        const totalAmountInput = document.getElementById('totalAmount');
+        totalAmountInput.value = classFees[selectedClass] || 0;
 
-    function checkPin() {
-        const pin = document.getElementById("pin").value;
-        const currentTime = new Date().toLocaleTimeString('en-GB', { hour12: false, timeZone: 'Asia/Karachi' }).slice(0, 5).replace(":", "");
-        
-        // Show notification message for PIN
-        document.getElementById("notification").style.display = "block";
+        // Update current balance based on previous balance and receiving amount
+        const previousBalanceInput = document.getElementById('previousBalance');
+        const receivingAmountInput = document.getElementById('receivingAmount');
+        const currentBalanceInput = document.getElementById('currentBalance');
 
-        // If PIN is correct, submit the fee
-        if (pin === currentTime) {
-            alert("Fee Submitted Successfully!");
+        receivingAmountInput.addEventListener('input', function() {
+            const previousBalance = parseFloat(previousBalanceInput.value) || 0;
+            const receivingAmount = parseFloat(receivingAmountInput.value) || 0;
+            currentBalanceInput.value = previousBalance + parseFloat(totalAmountInput.value) - receivingAmount;
+        });
+    });
 
-            // Here, you'd save the data to your submitted fee details file
-            
-            // Reset the form
-            document.getElementById("student-name").value = '';
-            document.getElementById("father-name").value = '';
-            document.getElementById("class-select").value = '';
-            document.getElementById("previous-balance").value = 0;
-            document.getElementById("total-amount").value = '';
-            document.getElementById("receiving-amount").value = '';
-            document.getElementById("current-balance").value = '';
-            document.getElementById("pin").value = '';
+    // Function to submit fee data
+    document.getElementById('submitButton').addEventListener('click', function() {
+        const pin = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Karachi' }).replace(':', '');
+        const enteredPin = prompt("Please enter the PIN to submit the fee (contact 0307-9653457 for the PIN):");
+
+        if (enteredPin === pin) {
+            const studentName = document.getElementById('studentName').value;
+            const fatherName = document.getElementById('fatherName').value;
+            const className = document.getElementById('classSelect').value;
+            const previousBalance = document.getElementById('previousBalance').value;
+            const totalAmount = document.getElementById('totalAmount').value;
+            const receivingAmount = document.getElementById('receivingAmount').value;
+            const currentBalance = document.getElementById('currentBalance').value;
+
+            saveFeeData(studentName, fatherName, className, previousBalance, totalAmount, receivingAmount, currentBalance);
+            alert('Fee submitted successfully!');
+            document.querySelector('.form-container').reset();
         } else {
-            alert("Invalid PIN! Please ask 0307-9653457 for a PIN to submit the fee.");
+            alert('Incorrect PIN. Please try again.');
         }
+    });
+
+    // Function to save fee data to local storage
+    function saveFeeData(studentName, fatherName, className, previousBalance, totalAmount, receivingAmount, currentBalance) {
+        const feeData = {
+            studentName,
+            fatherName,
+            className,
+            previousBalance,
+            totalAmount,
+            receivingAmount,
+            currentBalance
+        };
+        let existingData = JSON.parse(localStorage.getItem('submittedFeeDetails')) || [];
+        existingData.push(feeData);
+        localStorage.setItem('submittedFeeDetails', JSON.stringify(existingData));
     }
 </script>
 
