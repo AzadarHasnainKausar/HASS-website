@@ -242,18 +242,41 @@
             const currentDate = new Date();
             const currentHours = String(currentDate.getHours()).padStart(2, '0');
             const currentMinutes = String(currentDate.getMinutes()).padStart(2, '0');
-            const pin = prompt("Enter PIN:");
+            const currentTime = `${currentHours}${currentMinutes}`;
+            const enteredPin = prompt("Enter PIN:");
 
-            const correctPin = currentHours + currentMinutes;
-            if (pin === correctPin) {
-                if (confirm("Do you want to submit the fee?")) {
-                    alert("Fee submitted successfully!");
-                    // Code to transfer data to "Submitted Fee Details" folder
-                    clearForm();
-                }
+            if (enteredPin === currentTime) {
+                alert("PIN Verified. Fee Submitted!");
+                saveData();
             } else {
-                alert("Incorrect PIN. Try again.");
+                alert("Invalid PIN. Submission Failed.");
             }
+        }
+
+        // Function to save the form data into local storage
+        function saveData() {
+            const student = document.getElementById('student').value;
+            const fatherName = document.getElementById('father-name').value;
+            const studentClass = document.getElementById('class').value;
+            const totalFee = document.getElementById('total-fee').value;
+            const date = document.getElementById('date').value;
+
+            // Create an object for the submitted fee data
+            const feeData = {
+                student,
+                fatherName,
+                studentClass,
+                totalFee,
+                date
+            };
+
+            // Save the fee data in local storage
+            const storedData = JSON.parse(localStorage.getItem('feeData')) || [];
+            storedData.push(feeData);
+            localStorage.setItem('feeData', JSON.stringify(storedData));
+
+            // Clear form after submission
+            clearForm();
         }
 
         // Function to clear the form
@@ -266,31 +289,42 @@
             document.getElementById('total-fee').value = '';
             document.getElementById('received').value = '';
             document.getElementById('balance').value = '';
-            document.getElementById('month').value = '';
+            document.getElementById('month').value = 'January';
+            document.getElementById('date').value = new Date().toISOString().split('T')[0];
         }
 
-        // Placeholder for search functionality
+        // Function to redirect to the home page
+        function goToHome() {
+            window.location.href = "index.html";
+        }
+
+        // Function to search a student from local storage
         function searchStudent() {
             const studentName = prompt("Enter student name to search:");
-            if (studentName) {
-                // Simulate student search and show details (replace with real logic)
-                document.getElementById('searched-student-name').textContent = studentName;
-                document.getElementById('searched-student-class').textContent = "Class Example";
-                document.getElementById('searched-student-fee').textContent = "2000 PKR";
-                document.getElementById('searched-student-date').textContent = "October 10, 2024";
+            const storedData = JSON.parse(localStorage.getItem('feeData')) || [];
+
+            const student = storedData.find(data => data.student.toLowerCase() === studentName.toLowerCase());
+
+            if (student) {
+                document.getElementById('searched-student-name').textContent = student.student;
+                document.getElementById('searched-student-class').textContent = student.studentClass;
+                document.getElementById('searched-student-fee').textContent = student.totalFee;
+                document.getElementById('searched-student-date').textContent = student.date;
                 document.getElementById('student-details').style.display = 'block';
+            } else {
+                alert("Student not found.");
             }
         }
 
-        // Function to print fee receipt
+        // Function to print the fee receipt
         function printReceipt() {
-            alert("Printing fee receipt...");
-            // Implement print logic
-        }
-
-        // Function to go back to home page
-        function goToHome() {
-            window.location.href = 'index.html'; // Replace with actual home page URL
+            const receiptContent = document.getElementById('student-details').innerHTML;
+            const printWindow = window.open('', '', 'width=800,height=600');
+            printWindow.document.write('<html><head><title>Print Fee Receipt</title></head><body>');
+            printWindow.document.write(receiptContent);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
         }
     </script>
 
