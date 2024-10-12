@@ -9,136 +9,112 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
-            padding: 0;
-        }
-        .header {
-            background-color: #004080;
-            color: white;
             padding: 20px;
-            text-align: center;
         }
         .container {
-            padding: 50px;
-            max-width: 600px;
-            margin: 0 auto;
+            max-width: 800px;
+            margin: auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #004080;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 10px;
         }
         input[type="text"] {
-            width: 100%;
+            width: calc(100% - 22px);
             padding: 12px;
             margin-bottom: 20px;
             border-radius: 8px;
             border: 1px solid #ccc;
         }
-        select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
+        input[type="text"]:focus {
+            border-color: #004080;
         }
-        button {
-            width: 100%;
+        .result {
+            margin-top: 20px;
+            background-color: #e7f0fa;
+            padding: 15px;
+            border-radius: 8px;
+            display: none; /* Hidden by default */
+        }
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
             background-color: #004080;
             color: white;
-            padding: 15px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s;
+            display: block;
+            width: 100%;
+            text-align: center;
         }
-        button:hover {
+        .button:hover {
             background-color: #003366;
-        }
-        .details {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #e7f0fa;
-            border: 1px solid #004080;
-            border-radius: 8px;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>Check Student Fee</h1>
-    </div>
-
     <div class="container">
-        <!-- Search Input for Student Name -->
-        <label for="studentSearch">Search Student Name:</label>
-        <input type="text" id="studentSearch" placeholder="Enter student name" oninput="searchStudent()">
+        <h1>Check Fee</h1>
 
-        <!-- Dropdown for selecting the correct student -->
-        <label for="studentSelect">Select Student:</label>
-        <select id="studentSelect">
-            <option value="">-- Select a student --</option>
-        </select>
+        <label for="searchName">Enter Student Name:</label>
+        <input type="text" id="searchName" placeholder="Search by student name">
 
-        <!-- Button to show details -->
-        <button onclick="showFeeDetails()">Show Details</button>
+        <button class="button" onclick="checkFee()">Check Fee</button>
 
-        <!-- Displayed Fee Details -->
-        <div id="feeDetails" class="details" style="display: none;">
-            <h3>Fee Details</h3>
-            <p id="feeInfo">Loading...</p>
+        <div class="result" id="result">
+            <h2>Fee Details</h2>
+            <p><strong>Student Name:</strong> <span id="resultStudentName"></span></p>
+            <p><strong>Father's Name:</strong> <span id="resultFatherName"></span></p>
+            <p><strong>Class:</strong> <span id="resultClass"></span></p>
+            <p><strong>Previous Balance:</strong> <span id="resultPreviousBalance"></span></p>
+            <p><strong>Total Amount:</strong> <span id="resultTotalAmount"></span></p>
         </div>
     </div>
 
     <script>
-        // Load the fee data from local storage
-        const submittedFeeDetails = JSON.parse(localStorage.getItem('submittedFeeDetails')) || [];
+        function checkFee() {
+            const studentName = document.getElementById('searchName').value;
 
-        // Function to search for student names
-        function searchStudent() {
-            const searchTerm = document.getElementById("studentSearch").value.toLowerCase();
-            const studentSelect = document.getElementById("studentSelect");
+            // Simulated data for checking fees (this would normally come from a database)
+            const feeData = {
+                'Ali Khan': {
+                    fatherName: 'Khan Muhammad',
+                    className: '1st',
+                    previousBalance: 500,
+                    totalAmount: '1300 (including January, February fees)'
+                },
+                'Sara Ali': {
+                    fatherName: 'Ali Raza',
+                    className: 'Prep',
+                    previousBalance: 0,
+                    totalAmount: '2100 (including January, February, March fees)'
+                },
+            };
 
-            // Clear previous search results
-            studentSelect.innerHTML = '<option value="">-- Select a student --</option>';
+            // Display result
+            if (feeData[studentName]) {
+                document.getElementById('resultStudentName').innerText = studentName;
+                document.getElementById('resultFatherName').innerText = feeData[studentName].fatherName;
+                document.getElementById('resultClass').innerText = feeData[studentName].className;
+                document.getElementById('resultPreviousBalance').innerText = feeData[studentName].previousBalance;
+                document.getElementById('resultTotalAmount').innerText = feeData[studentName].totalAmount;
 
-            // Filter the dataset based on search term
-            const filteredStudents = submittedFeeDetails.filter(student =>
-                student.studentName.toLowerCase().includes(searchTerm)
-            );
-
-            // Populate the select dropdown with matching results
-            filteredStudents.forEach(student => {
-                const option = document.createElement("option");
-                option.value = student.studentName;
-                option.textContent = student.studentName;
-                studentSelect.appendChild(option);
-            });
-        }
-
-        // Function to show fee details of the selected student
-        function showFeeDetails() {
-            const selectedStudentName = document.getElementById("studentSelect").value;
-            const feeDetails = document.getElementById("feeDetails");
-            const feeInfo = document.getElementById("feeInfo");
-
-            if (!selectedStudentName) {
-                alert("Please select a student.");
-                return;
-            }
-
-            // Find the student's fee details in the dataset
-            const student = submittedFeeDetails.find(student => student.studentName === selectedStudentName);
-
-            if (student) {
-                // Display the fee details in the UI
-                feeInfo.innerHTML = `
-                    <strong>Name:</strong> ${student.studentName}<br>
-                    <strong>Father's Name:</strong> ${student.fatherName}<br>
-                    <strong>Class:</strong> ${student.className}<br>
-                    <strong>Previous Balance:</strong> ${student.previousBalance}<br>
-                    <strong>Total Amount:</strong> ${student.totalAmount}<br>
-                    <strong>Receiving Amount:</strong> ${student.receivingAmount}<br>
-                    <strong>Current Balance:</strong> ${student.currentBalance}
-                `;
-                feeDetails.style.display = "block"; // Show the details section
+                document.getElementById('result').style.display = 'block'; // Show the result div
             } else {
-                feeInfo.textContent = "Fee details not found.";
+                alert('No fee details found for this student.');
+                document.getElementById('result').style.display = 'none'; // Hide the result div
             }
         }
     </script>
