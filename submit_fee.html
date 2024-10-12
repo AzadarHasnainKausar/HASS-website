@@ -249,6 +249,21 @@
 
             // Simulate fee submission (e.g., send data to server)
             alert(`Fee submitted successfully!\n\nStudent Name: ${studentName}\nFather's Name: ${fatherName}\nClass: ${className}\nPrevious Balance: ${previousBalance}\nTotal Amount: ${totalAmount}`);
+
+            // Clear the form after submission
+            document.getElementById('studentName').value = '';
+            document.getElementById('fatherName').value = '';
+            document.getElementById('classSelect').value = '';
+            document.getElementById('previousBalance').value = '';
+
+            // Uncheck all month checkboxes
+            const monthCheckboxes = document.querySelectorAll('.month-checkbox input[type="checkbox"]');
+            monthCheckboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+
+            // Reset total amount display
+            document.getElementById('totalAmount').innerText = '0';
         }
     </script>
 </body>
