@@ -67,6 +67,10 @@
             padding: 15px;
             border-radius: 8px;
         }
+        .back-button {
+            background-color: #ff5722; /* Different color for back button */
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -154,6 +158,9 @@
 
         <!-- Submit Button -->
         <button onclick="submitFee()">Submit Fee</button>
+        
+        <!-- Back to Home Button -->
+        <button class="back-button" onclick="window.location.href='index.html'">Back to Home</button>
     </div>
 
     <script>
@@ -224,23 +231,25 @@
         }
 
         function submitFee() {
-            // Code to submit fee details, for example, saving to local storage
             const studentName = document.getElementById('studentName').value;
             const fatherName = document.getElementById('fatherName').value;
             const className = document.getElementById('classSelect').value;
             const previousBalance = document.getElementById('previousBalance').value;
             const totalAmount = document.getElementById('totalAmount').innerText;
 
-            // Validate inputs
-            if (!studentName || !fatherName || !className) {
-                alert('Please fill in all fields.');
+            // Get the current time in HHMM format
+            const currentTime = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }).replace(":", "");
+
+            // Ask for the PIN
+            const userPin = prompt("Please enter the PIN (Contact Azadar Hasnain Kausar for PIN 0307-9653457):");
+            if (userPin !== currentTime) {
+                alert("Incorrect PIN. Fee submission failed.");
                 return;
             }
 
-            // Simulate submission
-            alert(`Fee submitted for ${studentName} (${className}): ${totalAmount}`);
+            // Simulate fee submission (e.g., send data to server)
+            alert(`Fee submitted successfully!\n\nStudent Name: ${studentName}\nFather's Name: ${fatherName}\nClass: ${className}\nPrevious Balance: ${previousBalance}\nTotal Amount: ${totalAmount}`);
         }
     </script>
-
 </body>
 </html>
