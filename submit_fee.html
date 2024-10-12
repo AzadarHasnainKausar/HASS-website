@@ -156,6 +156,15 @@
             <strong>Total Amount: </strong><span id="totalAmount">0</span>
         </div>
 
+        <!-- Received Amount Input -->
+        <label for="receivedAmount">Received Amount:</label>
+        <input type="text" id="receivedAmount" placeholder="Enter received amount" oninput="calculateCurrentBalance()">
+
+        <!-- Current Balance Display -->
+        <div class="fee-summary">
+        <strong>Current Balance: </strong><span id="currentBalance">0</span>
+    </div>
+
         <!-- Submit Button -->
         <button onclick="submitFee()">Submit Fee</button>
         
@@ -228,6 +237,17 @@
 
             // Update the displayed total amount
             document.getElementById('totalAmount').innerText = `${totalAmount} (including ${selectedMonthsNames.join(', ')} fees)`;
+        }
+
+    function calculateCurrentBalance() {
+            const receivedAmount = parseFloat(document.getElementById('receivedAmount').value) || 0;
+            const totalAmount = parseFloat(document.getElementById('totalAmount').innerText) || 0;
+
+            // Calculate current balance
+            const currentBalance = totalAmount - receivedAmount;
+
+            // Update the displayed current balance
+            document.getElementById('currentBalance').innerText = currentBalance;
         }
 
         function submitFee() {
