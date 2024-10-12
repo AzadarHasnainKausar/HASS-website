@@ -251,11 +251,13 @@
         }
 
         function submitFee() {
-            const studentName = document.getElementById('studentName').value;
-            const fatherName = document.getElementById('fatherName').value;
-            const className = document.getElementById('classSelect').value;
-            const previousBalance = document.getElementById('previousBalance').value;
-            const totalAmount = document.getElementById('totalAmount').innerText;
+             const studentName = document.getElementById('studentName').value;
+             const fatherName = document.getElementById('fatherName').value;
+             const className = document.getElementById('classSelect').value;
+             const previousBalance = document.getElementById('previousBalance').value;
+             const totalAmount = document.getElementById('totalAmount').innerText;
+             const receivedAmount = document.getElementById('receivedAmount').value; // Get received amount
+             const currentBalance = document.getElementById('currentBalance').innerText; // Get current balance
 
             // Get the current time in HHMM format
             const currentTime = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }).replace(":", "");
@@ -268,14 +270,14 @@
             }
 
             // Simulate fee submission (e.g., send data to server)
-        alert(`Fee submitted successfully!\n\nStudent Name: ${studentName}\nFather's Name: ${fatherName}\nClass: ${className}\nPrevious Balance: ${previousBalance}\nTotal Amount: ${totalAmount}`);
-
+        alert(`Fee submitted successfully!\n\nStudent Name: ${studentName}\nFather's Name: ${fatherName}\nClass: ${className}\nPrevious Balance: ${previousBalance}\nTotal Amount: ${totalAmount}\nReceived Amount: ${receivedAmount}\nCurrent Balance: ${currentBalance}`);
 
             // Clear the form after submission
             document.getElementById('studentName').value = '';
             document.getElementById('fatherName').value = '';
             document.getElementById('classSelect').value = '';
             document.getElementById('previousBalance').value = '';
+            document.getElementById('receivedAmount').value = ''; 
 
             // Uncheck all month checkboxes
             const monthCheckboxes = document.querySelectorAll('.month-checkbox input[type="checkbox"]');
