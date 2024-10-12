@@ -86,6 +86,13 @@
     </div>
 
     <script>
+        // Mock dataset for "submitted fee details"
+        const submittedFeeDetails = [
+            { name: "Ali", class: "10th", balance: "5000", dueDate: "10th October 2024" },
+            { name: "Sara", class: "9th", balance: "0", dueDate: "10th October 2024" },
+            { name: "Ahmed", class: "8th", balance: "3000", dueDate: "10th October 2024" }
+        ];
+
         // Function to search for student names
         function searchStudent() {
             const searchTerm = document.getElementById("studentSearch").value.toLowerCase();
@@ -94,22 +101,18 @@
             // Clear previous search results
             studentSelect.innerHTML = '<option value="">-- Select a student --</option>';
 
-            // Fetch student data from server or your data source
-            // Replace the commented part with your data-fetching logic
-            // Example: 
-            // fetch('/path_to_your_data_source').then(response => response.json()).then(data => {
-            //     const filteredStudents = data.filter(student =>
-            //         student.name.toLowerCase().includes(searchTerm)
-            //     );
+            // Filter the dataset based on search term
+            const filteredStudents = submittedFeeDetails.filter(student =>
+                student.name.toLowerCase().includes(searchTerm)
+            );
 
             // Populate the select dropdown with matching results
-            //     filteredStudents.forEach(student => {
-            //         const option = document.createElement("option");
-            //         option.value = student.name;
-            //         option.textContent = student.name;
-            //         studentSelect.appendChild(option);
-            //     });
-            // });
+            filteredStudents.forEach(student => {
+                const option = document.createElement("option");
+                option.value = student.name;
+                option.textContent = student.name;
+                studentSelect.appendChild(option);
+            });
         }
 
         // Function to show fee details of the selected student
@@ -123,22 +126,21 @@
                 return;
             }
 
-            // Fetch the selected student's fee details from your data source
-            // Replace this part with actual data-fetching logic
-            // Example:
-            // fetch(`/path_to_your_data_source/${selectedStudentName}`).then(response => response.json()).then(student => {
-            //     if (student) {
-            //         feeInfo.innerHTML = `
-            //             <strong>Name:</strong> ${student.name}<br>
-            //             <strong>Class:</strong> ${student.class}<br>
-            //             <strong>Balance:</strong> ${student.balance}<br>
-            //             <strong>Due Date:</strong> ${student.dueDate}
-            //         `;
-            //         feeDetails.style.display = "block"; // Show the details section
-            //     } else {
-            //         feeInfo.textContent = "Fee details not found.";
-            //     }
-            // });
+            // Find the student's fee details in the dataset
+            const student = submittedFeeDetails.find(student => student.name === selectedStudentName);
+
+            if (student) {
+                // Display the fee details in the UI
+                feeInfo.innerHTML = `
+                    <strong>Name:</strong> ${student.name}<br>
+                    <strong>Class:</strong> ${student.class}<br>
+                    <strong>Balance:</strong> ${student.balance}<br>
+                    <strong>Due Date:</strong> ${student.dueDate}
+                `;
+                feeDetails.style.display = "block"; // Show the details section
+            } else {
+                feeInfo.textContent = "Fee details not found.";
+            }
         }
     </script>
 
