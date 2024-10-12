@@ -19,6 +19,18 @@
             padding: 20px;
             text-align: left;
             padding-left: 20px;
+            position: relative; /* Set header position to relative */
+            overflow: hidden; /* Prevents overflow of content */
+        }
+        .monogram-image {
+            position: absolute; /* Position the image absolutely */
+            top: 10px; /* Adjust for vertical positioning */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%); /* Adjust to truly center the image */
+            width: 80px; /* Adjust width as needed */
+            height: auto; /* Maintain aspect ratio */
+            opacity: 0.1; /* Make the image semi-transparent to show behind text */
+            z-index: -1; /* Position behind other elements */
         }
         .container {
             display: flex;
@@ -48,8 +60,8 @@
 <body>
 
     <div class="header">
-        <img src="https://raw.githubusercontent.com/AzadarHasnainKausar/HASS-website/refs/heads/main/Capture%20MONO.PNG" alt="HAS Monogram" class="monogram-image">
-    <h1 style="text-align: center;">Welcome to<br>HASNAIN ACADEMIC SERVICES SCHOOL</h1>
+        <img src="https://github.com/AzadarHasnainKausar/HASS-website/blob/main/mono.png?raw=true" alt="HAS Monogram" class="monogram-image">
+        <h1 style="text-align: center;">Welcome to<br>HASNAIN ACADEMIC SERVICES SCHOOL</h1>
     </div>
 
     <div class="container">
