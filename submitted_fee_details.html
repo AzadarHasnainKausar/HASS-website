@@ -6,12 +6,20 @@
     <title>Submitted Fee Details</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f7f7f7;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 20px;
         }
-        h2 {
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
             text-align: center;
             color: #004080;
         }
@@ -21,106 +29,91 @@
             margin-top: 20px;
         }
         th, td {
-            border: 1px solid #ccc;
-            padding: 10px;
+            padding: 15px;
             text-align: left;
+            border: 1px solid #ccc;
         }
         th {
-            background-color: #004080;
-            color: white;
+            background-color: #e7f0fa;
         }
-        .delete-button {
-            background-color: #ff0000;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .delete-button:hover {
-            background-color: #cc0000;
-        }
-        .back-button {
-            background-color: #004080;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        .button {
             margin-top: 20px;
-            display: block;
-            width: 200px;
-            margin-left: auto;
-            margin-right: auto;
+            padding: 10px 20px;
+            background-color: #004080;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
             transition: background-color 0.3s;
+            display: block;
+            width: 100%;
+            text-align: center;
         }
-        .back-button:hover {
+        .button:hover {
             background-color: #003366;
         }
     </style>
 </head>
 <body>
 
-<h2>Submitted Fee Details</h2>
+    <div class="container">
+        <h1>Submitted Fee Details</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Father's Name</th>
+                    <th>Class</th>
+                    <th>Previous Balance</th>
+                    <th>Total Amount</th>
+                    <th>Months Included</th>
+                </tr>
+            </thead>
+            <tbody id="feeDetailsTable">
+                <!-- Fee details will be populated here -->
+            </tbody>
+        </table>
+        <button class="button" onclick="goBack()">Go Back</button>
+    </div>
 
-<table>
-    <thead>
-        <tr>
-            <th>Student Name</th>
-            <th>Father's Name</th>
-            <th>Class</th>
-            <th>Previous Balance</th>
-            <th>Total Amount</th>
-            <th>Receiving Amount</th>
-            <th>Current Balance</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody id="feeDetailsBody">
-        <!-- Dynamic rows will be added here -->
-    </tbody>
-</table>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
 
-<button class="back-button" onclick="window.location.href='index.html'">Back to Home</button>
+        // Simulate retrieving submitted fee details (this can be replaced with actual data retrieval)
+        const submittedFees = [
+            {
+                studentName: 'Ali Khan',
+                fatherName: 'Khan Muhammad',
+                className: '1st',
+                previousBalance: 500,
+                totalAmount: '1300 (including January, February fees)'
+            },
+            {
+                studentName: 'Sara Ali',
+                fatherName: 'Ali Raza',
+                className: 'Prep',
+                previousBalance: 0,
+                totalAmount: '2100 (including January, February, March fees)'
+            },
+        ];
 
-<script>
-    // Load the fee data from local storage and display it
-    document.addEventListener('DOMContentLoaded', function() {
-        const feeDetailsBody = document.getElementById('feeDetailsBody');
-        const feeData = JSON.parse(localStorage.getItem('submittedFeeDetails')) || [];
-
-        feeData.forEach((entry, index) => {
+        // Populate the table with submitted fee details
+        const feeDetailsTable = document.getElementById('feeDetailsTable');
+        submittedFees.forEach(fee => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${entry.studentName}</td>
-                <td>${entry.fatherName}</td>
-                <td>${entry.className}</td>
-                <td>${entry.previousBalance}</td>
-                <td>${entry.totalAmount}</td>
-                <td>${entry.receivingAmount}</td>
-                <td>${entry.currentBalance}</td>
-                <td><button class="delete-button" onclick="deleteEntry(${index})">Delete</button></td>
+                <td>${fee.studentName}</td>
+                <td>${fee.fatherName}</td>
+                <td>${fee.className}</td>
+                <td>${fee.previousBalance}</td>
+                <td>${fee.totalAmount}</td>
+                <td>${fee.monthsIncluded}</td>
             `;
-            feeDetailsBody.appendChild(row);
+            feeDetailsTable.appendChild(row);
         });
-    });
-
-    // Function to delete a fee entry
-    function deleteEntry(index) {
-        const pin = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Karachi' }).replace(':', '');
-        const enteredPin = prompt("Please enter the PIN to delete this entry (contact 0307-9653457 for the PIN):");
-
-        if (enteredPin === pin) {
-            let feeData = JSON.parse(localStorage.getItem('submittedFeeDetails')) || [];
-            feeData.splice(index, 1); // Remove the entry at the specified index
-            localStorage.setItem('submittedFeeDetails', JSON.stringify(feeData)); // Update local storage
-            alert('Entry deleted successfully!'); // Notify the user
-            location.reload(); // Reload the page to update the table
-        } else {
-            alert('Incorrect PIN. Entry not deleted.'); // Notify the user about incorrect PIN
-        }
-    }
-</script>
+    </script>
 
 </body>
 </html>
