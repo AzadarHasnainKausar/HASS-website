@@ -86,12 +86,8 @@
     </div>
 
     <script>
-        // Mock dataset for "submitted fee details"
-        const submittedFeeDetails = [
-            { name: "Ali", class: "10th", balance: "5000", dueDate: "10th October 2024" },
-            { name: "Sara", class: "9th", balance: "0", dueDate: "10th October 2024" },
-            { name: "Ahmed", class: "8th", balance: "3000", dueDate: "10th October 2024" }
-        ];
+        // Load the fee data from local storage
+        const submittedFeeDetails = JSON.parse(localStorage.getItem('submittedFeeDetails')) || [];
 
         // Function to search for student names
         function searchStudent() {
@@ -103,14 +99,14 @@
 
             // Filter the dataset based on search term
             const filteredStudents = submittedFeeDetails.filter(student =>
-                student.name.toLowerCase().includes(searchTerm)
+                student.studentName.toLowerCase().includes(searchTerm)
             );
 
             // Populate the select dropdown with matching results
             filteredStudents.forEach(student => {
                 const option = document.createElement("option");
-                option.value = student.name;
-                option.textContent = student.name;
+                option.value = student.studentName;
+                option.textContent = student.studentName;
                 studentSelect.appendChild(option);
             });
         }
@@ -127,15 +123,18 @@
             }
 
             // Find the student's fee details in the dataset
-            const student = submittedFeeDetails.find(student => student.name === selectedStudentName);
+            const student = submittedFeeDetails.find(student => student.studentName === selectedStudentName);
 
             if (student) {
                 // Display the fee details in the UI
                 feeInfo.innerHTML = `
-                    <strong>Name:</strong> ${student.name}<br>
-                    <strong>Class:</strong> ${student.class}<br>
-                    <strong>Balance:</strong> ${student.balance}<br>
-                    <strong>Due Date:</strong> ${student.dueDate}
+                    <strong>Name:</strong> ${student.studentName}<br>
+                    <strong>Father's Name:</strong> ${student.fatherName}<br>
+                    <strong>Class:</strong> ${student.className}<br>
+                    <strong>Previous Balance:</strong> ${student.previousBalance}<br>
+                    <strong>Total Amount:</strong> ${student.totalAmount}<br>
+                    <strong>Receiving Amount:</strong> ${student.receivingAmount}<br>
+                    <strong>Current Balance:</strong> ${student.currentBalance}
                 `;
                 feeDetails.style.display = "block"; // Show the details section
             } else {
