@@ -6,110 +6,86 @@
     <title>Submit Fee</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #e6f7ff;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 20px;
-            background-image: linear-gradient(135deg, #99ccff 25%, #66ccff 75%);
-            min-height: 100vh;
         }
-        h2 {
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
             text-align: center;
-            color: #003366;
-            font-size: 36px;
-            font-weight: bold;
-        }
-        .form-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            margin: 30px auto;
-            border: 2px solid #99ccff;
-        }
-        .form-group {
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        .form-group label {
-            margin-bottom: 5px;
             color: #004080;
-            flex: 1;
+        }
+        label {
+            margin-top: 10px;
+            display: block;
             font-weight: bold;
         }
-        input, select {
-            flex: 2;
-            padding: 10px;
-            border: 1px solid #004080;
-            border-radius: 4px;
-            box-sizing: border-box;
-            margin-left: 10px;
-            background-color: #f0f8ff;
-            font-size: 16px;
+        input[type="text"], select {
+            width: calc(100% - 22px);
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus, select:focus {
+            border-color: #004080;
         }
         button {
             width: 100%;
-            padding: 12px;
             background-color: #004080;
             color: white;
+            padding: 15px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 18px;
-            margin-top: 10px;
-        }
-        button:hover {
-            background-color: #002e66;
-        }
-        .pin-notice {
-            color: red;
-            text-align: center;
-            margin-top: 10px;
-            display: none; /* Hidden initially */
-        }
-        .back-button {
-            background-color: #004080;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-            text-align: center;
-            display: block;
-            width: 200px;
-            margin-left: auto;
-            margin-right: auto;
             transition: background-color 0.3s;
         }
-        .back-button:hover {
-            background-color: #002e66;
+        button:hover {
+            background-color: #003366;
         }
-        .form-group select[multiple] {
-            height: 100px;
+        .month-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .month-checkbox {
+            width: calc(33% - 10px);
+            margin-bottom: 10px;
+        }
+        .fee-summary {
+            margin-top: 20px;
+            background-color: #e7f0fa;
+            padding: 15px;
+            border-radius: 8px;
         }
     </style>
 </head>
 <body>
 
-<h2>Submit Fee</h2>
+    <div class="container">
+        <h1>Submit Fee</h1>
 
-<div class="form-container">
-    <div class="form-group">
-        <label for="studentName">Student Name</label>
-        <input type="text" id="studentName" required>
-    </div>
-    <div class="form-group">
-        <label for="fatherName">Father's Name</label>
-        <input type="text" id="fatherName" required>
-    </div>
-    <div class="form-group">
-        <label for="classSelect">Class</label>
-        <select id="classSelect" required>
-            <option value="" disabled selected>Select Class</option>
+        <!-- Student Name -->
+        <label for="studentName">Student Name:</label>
+        <input type="text" id="studentName" placeholder="Enter student name">
+
+        <!-- Father's Name -->
+        <label for="fatherName">Father's Name:</label>
+        <input type="text" id="fatherName" placeholder="Enter father's name">
+
+        <!-- Class Selection -->
+        <label for="classSelect">Select Class:</label>
+        <select id="classSelect" onchange="updateFee()">
+            <option value="">-- Select a class --</option>
             <option value="Play">Play</option>
             <option value="Nursery">Nursery</option>
             <option value="Prep">Prep</option>
@@ -125,124 +101,146 @@
             <option value="9th">9th</option>
             <option value="10th">10th</option>
         </select>
+
+        <!-- Month Selection -->
+        <label>Select Months:</label>
+        <div class="month-options">
+            <div class="month-checkbox">
+                <label><input type="checkbox" value="January" onchange="calculateTotal()"> January</label>
+            </div>
+            <div class="month-checkbox">
+                <label><input type="checkbox" value="February" onchange="calculateTotal()"> February</label>
+            </div>
+            <div class="month-checkbox">
+                <label><input type="checkbox" value="March" onchange="calculateTotal()"> March</label>
+            </div>
+            <div class="month-checkbox">
+                <label><input type="checkbox" value="April" onchange="calculateTotal()"> April</label>
+            </div>
+            <div class="month-checkbox">
+                <label><input type="checkbox" value="May" onchange="calculateTotal()"> May</label>
+            </div>
+            <div class="month-checkbox">
+                <label><input type="checkbox" value="June" onchange="calculateTotal()"> June</label>
+            </div>
+            <div class="month-checkbox">
+                <label><input type="checkbox" value="July" onchange="calculateTotal()"> July</label>
+            </div>
+            <div class="month-checkbox">
+                <label><input type="checkbox" value="August" onchange="calculateTotal()"> August</label>
+            </div>
+            <div class="month-checkbox">
+                <label><input type="checkbox" value="September" onchange="calculateTotal()"> September</label>
+            </div>
+            <div class="month-checkbox">
+                <label><input type="checkbox" value="October" onchange="calculateTotal()"> October</label>
+            </div>
+            <div class="month-checkbox">
+                <label><input type="checkbox" value="November" onchange="calculateTotal()"> November</label>
+            </div>
+            <div class="month-checkbox">
+                <label><input type="checkbox" value="December" onchange="calculateTotal()"> December</label>
+            </div>
+        </div>
+
+        <!-- Previous Balance -->
+        <label for="previousBalance">Previous Balance:</label>
+        <input type="text" id="previousBalance" placeholder="Enter previous balance" oninput="calculateTotal()">
+
+        <!-- Total Amount Display -->
+        <div class="fee-summary">
+            <strong>Total Amount: </strong><span id="totalAmount">0</span>
+        </div>
+
+        <!-- Submit Button -->
+        <button onclick="submitFee()">Submit Fee</button>
     </div>
-    <div class="form-group">
-        <label for="months">Months</label>
-        <select id="months" multiple required>
-            <option value="January">January</option>
-            <option value="February">February</option>
-            <option value="March">March</option>
-            <option value="April">April</option>
-            <option value="May">May</option>
-            <option value="June">June</option>
-            <option value="July">July</option>
-            <option value="August">August</option>
-            <option value="September">September</option>
-            <option value="October">October</option>
-            <option value="November">November</option>
-            <option value="December">December</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="previousBalance">Previous Balance</label>
-        <input type="number" id="previousBalance" required>
-    </div>
-    <div class="form-group">
-        <label for="totalAmount">Total Amount</label>
-        <input type="number" id="totalAmount" readonly required>
-    </div>
-    <div class="form-group">
-        <label for="receivingAmount">Receiving Amount</label>
-        <input type="number" id="receivingAmount" required>
-    </div>
-    <div class="form-group">
-        <label for="currentBalance">Current Balance</label>
-        <input type="number" id="currentBalance" value="0" readonly required>
-    </div>
-    <button id="submitButton">Submit Fee</button>
-    <p class="pin-notice">Incorrect PIN. Please contact 0307-9653457 for the correct PIN.</p>
-</div>
 
-<button class="back-button" onclick="window.location.href='index.html'">Back to Home</button>
+    <script>
+        function updateFee() {
+            const classSelect = document.getElementById('classSelect');
+            const selectedClass = classSelect.value;
+            const feeMap = {
+                'Play': 700,
+                'Nursery': 700,
+                'Prep': 700,
+                '1st': 800,
+                '2nd': 800,
+                '3rd': 800,
+                '4th': 800,
+                '5th': 800,
+                '6th': 800,
+                '7th': 800,
+                '8th': 800,
+                'Pre 9th': 1000,
+                '9th': 2000,
+                '10th': 2000,
+            };
+            const fee = feeMap[selectedClass] || 0;
+            document.getElementById('totalAmount').innerText = fee;
+            calculateTotal(); // Update total amount on class change
+        }
 
-<script>
-    // Function to update fee amounts based on selected class
-    document.getElementById('classSelect').addEventListener('change', function() {
-        const classFees = {
-            "Play": 700,
-            "Nursery": 700,
-            "Prep": 700,
-            "1st": 800,
-            "2nd": 800,
-            "3rd": 800,
-            "4th": 800,
-            "5th": 800,
-            "6th": 800,
-            "7th": 800,
-            "8th": 800,
-            "Pre 9th": 1000,
-            "9th": 2000,
-            "10th": 2000
-        };
+        function calculateTotal() {
+            const classSelect = document.getElementById('classSelect');
+            const selectedClass = classSelect.value;
+            const feeMap = {
+                'Play': 700,
+                'Nursery': 700,
+                'Prep': 700,
+                '1st': 800,
+                '2nd': 800,
+                '3rd': 800,
+                '4th': 800,
+                '5th': 800,
+                '6th': 800,
+                '7th': 800,
+                '8th': 800,
+                'Pre 9th': 1000,
+                '9th': 2000,
+                '10th': 2000,
+            };
+            const fee = feeMap[selectedClass] || 0;
+            const previousBalance = parseFloat(document.getElementById('previousBalance').value) || 0;
 
-        const selectedClass = this.value;
-        const totalAmountInput = document.getElementById('totalAmount');
-        const selectedMonths = document.getElementById('months').selectedOptions;
-        const monthsCount = selectedMonths.length;
-        totalAmountInput.value = (classFees[selectedClass] || 0) * monthsCount;
+            // Calculate the number of selected months
+            const monthCheckboxes = document.querySelectorAll('.month-checkbox input[type="checkbox"]');
+            let selectedMonthsCount = 0;
+            let selectedMonthsNames = [];
 
-        const previousBalanceInput = document.getElementById('previousBalance');
-        const receivingAmountInput = document.getElementById('receivingAmount');
-        const currentBalanceInput = document.getElementById('currentBalance');
+            monthCheckboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    selectedMonthsCount++;
+                    selectedMonthsNames.push(checkbox.value);
+                }
+            });
 
-        receivingAmountInput.addEventListener('input', function() {
-            const previousBalance = parseFloat(previousBalanceInput.value) || 0;
-            const receivingAmount = parseFloat(receivingAmountInput.value) || 0;
-            currentBalanceInput.value = previousBalance + parseFloat(totalAmountInput.value) - receivingAmount;
-        });
-    });
+            // Calculate total amount
+            const totalFee = fee * selectedMonthsCount;
+            const totalAmount = previousBalance + totalFee;
 
-    // Function to submit fee data
-    document.getElementById('submitButton').addEventListener('click', function() {
-        const pin = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Karachi' }).replace(':', '');
-        const enteredPin = prompt("Please enter the PIN to submit the fee (contact 0307-9653457 for the PIN):");
+            // Update the displayed total amount
+            document.getElementById('totalAmount').innerText = `${totalAmount} (including ${selectedMonthsNames.join(', ')} fees)`;
+        }
 
-        if (enteredPin === pin) {
+        function submitFee() {
+            // Code to submit fee details, for example, saving to local storage
             const studentName = document.getElementById('studentName').value;
             const fatherName = document.getElementById('fatherName').value;
             const className = document.getElementById('classSelect').value;
-            const monthsSelected = Array.from(document.getElementById('months').selectedOptions).map(opt => opt.value).join(', ');
             const previousBalance = document.getElementById('previousBalance').value;
-            const totalAmount = document.getElementById('totalAmount').value;
-            const receivingAmount = document.getElementById('receivingAmount').value;
-            const currentBalance = document.getElementById('currentBalance').value;
+            const totalAmount = document.getElementById('totalAmount').innerText;
 
-            saveFeeData(studentName, fatherName, className, monthsSelected, previousBalance, totalAmount, receivingAmount, currentBalance);
-            alert('Fee submitted successfully!');
-            window.location.href = 'index.html'; // Redirect to home after submission
-        } else {
-            document.querySelector('.pin-notice').style.display = 'block';
+            // Validate inputs
+            if (!studentName || !fatherName || !className) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            // Simulate submission
+            alert(`Fee submitted for ${studentName} (${className}): ${totalAmount}`);
         }
-    });
-
-    // Save fee data (here you can integrate your database logic)
-    function saveFeeData(studentName, fatherName, className, monthsSelected, previousBalance, totalAmount, receivingAmount, currentBalance) {
-        // Example of how you might store the fee data
-        const feeDetails = {
-            studentName: studentName,
-            fatherName: fatherName,
-            class: className,
-            months: monthsSelected,
-            previousBalance: previousBalance,
-            totalAmount: totalAmount,
-            receivingAmount: receivingAmount,
-            currentBalance: currentBalance
-        };
-
-        // Log data (in reality you would save this data in a file or database)
-        console.log(feeDetails);
-    }
-</script>
+    </script>
 
 </body>
 </html>
