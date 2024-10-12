@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Fee</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #004080;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            padding: 50px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            background-color: #004080;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #003366;
+        }
+        .details {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e7f0fa;
+            border: 1px solid #004080;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Check Student Fee</h1>
+    </div>
+
+    <div class="container">
+        <!-- Search Input for Student Name -->
+        <label for="studentSearch">Search Student Name:</label>
+        <input type="text" id="studentSearch" placeholder="Enter student name" oninput="searchStudent()">
+
+        <!-- Dropdown for selecting the correct student -->
+        <label for="studentSelect">Select Student:</label>
+        <select id="studentSelect">
+            <option value="">-- Select a student --</option>
+        </select>
+
+        <!-- Button to show details -->
+        <button onclick="showFeeDetails()">Show Details</button>
+
+        <!-- Displayed Fee Details -->
+        <div id="feeDetails" class="details" style="display: none;">
+            <h3>Fee Details</h3>
+            <p id="feeInfo">Loading...</p>
+        </div>
+    </div>
+
+    <script>
+        // Function to search for student names
+        function searchStudent() {
+            const searchTerm = document.getElementById("studentSearch").value.toLowerCase();
+            const studentSelect = document.getElementById("studentSelect");
+
+            // Clear previous search results
+            studentSelect.innerHTML = '<option value="">-- Select a student --</option>';
+
+            // Fetch student data from server or your data source
+            // Replace the commented part with your data-fetching logic
+            // Example: 
+            // fetch('/path_to_your_data_source').then(response => response.json()).then(data => {
+            //     const filteredStudents = data.filter(student =>
+            //         student.name.toLowerCase().includes(searchTerm)
+            //     );
+
+            // Populate the select dropdown with matching results
+            //     filteredStudents.forEach(student => {
+            //         const option = document.createElement("option");
+            //         option.value = student.name;
+            //         option.textContent = student.name;
+            //         studentSelect.appendChild(option);
+            //     });
+            // });
+        }
+
+        // Function to show fee details of the selected student
+        function showFeeDetails() {
+            const selectedStudentName = document.getElementById("studentSelect").value;
+            const feeDetails = document.getElementById("feeDetails");
+            const feeInfo = document.getElementById("feeInfo");
+
+            if (!selectedStudentName) {
+                alert("Please select a student.");
+                return;
+            }
+
+            // Fetch the selected student's fee details from your data source
+            // Replace this part with actual data-fetching logic
+            // Example:
+            // fetch(`/path_to_your_data_source/${selectedStudentName}`).then(response => response.json()).then(student => {
+            //     if (student) {
+            //         feeInfo.innerHTML = `
+            //             <strong>Name:</strong> ${student.name}<br>
+            //             <strong>Class:</strong> ${student.class}<br>
+            //             <strong>Balance:</strong> ${student.balance}<br>
+            //             <strong>Due Date:</strong> ${student.dueDate}
+            //         `;
+            //         feeDetails.style.display = "block"; // Show the details section
+            //     } else {
+            //         feeInfo.textContent = "Fee details not found.";
+            //     }
+            // });
+        }
+    </script>
+
+</body>
+</html>
