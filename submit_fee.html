@@ -250,16 +250,16 @@
             document.getElementById('currentBalance').innerText = currentBalance;
         }
 
-        function submitFee() {
-             const studentName = document.getElementById('studentName').value;
-             const fatherName = document.getElementById('fatherName').value;
-             const className = document.getElementById('classSelect').value;
-             const previousBalance = document.getElementById('previousBalance').value;
-             const totalAmount = document.getElementById('totalAmount').innerText;
-             const receivedAmount = document.getElementById('receivedAmount').value; // Get received amount
-             const currentBalance = document.getElementById('currentBalance').innerText; // Get current balance
+       function submitFee() {
+            const studentName = document.getElementById('studentName').value;
+            const fatherName = document.getElementById('fatherName').value;
+            const className = document.getElementById('classSelect').value;
+            const previousBalance = document.getElementById('previousBalance').value;
+            const totalAmount = document.getElementById('totalAmount').innerText;
+            const receivedAmount = document.getElementById('receivedAmount').value;
+            const currentBalance = document.getElementById('currentBalance').innerText;
 
-            // Get the current time in HHMM format
+            // Get the current time in HHMM format for PIN
             const currentTime = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }).replace(":", "");
 
             // Ask for the PIN
@@ -267,7 +267,21 @@
             if (userPin !== currentTime) {
                 alert("Incorrect PIN. Fee submission failed.");
                 return;
-            }
+    }
+
+    // Store data in local storage (array of submissions)
+    let submissions = JSON.parse(localStorage.getItem('submittedFees')) || [];
+    submissions.push({
+        studentName: studentName,
+        fatherName: fatherName,
+        className: className,
+        previousBalance: previousBalance,
+        totalAmount: totalAmount,
+        receivedAmount: receivedAmount,
+        currentBalance: currentBalance,
+        submissionTime: new Date().toLocaleString()
+    });
+    localStorage.setItem('submittedFees', JSON.stringify(submissions));
 
             // Simulate fee submission (e.g., send data to server)
         alert(`Fee submitted successfully!\n\nStudent Name: ${studentName}\nFather's Name: ${fatherName}\nClass: ${className}\nPrevious Balance: ${previousBalance}\nTotal Amount: ${totalAmount}\nReceived Amount: ${receivedAmount}\nCurrent Balance: ${currentBalance}`);
