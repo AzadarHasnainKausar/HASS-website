@@ -7,61 +7,76 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
             padding: 20px;
         }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
-        h1 {
-            text-align: center;
-            color: #004080;
+        table, th, td {
+            border: 1px solid black;
         }
-        p {
-            font-size: 16px;
-            margin: 10px 0;
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Submitted Fee Details</h1>
+    <h1>Submitted Fee Details</h1>
 
-        <p><strong>Student Name:</strong> <span id="submittedStudentName"></span></p>
-        <p><strong>Father's Name:</strong> <span id="submittedFatherName"></span></p>
-        <p><strong>Class:</strong> <span id="submittedClass"></span></p>
-        <p><strong>Months:</strong> <span id="submittedMonths"></span></p>
-        <p><strong>Total Fee:</strong> <span id="submittedTotalFee"></span></p>
-        <p><strong>Late Balance:</strong> <span id="submittedLateBalance"></span></p>
-        <p><strong>Received Amount:</strong> <span id="submittedReceivedAmount"></span></p>
-        <p><strong>Current Balance:</strong> <span id="submittedCurrentBalance"></span></p>
-
-        <button onclick="clearData()">Back to Submit Fee</button>
-    </div>
+    <table id="feeTable">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Father's Name</th>
+                <th>Class</th>
+                <th>Previous Balance</th>
+                <th>Total Amount</th>
+                <th>Received Amount</th>
+                <th>Current Balance</th>
+                <th>Submission Time</th>
+            </tr>
+        </thead>
+        <tbody id="feeTableBody">
+            <!-- Data will be inserted here -->
+        </tbody>
+    </table>
 
     <script>
-        // Retrieve and display data from localStorage
-        document.getElementById('submittedStudentName').innerText = localStorage.getItem('studentName');
-        document.getElementById('submittedFatherName').innerText = localStorage.getItem('fatherName');
-        document.getElementById('submittedClass').innerText = localStorage.getItem('class');
-        document.getElementById('submittedMonths').innerText = localStorage.getItem('months');
-        document.getElementById('submittedTotalFee').innerText = localStorage.getItem('totalAmount');
-        document.getElementById('submittedLateBalance').innerText = localStorage.getItem('previousBalance');
-        document.getElementById('submittedReceivedAmount').innerText = localStorage.getItem('receivedAmount');
-        document.getElementById('submittedCurrentBalance').innerText = localStorage.getItem('currentBalance');
+        // Retrieve data from local storage
+        const submissions = JSON.parse(localStorage.getItem('submittedFees')) || [];
 
-        // Function to clear localStorage and navigate back
-        function clearData() {
-            localStorage.clear(); // Clear localStorage
-            window.location.href = 'submit_fee.html'; // Change to the path of your Submit Fee page
+        const tableBody = document.getElementById('feeTableBody');
+
+        if (submissions.length > 0) {
+            submissions.forEach(submission => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${submission.studentName}</td>
+                    <td>${submission.fatherName}</td>
+                    <td>${submission.className}</td>
+                    <td>${submission.previousBalance}</td>
+                    <td>${submission.totalAmount}</td>
+                    <td>${submission.receivedAmount}</td>
+                    <td>${submission.currentBalance}</td>
+                    <td>${submission.submissionTime}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        } else {
+            const noDataRow = document.createElement('tr');
+            noDataRow.innerHTML = `<td colspan="8">No submissions found.</td>`;
+            tableBody.appendChild(noDataRow);
         }
     </script>
+
 </body>
 </html>
