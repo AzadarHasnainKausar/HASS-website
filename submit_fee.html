@@ -239,55 +239,27 @@
             document.getElementById('totalAmount').innerText = `${totalAmount} (including ${selectedMonthsNames.join(', ')} fees)`;
         }
 
-    function calculateCurrentBalance() {
+        function calculateCurrentBalance() {
             const receivedAmount = parseFloat(document.getElementById('receivedAmount').value) || 0;
             const totalAmount = parseFloat(document.getElementById('totalAmount').innerText) || 0;
-
-            // Calculate current balance
             const currentBalance = totalAmount - receivedAmount;
-
-            // Update the displayed current balance
             document.getElementById('currentBalance').innerText = currentBalance;
         }
 
         function submitFee() {
-             const studentName = document.getElementById('studentName').value;
-             const fatherName = document.getElementById('fatherName').value;
-             const className = document.getElementById('classSelect').value;
-             const previousBalance = document.getElementById('previousBalance').value;
-             const totalAmount = document.getElementById('totalAmount').innerText;
-             const receivedAmount = document.getElementById('receivedAmount').value; // Get received amount
-             const currentBalance = document.getElementById('currentBalance').innerText; // Get current balance
+            const studentName = document.getElementById('studentName').value;
+            const fatherName = document.getElementById('fatherName').value;
+            const classSelect = document.getElementById('classSelect').value;
+            const receivedAmount = document.getElementById('receivedAmount').value;
 
-            // Get the current time in HHMM format
-            const currentTime = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }).replace(":", "");
-
-            // Ask for the PIN
-            const userPin = prompt("Please enter the PIN (Contact Azadar Hasnain Kausar for PIN 0307-9653457):");
-            if (userPin !== currentTime) {
-                alert("Incorrect PIN. Fee submission failed.");
+            // Check if any required fields are empty
+            if (!studentName || !fatherName || !classSelect || !receivedAmount) {
+                alert('Please fill out all required fields.');
                 return;
             }
 
-            // Simulate fee submission (e.g., send data to server)
-        alert(`Fee submitted successfully!\n\nStudent Name: ${studentName}\nFather's Name: ${fatherName}\nClass: ${className}\nPrevious Balance: ${previousBalance}\nTotal Amount: ${totalAmount}\nReceived Amount: ${receivedAmount}\nCurrent Balance: ${currentBalance}`);
-
-            // Clear the form after submission
-            document.getElementById('studentName').value = '';
-            document.getElementById('fatherName').value = '';
-            document.getElementById('classSelect').value = '';
-            document.getElementById('previousBalance').value = '';
-            document.getElementById('receivedAmount').value = '';
-            document.getElementById('currentBalance').value = ''; 
-
-            // Uncheck all month checkboxes
-            const monthCheckboxes = document.querySelectorAll('.month-checkbox input[type="checkbox"]');
-            monthCheckboxes.forEach(checkbox => {
-                checkbox.checked = false;
-            });
-
-            // Reset total amount display
-            document.getElementById('totalAmount').innerText = '0';
+            // Submit fee logic here
+            alert('Fee submitted successfully!');
         }
     </script>
 </body>
