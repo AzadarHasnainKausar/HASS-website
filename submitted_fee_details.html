@@ -7,97 +7,79 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
             padding: 20px;
-        }
-        .container {
-            max-width: 1000px;
-            margin: auto;
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
+        table, th, td {
+            border: 1px solid black;
+        }
         th, td {
-            padding: 12px;
+            padding: 8px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
         }
         th {
-            background-color: #004080;
-            color: white;
-        }
-        tr:hover {
-            background-color: #f1f1f1;
+            background-color: #f2f2f2;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Submitted Fee Details</h1>
-        <table id="submittedFeeTable">
-            <thead>
-                <tr>
-                    <th>Serial No.</th>
-                    <th>Student Name</th>
-                    <th>Father's Name</th>
-                    <th>Class</th>
-                    <th>Total Amount</th>
-                    <th>Received Amount</th>
-                    <th>Current Balance</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Submitted fee data will be inserted here -->
-            </tbody>
-        </table>
-    </div>
+    <h1>Submitted Fee Details</h1>
+
+    <table id="feeTable">
+        <thead>
+            <tr>
+                <th>Serial No.</th>
+                <th>Student Name</th>
+                <th>Father's Name</th>
+                <th>Class</th>
+                <th>Previous Balance</th>
+                <th>Total Amount</th>
+                <th>Received Amount</th>
+                <th>Current Balance</th>
+                <th>Submission Time</th>
+            </tr>
+        </thead>
+        <tbody id="feeTableBody">
+            <!-- Data will be inserted here -->
+        </tbody>
+    </table>
 
     <script>
-        // Sample data for testing, you will replace this with your actual data from localStorage
-        const submittedData = JSON.parse(localStorage.getItem("submittedFeeData")) || [];
+        // Retrieve data from local storage
+        const submissions = JSON.parse(localStorage.getItem('submittedFees')) || [];
 
-        function loadSubmittedData() {
-            const tableBody = document.getElementById('submittedFeeTable').getElementsByTagName('tbody')[0];
+        const tableBody = document.getElementById('feeTableBody');
 
-            submittedData.forEach((data, index) => {
-                // Create a new row
-                const newRow = tableBody.insertRow();
-
-                // Insert serial number (index + 1 to start from 1)
-                const serialCell = newRow.insertCell(0);
-                serialCell.textContent = index + 1;
-
-                // Insert other data cells
-                const studentNameCell = newRow.insertCell(1);
-                studentNameCell.textContent = data.studentName;
-
-                const fatherNameCell = newRow.insertCell(2);
-                fatherNameCell.textContent = data.fatherName;
-
-                const classCell = newRow.insertCell(3);
-                classCell.textContent = data.className;
-
-                const totalAmountCell = newRow.insertCell(4);
-                totalAmountCell.textContent = data.totalAmount;
-
-                const receivedAmountCell = newRow.insertCell(5);
-                receivedAmountCell.textContent = data.receivedAmount;
-
-                const currentBalanceCell = newRow.insertCell(6);
-                currentBalanceCell.textContent = data.currentBalance;
+        if (submissions.length > 0) {
+            submissions.forEach(submission => {
+        const row = document.createElement('tr');
+        // Insert serial number (index + 1 to start from 1)
+        const serialCell = newRow.insertCell(0);
+        serialCell.textContent = index + 1
+                
+                row.innerHTML = `
+                    <td>${submission.studentName}</td>
+                    <td>${submission.fatherName}</td>
+                    <td>${submission.className}</td>
+                    <td>${submission.previousBalance}</td>
+                    <td>${submission.totalAmount}</td>
+                    <td>${submission.receivedAmount}</td>
+                    <td>${submission.currentBalance}</td>
+                    <td>${submission.submissionTime}</td>
+                `;
+                
+                tableBody.appendChild(row);
             });
+        } else {
+            const noDataRow = document.createElement('tr');
+            noDataRow.innerHTML = `<td colspan="8">No submissions found.</td>`;
+            tableBody.appendChild(noDataRow);
         }
-
-        // Call the function to load the data into the table
-        loadSubmittedData();
     </script>
 
 </body>
