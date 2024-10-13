@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submitted Fee Details</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        button {
+            padding: 5px 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: darkred;
+        }
+    </style>
+    <script>
+        function loadFeeDetails() {
+            const feeDetails = JSON.parse(localStorage.getItem('feeDetails') || '[]');
+            const tableBody = document.getElementById('feeTableBody');
+            tableBody.innerHTML = ''; // Clear existing rows
+
+            feeDetails.forEach((detail, index) => {
+                const row = tableBody.insertRow();
+                row.insertCell(0).innerText = index + 1;
+                row.insertCell(1).innerText = detail.studentName;
+                row.insertCell(2).innerText = detail.fatherName;
+                row.insertCell(3).innerText = detail.className;
+                row.insertCell(4).innerText = detail.months.join(', ');
+                row.insertCell(5).innerText = detail.fee;
+                row.insertCell(6).innerText = detail.lateBalance;
+                row.insertCell(7).innerText = detail.totalAmount;
+                row.insertCell(8).innerText = detail.receivedAmount;
+                row.insertCell(9).innerText = detail.currentBalance;
+                const deleteButton = document.createElement('button');
+                deleteButton.innerText = 'Delete';
+                deleteButton.onclick = () => deleteRow(index);
+                row.insertCell(10).appendChild(deleteButton);
+            });
+        }
+
+        function deleteRow(index) {
+            const pin = prompt("Enter PIN to delete row:");
+            const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Karachi' }).replace(':', '');
+
+            if (pin === currentTime) {
+                let feeDetails = JSON.parse(localStorage.getItem('feeDetails') || '[]');
+                feeDetails.splice(index, 1); // Remove the selected row
+                localStorage.setItem('feeDetails', JSON.stringify(feeDetails));
+                loadFeeDetails();
+                alert("Row deleted successfully!");
+            } else {
+                alert("Incorrect PIN!");
+            }
+        }
+
+        window.onload = loadFeeDetails;
+    </script>
+</head>
+<body>
+
+<h1>Submitted Fee Details</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Name of Student</th>
+            <th>Father's Name</th>
+            <th>Class</th>
+            <th>Months</th>
+            <th>Fee</th>
+            <th>Late Balance</th>
+            <th>Total Amount</th>
+            <th>Received</th>
+            <th>Current Balance</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id="feeTableBody">
+        <!-- Fee details will be inserted here -->
+    </tbody>
+</table>
+
+</body>
+</html>
