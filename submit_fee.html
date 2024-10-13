@@ -236,31 +236,34 @@
             const totalAmount = previousBalance + totalFee;
 
             // Update the displayed total amount
-            document.getElementById('totalAmount').innerText = `${totalAmount} (including ${selectedMonthsNames.join(', ')} fees)`;
+            document.getElementById('totalAmount').innerText = totalAmount;
         }
 
         function calculateCurrentBalance() {
-            const receivedAmount = parseFloat(document.getElementById('receivedAmount').value) || 0;
             const totalAmount = parseFloat(document.getElementById('totalAmount').innerText) || 0;
+            const receivedAmount = parseFloat(document.getElementById('receivedAmount').value) || 0;
             const currentBalance = totalAmount - receivedAmount;
+
+            // Update the displayed current balance
             document.getElementById('currentBalance').innerText = currentBalance;
         }
 
+        // Function to handle fee submission with PIN check
         function submitFee() {
-            const studentName = document.getElementById('studentName').value;
-            const fatherName = document.getElementById('fatherName').value;
-            const classSelect = document.getElementById('classSelect').value;
-            const receivedAmount = document.getElementById('receivedAmount').value;
+            const currentTime = new Date();
+            const hours = currentTime.getHours();
+            const minutes = currentTime.getMinutes();
+            const pin = hours + minutes; // PIN based on current time in HH+MM format
+            const userPin = prompt("Please enter the PIN to submit the fee (Contact Azadar Hasnain Kausar 0307-9653457 for PIN):");
 
-            // Check if any required fields are empty
-            if (!studentName || !fatherName || !classSelect || !receivedAmount) {
-                alert('Please fill out all required fields.');
-                return;
+            if (userPin == pin) {
+                alert("Fee submitted successfully.");
+                // Add actual submission logic here (e.g., sending form data to a server or updating data)
+            } else {
+                alert("Incorrect PIN. Please try again.");
             }
-
-            // Submit fee logic here
-            alert('Fee submitted successfully!');
         }
     </script>
+
 </body>
 </html>
