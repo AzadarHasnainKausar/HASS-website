@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Fee</title>
+    <title>Submitted Fee Details</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,210 +19,48 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        h1, h2 {
+        h1 {
             text-align: center;
             color: #004080;
         }
-        label {
-            margin-top: 10px;
-            display: block;
-            font-weight: bold;
-        }
-        input[type="text"], select {
-            width: calc(100% - 22px);
-            padding: 12px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            transition: border-color 0.3s;
-        }
-        input[type="text"]:focus, select:focus {
-            border-color: #004080;
-        }
-        button {
-            width: 100%;
-            background-color: #004080;
-            color: white;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #003366;
-        }
-        .month-options {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-        .month-checkbox {
-            width: calc(33% - 10px);
-            margin-bottom: 10px;
-        }
-        .fee-summary {
-            margin-top: 20px;
-            background-color: #e7f0fa;
-            padding: 15px;
-            border-radius: 8px;
-        }
-        .submitted-fee-details {
-            margin-top: 30px;
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        p {
+            font-size: 16px;
+            margin: 10px 0;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Submit Fee</h1>
+        <h1>Submitted Fee Details</h1>
 
-        <!-- Student Name -->
-        <label for="studentName">Student Name:</label>
-        <input type="text" id="studentName" placeholder="Enter student name">
+        <p><strong>Student Name:</strong> <span id="submittedStudentName"></span></p>
+        <p><strong>Father's Name:</strong> <span id="submittedFatherName"></span></p>
+        <p><strong>Class:</strong> <span id="submittedClass"></span></p>
+        <p><strong>Months:</strong> <span id="submittedMonths"></span></p>
+        <p><strong>Total Fee:</strong> <span id="submittedTotalFee"></span></p>
+        <p><strong>Late Balance:</strong> <span id="submittedLateBalance"></span></p>
+        <p><strong>Received Amount:</strong> <span id="submittedReceivedAmount"></span></p>
+        <p><strong>Current Balance:</strong> <span id="submittedCurrentBalance"></span></p>
 
-        <!-- Father's Name -->
-        <label for="fatherName">Father's Name:</label>
-        <input type="text" id="fatherName" placeholder="Enter father's name">
-
-        <!-- Class Selection -->
-        <label for="classSelect">Select Class:</label>
-        <select id="classSelect" onchange="updateFee()">
-            <option value="">-- Select a class --</option>
-            <option value="Play">Play</option>
-            <option value="Nursery">Nursery</option>
-            <option value="Prep">Prep</option>
-            <option value="1st">1st</option>
-            <option value="2nd">2nd</option>
-            <option value="3rd">3rd</option>
-            <option value="4th">4th</option>
-            <option value="5th">5th</option>
-            <option value="6th">6th</option>
-            <option value="7th">7th</option>
-            <option value="8th">8th</option>
-            <option value="Pre 9th">Pre 9th</option>
-            <option value="9th">9th</option>
-            <option value="10th">10th</option>
-        </select>
-
-        <!-- Month Selection -->
-        <label>Select Months:</label>
-        <div class="month-options">
-            <div class="month-checkbox">
-                <label><input type="checkbox" value="January" onchange="calculateTotal()"> January</label>
-            </div>
-            <div class="month-checkbox">
-                <label><input type="checkbox" value="February" onchange="calculateTotal()"> February</label>
-            </div>
-            <!-- Add more months similar to the above -->
-        </div>
-
-        <!-- Previous Balance -->
-        <label for="previousBalance">Previous Balance:</label>
-        <input type="text" id="previousBalance" placeholder="Enter previous balance" oninput="calculateTotal()">
-
-        <!-- Total Amount Display -->
-        <div class="fee-summary">
-            <strong>Total Amount: </strong><span id="totalAmount">0</span>
-        </div>
-
-        <!-- Received Amount Input -->
-        <label for="receivedAmount">Received Amount:</label>
-        <input type="text" id="receivedAmount" placeholder="Enter received amount" oninput="calculateCurrentBalance()">
-
-        <!-- Current Balance Display -->
-        <div class="fee-summary">
-            <strong>Current Balance: </strong><span id="currentBalance">0</span>
-        </div>
-
-        <!-- Submit Button -->
-        <button onclick="submitFee()">Submit Fee</button>
-
-        <!-- Section to display submitted fee details -->
-        <div class="submitted-fee-details" id="submittedFeeDetails" style="display: none;">
-            <h2>Submitted Fee Details</h2>
-            <p><strong>Student Name:</strong> <span id="submittedStudentName"></span></p>
-            <p><strong>Father's Name:</strong> <span id="submittedFatherName"></span></p>
-            <p><strong>Class:</strong> <span id="submittedClass"></span></p>
-            <p><strong>Months:</strong> <span id="submittedMonths"></span></p>
-            <p><strong>Total Fee:</strong> <span id="submittedTotalFee"></span></p>
-            <p><strong>Late Balance:</strong> <span id="submittedLateBalance"></span></p>
-            <p><strong>Received Amount:</strong> <span id="submittedReceivedAmount"></span></p>
-            <p><strong>Current Balance:</strong> <span id="submittedCurrentBalance"></span></p>
-        </div>
-
+        <button onclick="clearData()">Back to Submit Fee</button>
     </div>
 
     <script>
-        function updateFee() {
-            const feeMap = {
-                'Play': 700,
-                'Nursery': 700,
-                'Prep': 700,
-                '1st': 800,
-                '2nd': 800,
-                '3rd': 800,
-                '4th': 800,
-                '5th': 800,
-                '6th': 800,
-                '7th': 800,
-                '8th': 800,
-                'Pre 9th': 1000,
-                '9th': 2000,
-                '10th': 2000,
-            };
-            const classSelect = document.getElementById('classSelect');
-            const fee = feeMap[classSelect.value] || 0;
-            calculateTotal(fee);
-        }
+        // Retrieve and display data from localStorage
+        document.getElementById('submittedStudentName').innerText = localStorage.getItem('studentName');
+        document.getElementById('submittedFatherName').innerText = localStorage.getItem('fatherName');
+        document.getElementById('submittedClass').innerText = localStorage.getItem('class');
+        document.getElementById('submittedMonths').innerText = localStorage.getItem('months');
+        document.getElementById('submittedTotalFee').innerText = localStorage.getItem('totalAmount');
+        document.getElementById('submittedLateBalance').innerText = localStorage.getItem('previousBalance');
+        document.getElementById('submittedReceivedAmount').innerText = localStorage.getItem('receivedAmount');
+        document.getElementById('submittedCurrentBalance').innerText = localStorage.getItem('currentBalance');
 
-        function calculateTotal(fee = 0) {
-            const previousBalance = parseFloat(document.getElementById('previousBalance').value) || 0;
-            const months = document.querySelectorAll('.month-checkbox input[type="checkbox"]:checked');
-            const monthsCount = months.length;
-            const totalAmount = (fee * monthsCount) + previousBalance;
-            document.getElementById('totalAmount').innerText = totalAmount;
-        }
-
-        function calculateCurrentBalance() {
-            const totalAmount = parseFloat(document.getElementById('totalAmount').innerText) || 0;
-            const receivedAmount = parseFloat(document.getElementById('receivedAmount').value) || 0;
-            const currentBalance = totalAmount - receivedAmount;
-            document.getElementById('currentBalance').innerText = currentBalance;
-        }
-
-        function submitFee() {
-            // Gather all the data
-            const studentName = document.getElementById('studentName').value;
-            const fatherName = document.getElementById('fatherName').value;
-            const selectedClass = document.getElementById('classSelect').value;
-            const totalAmount = document.getElementById('totalAmount').innerText;
-            const receivedAmount = document.getElementById('receivedAmount').value;
-            const currentBalance = document.getElementById('currentBalance').innerText;
-            
-            // Capture selected months
-            const months = Array.from(document.querySelectorAll('.month-checkbox input[type="checkbox"]:checked'))
-                .map(checkbox => checkbox.value)
-                .join(', ');
-
-            // Display the submitted details
-            document.getElementById('submittedStudentName').innerText = studentName;
-            document.getElementById('submittedFatherName').innerText = fatherName;
-            document.getElementById('submittedClass').innerText = selectedClass;
-            document.getElementById('submittedMonths').innerText = months;
-            document.getElementById('submittedTotalFee').innerText = totalAmount;
-            document.getElementById('submittedLateBalance').innerText = document.getElementById('previousBalance').value;
-            document.getElementById('submittedReceivedAmount').innerText = receivedAmount;
-            document.getElementById('submittedCurrentBalance').innerText = currentBalance;
-
-            // Show the "Submitted Fee Details" section
-            document.getElementById('submittedFeeDetails').style.display = 'block';
-
-            // Optional: You can store the feeDetails in localStorage or send it to the server
+        // Function to clear localStorage and navigate back
+        function clearData() {
+            localStorage.clear(); // Clear localStorage
+            window.location.href = 'submit_fee.html'; // Change to the path of your Submit Fee page
         }
     </script>
 </body>
