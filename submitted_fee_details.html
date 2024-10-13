@@ -24,16 +24,22 @@
         th {
             background-color: #f2f2f2;
         }
+        button {
+            margin: 10px 0;
+        }
     </style>
 </head>
 <body>
 
     <h1>Submitted Fee Details</h1>
 
+    <button onclick="window.location.href='index.html'">Back to Home</button>
+    <button onclick="printSheet()">Print Sheet</button>
+
     <table id="feeTable">
         <thead>
             <tr>
-                <th>Serial No.</th> <!-- New Serial Number Column -->
+                <th>#</th>
                 <th>Student Name</th>
                 <th>Father's Name</th>
                 <th>Class</th>
@@ -42,6 +48,7 @@
                 <th>Received Amount</th>
                 <th>Current Balance</th>
                 <th>Submission Time</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody id="feeTableBody">
@@ -52,15 +59,14 @@
     <script>
         // Retrieve data from local storage
         const submissions = JSON.parse(localStorage.getItem('submittedFees')) || [];
-
         const tableBody = document.getElementById('feeTableBody');
 
         if (submissions.length > 0) {
             submissions.forEach((submission, index) => {
                 const row = document.createElement('tr');
-                
+
                 row.innerHTML = `
-                    <td>${index + 1}</td> <!-- Serial Number based on index -->
+                    <td>${index + 1}</td>
                     <td>${submission.studentName}</td>
                     <td>${submission.fatherName}</td>
                     <td>${submission.className}</td>
@@ -69,14 +75,35 @@
                     <td>${submission.receivedAmount}</td>
                     <td>${submission.currentBalance}</td>
                     <td>${submission.submissionTime}</td>
+                    <td><button onclick="deleteRow(${index})">Delete</button></td>
                 `;
                 
                 tableBody.appendChild(row);
             });
         } else {
             const noDataRow = document.createElement('tr');
-            noDataRow.innerHTML = `<td colspan="9">No submissions found.</td>`; <!-- Adjusted colspan to 9 -->
+            noDataRow.innerHTML = `<td colspan="10">No submissions found.</td>`;
             tableBody.appendChild(noDataRow);
+        }
+
+        function printSheet() {
+            window.print();
+        }
+
+        function deleteRow(index) {
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, '0'); // Get day as DD
+            const month = String(today.getMonth() + 1).padStart(2, '0'); // Get month as MM
+            const pin = parseInt(day) + parseInt(month); // Calculate PIN as DD + MM
+
+            const userPin = prompt("Please enter the PIN to delete this row:");
+            if (parseInt(userPin) === pin) {
+                submissions.splice(index, 1);
+                localStorage.setItem('submittedFees', JSON.stringify(submissions));
+                location.reload(); // Reload the page to see changes
+            } else {
+                alert("Incorrect PIN. Row not deleted.");
+            }
         }
     </script>
 
