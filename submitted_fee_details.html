@@ -33,7 +33,7 @@
     <table id="feeTable">
         <thead>
             <tr>
-                <th>Serial No.</th>
+                <th>Serial No.</th> <!-- New Serial Number Column -->
                 <th>Student Name</th>
                 <th>Father's Name</th>
                 <th>Class</th>
@@ -56,13 +56,11 @@
         const tableBody = document.getElementById('feeTableBody');
 
         if (submissions.length > 0) {
-            submissions.forEach(submission => {
-        const row = document.createElement('tr');
-        // Insert serial number (index + 1 to start from 1)
-        const serialCell = newRow.insertCell(0);
-        serialCell.textContent = index + 1
+            submissions.forEach((submission, index) => {
+                const row = document.createElement('tr');
                 
                 row.innerHTML = `
+                    <td>${index + 1}</td> <!-- Serial Number based on index -->
                     <td>${submission.studentName}</td>
                     <td>${submission.fatherName}</td>
                     <td>${submission.className}</td>
@@ -77,7 +75,7 @@
             });
         } else {
             const noDataRow = document.createElement('tr');
-            noDataRow.innerHTML = `<td colspan="8">No submissions found.</td>`;
+            noDataRow.innerHTML = `<td colspan="9">No submissions found.</td>`; <!-- Adjusted colspan to 9 -->
             tableBody.appendChild(noDataRow);
         }
     </script>
