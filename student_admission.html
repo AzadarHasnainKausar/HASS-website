@@ -125,12 +125,6 @@
                     admissionDate: document.getElementById('admissionDate').value // Added admission date
                 };
 
-            fetch('https://script.google.com/macros/s/AKfycbxl98A8Cm-j4g9TiABuEqa-07lmBcoxuPJrgID7dTI/dev', {
-                method: 'POST',
-                body: JSON.stringify(studentData),
-                headers: {
-                    'Content-Type': 'application/json'
-                        
                 // Store data to localStorage for display on the "Registered Students" page
                 let registeredStudents = JSON.parse(localStorage.getItem('registeredStudents')) || [];
                 registeredStudents.push(studentData);
