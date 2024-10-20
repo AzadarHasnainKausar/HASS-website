@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register a Student</title>
+    <title>Registered Students</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,20 +12,32 @@
             padding: 20px;
         }
         .container {
-            max-width: 600px;
+            max-width: 1200px; 
             margin: auto;
             background: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        input[type="text"],
-        input[type="date"],
-        input[type="tel"],
-        select {
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        input[type="text"], input[type="date"] {
             width: 100%;
             padding: 10px;
-            margin: 10px 0;
+            margin-bottom: 20px;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
@@ -36,118 +48,98 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            width: 100%;
-            margin-top: 20px;
+            margin-top: 10px;
         }
         button:hover {
             background-color: #003366;
         }
-        label {
-            font-weight: bold;
-            margin-top: 10px;
-            display: block;
+
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 20mm;
+            }
+            body {
+                background: none;
+                margin: 0;
+            }
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Register a Student</h1>
-        <form id="admissionForm" onsubmit="return submitForm(event);">
-            <input type="text" id="studentName" placeholder="Name of Student" required>
-            <input type="text" id="studentCNIC" placeholder="Student's CNIC (Format: 00000-0000000-0)" pattern="\d{5}-\d{7}-\d" required>
+        <h1>Register Student</h1>
 
-            <!-- Date of Birth with label -->
-            <label for="dob">Date of Birth</label>
-            <input type="date" id="dob" required>
+        <!-- Form to register a new student -->
+        <label for="nameInput">Name:</label>
+        <input type="text" id="nameInput" placeholder="Enter student name">
 
-            <input type="text" id="fatherName" placeholder="Father's Name" required>
-            <input type="text" id="fatherCNIC" placeholder="Father's CNIC (Format: 00000-0000000-0)" pattern="\d{5}-\d{7}-\d" required>
-            <input type="text" id="cast" placeholder="Cast" required>
-            <input type="tel" id="contact" placeholder="Contact (Format: 0000-0000000)" pattern="\d{4}-\d{7}" required>
-            <input type="text" id="address" placeholder="Address" required>
-            
-            <!-- New "Admitted in Class" field -->
-            <select id="admittedClass" required>
-                <option value="" disabled selected>Select Class</option>
-                <option value="Play">Play</option>
-                <option value="Nursery">Nursery</option>
-                <option value="Prep">Prep</option>
-                <option value="One">One</option>
-                <option value="Two">Two</option>
-                <option value="Three">Three</option>
-                <option value="4TH">4TH</option>
-                <option value="5TH">5TH</option>
-                <option value="6TH">6TH</option>
-                <option value="7TH">7TH</option>
-                <option value="8TH">8TH</option>
-                <option value="Pre 9TH">Pre 9TH</option>
-                <option value="9TH">9TH</option>
-                <option value="10TH">10TH</option>
-            </select>
+        <label for="cnicInput">CNIC:</label>
+        <input type="text" id="cnicInput" placeholder="Enter student CNIC">
 
-            <!-- Admission Date with label -->
-            <label for="admissionDate">Admission Date</label>
-            <input type="date" id="admissionDate" required>
+        <label for="dobInput">Date of Birth:</label>
+        <input type="date" id="dobInput" placeholder="Enter student date of birth">
 
-            <button type="submit">Submit</button>
-        </form>
+        <label for="fatherNameInput">Father's Name:</label>
+        <input type="text" id="fatherNameInput" placeholder="Enter father's name">
 
-        <!-- Back to Home button -->
-        <button onclick="window.location.href='index.html'">Back to Home</button>
+        <label for="fatherCnicInput">Father's CNIC:</label>
+        <input type="text" id="fatherCnicInput" placeholder="Enter father's CNIC">
+
+        <label for="castInput">Cast:</label>
+        <input type="text" id="castInput" placeholder="Enter cast">
+
+        <label for="contactInput">Contact:</label>
+        <input type="text" id="contactInput" placeholder="Enter contact number">
+
+        <label for="addressInput">Address:</label>
+        <input type="text" id="addressInput" placeholder="Enter address">
+
+        <label for="classInput">Admitted Class:</label>
+        <input type="text" id="classInput" placeholder="Enter admitted class">
+
+        <label for="admissionDateInput">Date of Admission:</label>
+        <input type="date" id="admissionDateInput" placeholder="Enter date of admission">
+
+        <button onclick="submitStudentData()">Submit</button>
     </div>
 
     <script>
-        function getCurrentPin() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0'); // Ensure two digits
-            const minutes = String(now.getMinutes()).padStart(2, '0'); // Ensure two digits
-            return hours + minutes; // Return in HHMM format
-        }
+        function submitStudentData() {
+            const student = {
+                name: document.getElementById('nameInput').value,
+                cnic: document.getElementById('cnicInput').value,
+                dob: document.getElementById('dobInput').value,
+                fatherName: document.getElementById('fatherNameInput').value,
+                fatherCnic: document.getElementById('fatherCnicInput').value,
+                cast: document.getElementById('castInput').value,
+                contact: document.getElementById('contactInput').value,
+                address: document.getElementById('addressInput').value,
+                admittedClass: document.getElementById('classInput').value,
+                admissionDate: document.getElementById('admissionDateInput').value
+            };
 
-        function submitForm(event) {
-            event.preventDefault(); // Prevent default form submission
-            const pin = prompt("Enter PIN (Contact 0307-9653457 for the PIN):");
-            const correctPin = getCurrentPin(); // Get the current time as PIN
+            const url = "https://script.google.com/macros/s/AKfycbwK2a8FlUlvKBBBULvjP77nIj3Ip4YwzBD2JggKNQV8J-9DPh_sFS9pE3juos8HF9e9/exec";
 
-            if (pin === correctPin) {
-                // Collect form data
-                const studentData = {
-                    name: document.getElementById('studentName').value,
-                    cnic: document.getElementById('studentCNIC').value,
-                    dob: document.getElementById('dob').value,
-                    fatherName: document.getElementById('fatherName').value,
-                    fatherCnic: document.getElementById('fatherCNIC').value,
-                    cast: document.getElementById('cast').value,
-                    contact: document.getElementById('contact').value,
-                    address: document.getElementById('address').value,
-                    admittedClass: document.getElementById('admittedClass').value,
-                    admissionDate: document.getElementById('admissionDate').value // Added admission date
-                };
-
-                // Submit data to Google Sheets
-                fetch("https://script.google.com/macros/s/AKfycbwK2a8FlUlvKBBBULvjP77nIj3Ip4YwzBD2JggKNQV8J-9DPh_sFS9pE3juos8HF9e9/exec", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(studentData)
-                })
-                .then(response => {
-                    if (response.ok) {
-                        alert('Form submitted successfully!');
-                        document.getElementById('admissionForm').reset(); // Clear the form
-                    } else {
-                        alert('Error submitting the form. Please try again.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error submitting the form. Please try again.');
-                });
-            } else {
-                alert("Incorrect PIN. Access denied.");
-            }
+            fetch(url, {
+                method: "POST",
+                mode: "no-cors", // "no-cors" to prevent cross-origin issues
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(student)
+            })
+            .then(() => {
+                alert("Student data submitted successfully!");
+            })
+            .catch(err => {
+                console.error("Error:", err);
+            });
         }
     </script>
 
